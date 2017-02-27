@@ -1,8 +1,8 @@
 <head>
 	<title>CultureMesh</title>
 	<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-	<!-- <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/style.css')}}"> -->
-	<link rel="stylesheet" type="text/css" href="../static/styles/style.css">
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/style.css')}}">
+	<!-- <link rel="stylesheet" type="text/css" href="../static/styles/style.css"> -->
 </head>
 <body>
 	<br><br>
@@ -16,15 +16,14 @@
 				<div class="input-group">
 					<input type="text" name="in" placeholder="in" class="form-control">
 					<span class="input-group-btn">
-
 						<input class="btn btn-primary" type="submit" value="Search" class="form-control">
 					</span>
 				</div>
 			</form>
 
-			<form action="login">
+			<form action="login" method="post">
 				<h4>Login</h4>
-				<input type="text" name="username" placeholder="username" class="form-control">
+				<input type="text" name="email" placeholder="email" class="form-control">
 				<div class="input-group">
 					<input type="text" name="password" placeholder="password" class="form-control">
 					<span class="input-group-btn">

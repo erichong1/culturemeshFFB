@@ -1,18 +1,21 @@
 from flask import Flask, render_template, request
-from flaskext.mysql import MySQL 
 app = Flask(__name__)
-mysql = MySQL()
 app.config['MYSQL_DATABASE_USER'] = 'culturp7_eric'
 app.config['MYSQL_DATABASE_PASSWORD'] = 'culturemesh17'
 app.config['MYSQL_DATABASE_DB'] = 'culturp7_rehearsal'
 app.config['MYSQL_DATABASE_HOST'] = '50.116.65.175'
+
+from database import mysql
 mysql.init_app(app)
 
-visitors = 0
+import hashlib
+
+from network import network
+app.register_blueprint(network)
 
 # from dbroutes import db_api
 # app.register_blueprint(db_api)
-
+visitors = 0
 @app.route("/count")
 def hello():
 	global visitors
@@ -32,24 +35,8 @@ def get():
 
 @app.route("/")
 def home():
+	print "wehfeif"
 	return render_template('index.html')
-
-@app.route("/search")
-def search():
-	from_location = request.args.get("from")
-	in_location = request.args.get("in")
-	print 1
-	cursor = mysql.connect().cursor()
-	print 2
-	cursor.execute('select population, region_name, country_name from cities where name="' + from_location + '"')
-	print 3
-	from_info = cursor.fetchall()
-	print 4
-	cursor.execute('select population, region_name, country_name from cities where name="' + in_location + '"')
-	print 5
-	in_info = cursor.fetchall()
-	print 6
-	return from_location + ": " + str(from_info) + "<br>" + in_location + ": " + str(in_info)
 
 @app.route("/retrieve_tables_and_columns")
 def retrieve_tables_and_columns():
@@ -88,6 +75,23 @@ def sql():
 		return str(cursor.fetchall()) + '<br><br><form action="sql"><input type="text" name="command" placeholder="SQL command"></input></form>'
 	else:
 		return '<form action="sql"><input type="text" name="command" placeholder="SQL command"></input></form>'
+
+@app.route("/login", methods=['GET', 'POST'])
+def login():
+	email = request.form["emai[l"]
+	password = request.form["password"]
+	cursor = mysql.connect().cursor()
+	cursor.execute("SELECT password FROM users WHERE email = \'" + email + "\'")
+	temp = cursor.fetchall()
+	if temp != None:
+		truePassword = str(temp)[3:len(temp) - 3]
+		if hashlib.md5(password).hexdigest() == truePassword:
+			return "Success!!!!! here is the main page"
+			#return render_template('MainPage.html')
+		else:
+			return "Username or Password was incorrect. Try again."
+	else:
+		return "Username or Password was incorrect. Try again."
 
 def retrieve(from_location, in_location):
 	pass
