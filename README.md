@@ -4,7 +4,7 @@
 This is a WIP adaptation of CultureMesh for Facebook's Free Basics platform.
 
 > Free Basics is part of the Internet.org by Facebook initiative -- it aims
-> to give access to basic internet service
+> to give access to basic internet services to people around the world.
 > You can find more information about Facebook Free Basics here: https://developers.facebook.com/docs/internet-org
 
 This project is currently owned by Stanford University's student-run Code the Change chapter in 
@@ -25,12 +25,12 @@ To get started working on this repository:
 	8) Merge to master!
 	9) Go to 3
 
-**Important**
+**!! Important !!**
 
 Because Facebook Free Basics strives to provide services to a very wide range of phones
 and data plans, the mobile website needs to function properly without:
 
-	1) JavaScript **
+	1) **JavaScript**
 	2) iframes
 	3) Video and large images
 	4) Flash and Java applets
