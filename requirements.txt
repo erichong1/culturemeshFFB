@@ -1,0 +1,2 @@
+flask==0.12.2
+flask-mysql==1.4.0
