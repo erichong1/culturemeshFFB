@@ -1,5 +1,5 @@
 from flask import Blueprint, request
-from database import mysql
+from .database import mysql
 
 network = Blueprint("network", __name__)
 

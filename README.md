@@ -29,6 +29,8 @@ Read this over if you want to better understand the structure of the project: ht
 
 **!! Important !!**
 
+We are currently using Python 3.6.1 to run the app. 
+
 Because Facebook Free Basics strives to provide services to a very wide range of phones
 and data plans, the mobile website needs to function properly without:
 

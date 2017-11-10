@@ -1,7 +1,7 @@
 from flask import Flask, render_template
-from database import mysql
-from network import network
-from dbdiagnostics import dbdiagnostics
+from .database import mysql
+from .network import network
+from .dbdiagnostics import dbdiagnostics
 
 app = Flask(__name__)
 import culturemesh.views

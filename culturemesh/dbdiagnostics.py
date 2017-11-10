@@ -1,5 +1,5 @@
 from flask import Blueprint
-from database import mysql
+from .database import mysql
 
 dbdiagnostics = Blueprint("dbdiagnostics", __name__)
 

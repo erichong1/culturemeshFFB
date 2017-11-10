@@ -34,3 +34,7 @@ __pycache__/
 # Instance files #
 ######################
 instance/
+
+# Virtual environment #
+#######################
+virtual/
