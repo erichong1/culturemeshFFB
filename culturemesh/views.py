@@ -1,9 +1,9 @@
 from flask import render_template, request
-from database import mysql
+from .database import mysql
 from culturemesh import app
 
 import hashlib
-import httplib
+import http.client as httplib
 import requests
 
 @app.route("/example_api_call")
