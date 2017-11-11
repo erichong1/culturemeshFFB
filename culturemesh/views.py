@@ -19,17 +19,17 @@ def home():
 def about():
 	return render_template('about.html')
 
-@app.route("/login", methods=['GET', 'POST'])
-def login():
-	searchFrom = request.form["from"]
-	searchIn = request.form["in"]
-	return render_template('index.html')
-
 @app.route("/search", methods=['GET', 'POST'])
 def search():
+	searchFrom = request.form["from"]
+	searchIn = request.form["in"]
+	return "Looking for users from " + searchFrom + " in " + searchIn + "."
+
+@app.route("/login", methods=['GET', 'POST'])
+def login():
 	email = request.form["email"]
 	password = request.form["password"]
-	return render_template('index.html')
+	return "Email: " + email + " Password: " + password
 
 ##################### Error handling #########################
 
