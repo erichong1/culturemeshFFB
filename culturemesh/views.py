@@ -19,6 +19,18 @@ def home():
 def about():
 	return render_template('about.html')
 
+@app.route("/login", methods=['GET', 'POST'])
+def login():
+	searchFrom = request.form["from"]
+	searchIn = request.form["in"]
+	return render_template('index.html')
+
+@app.route("/search", methods=['GET', 'POST'])
+def search():
+	email = request.form["email"]
+	password = request.form["password"]
+	return render_template('index.html')
+
 ##################### Error handling #########################
 
 @app.errorhandler(httplib.NOT_FOUND)
