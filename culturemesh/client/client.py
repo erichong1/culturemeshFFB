@@ -12,6 +12,8 @@ HTTP requests).
 import requests
 from config import _API_BASE_URL_
 
+MOCK_API = True
+
 # Might change.
 
 class Client(object):
@@ -28,16 +30,24 @@ class Client(object):
 		"""
 		Carries out HTTP GET/POST.  Returns body as JSON.
     	"""
+		if MOCK_API:
+			return self._mock_request(url, params)
+		return None
 
-    	# TODO
-		return requests.get(url)
+	def _mock_request(self, url, params):
+		"""
+		Used in development.  Uses local data to return API responses.
+		"""
+		return None
 
 
 
 """ Register the client with the API functions. """
 from .example_api_module import get_gutenberg_novel
+from .users import get_user
  ## Add more API call imports here
 
 Client.get_gutenberg_novel = get_gutenberg_novel
+Client.get_user = get_user
  ## Every single method imported above must be registered
  ## with the client here.
