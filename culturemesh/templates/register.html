@@ -2,10 +2,108 @@
 	<title>CultureMesh</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="css/style.css"/>
+  <!-- <link rel="stylesheet" href="css/register.css"/> -->
 </head>
-<body>
-	<br><br>
-	<img src="https://www.culturemesh.com/images/logo_header.png" id="logo"/>
+<style>
+body {
+	background-color: #3c3c3c;
+  margin: 0px 0px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: stretch;
+  height: 100%;
+  width: 100%;
+  font-family: sans-serif;
+  font-size: 14px;
+  color: white;
+	overflow: scroll;
+}
 
+.logo-section {
+  flex: 1;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.signin-section {
+	margin: 0px 30px 0px 30px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
+	align-items: stretch;
+  flex: 1;
+}
+
+.signin-prompt {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+	color: grey;
+}
+
+.input-field {
+  padding: 10px 15px 10px 15px;
+  font-size: 15px;
+  color: white;
+	width: 100%;
+	align-self: stretch;
+}
+
+.signin-button {
+  text-decoration: none;
+  cursor: pointer;
+  display: inline-block;
+  text-align: center;
+	padding: 15px;
+  background-color: #dd5935;
+}
+
+.signup-section {
+  flex: 1;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+.account-prompt {
+	color: grey;
+}
+
+.signup-button {
+	margin-top: 30px;
+	cursor: pointer;
+
+}
+
+</style>
+<body>
+	<div class="logo-section">
+		<img src="https://www.culturemesh.com/images/logo_header.png" id="logo"/>
+	</div>
+	<div class="signin-section">
+		<div class="signin-prompt">
+			Sign in, please
+		</div>
+		<form id="username-form">
+			<input type="text" class="input-field" id="username" placeholder="Username"></input>
+		</form>
+		<form id="password-form">
+			<input type="text" class="input-field" id="password" placeholder="Password"></input>
+		</form>
+		<div class="signin-button">
+			SIGN IN
+		</div>
+	</div>
+	<div class="signup-section">
+		<div class="account-prompt">
+			Need an account?
+		</div>
+		<div class="signup-button">
+			SIGN UP NOW
+		</div>
+	</div>
 </body>
