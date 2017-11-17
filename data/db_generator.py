@@ -13,12 +13,10 @@ if hasattr(sys, 'real_prefix'):
 
 """ Creates a randomly generated mock database """
 
-def create_culturemesh_db(num_users=5, num_networks=2, num_events=4, num_posts=5):
-
-	faker = Faker()
-	faker.seed(1)
-	
-	# Create some Users
+def make_users(faker, num_users):
+	"""
+	Makes NUM_USERS fake users and dumps them to a json file.
+	"""
 
 	user_id_ctr = 1
 	users = []
@@ -44,6 +42,16 @@ def create_culturemesh_db(num_users=5, num_networks=2, num_events=4, num_posts=5
 
 	with open('db_mock_users.json', 'w+') as outfile:
 		json.dump(users, outfile)
+
+def create_culturemesh_db(num_users=5, num_networks=2, num_events=4, num_posts=5):
+	"""
+	Makes a fake culture mesh database in the form of json files. 
+	"""
+
+	faker = Faker()
+	faker.seed(1)
+	
+	make_users(faker, num_users)
 
 	# Create some Networks
 		# TODO
