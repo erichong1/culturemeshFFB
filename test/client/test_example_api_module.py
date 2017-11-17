@@ -12,7 +12,7 @@ def test_get_dracula():
 	Tests we can retrieve Dracula. 
 	"""
 
-	c = Client()
+	c = Client(mock=False)
 
 	# Here, we want to mock the client. 
 	

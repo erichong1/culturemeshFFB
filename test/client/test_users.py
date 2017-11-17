@@ -14,8 +14,5 @@ def test_get_user():
 
 	# Here, we want to mock the client. 
 	
-	dracula_ebook_num = 345
-
-	text = c.get_gutenberg_novel(dracula_ebook_num)
-	assert_true('Dracula' in text)
-	assert_true('Bram Stoker' in text)
+	user = c.get_user(3)
+	assert(user is not None)

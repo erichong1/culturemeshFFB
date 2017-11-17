@@ -7,5 +7,3 @@
 
 DEBUG_PORT=8080
 DEBUG_ADDR='127.0.0.1'
-
-_API_BASE_URL_ = "www.culturemesh.com/api/v1/"
