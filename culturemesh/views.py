@@ -32,6 +32,14 @@ def search():
 	searchIn = request.form["in"]
 	return "Looking for users from " + searchFrom + " in " + searchIn + "."
 
+@app.route("/dashboard")
+def dashboard():
+	return render_template('dashboard.html')
+
+@app.route("/register")
+def register():
+	return render_template('register.html')
+
 @app.route("/login", methods=['GET', 'POST'])
 def login():
 	email = request.form["email"]
