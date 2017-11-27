@@ -23,9 +23,6 @@ def home():
 
 @app.route("/about")
 def about():
-	c = Client()
-	user = c.get_user(4)
-	
 	return render_template('about.html')
 
 @app.route("/search", methods=['GET', 'POST'])
