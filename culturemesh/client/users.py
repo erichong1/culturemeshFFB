@@ -31,7 +31,8 @@ def get_user_networks(client, userId):
 
 	Returns list of network JSONs to which USER_ID belongs.
 	"""
-	raise NotImplementedError
+	params = {}
+	return client._request('/user/%s/networks' % str(user_id), params)
 
 def get_user_posts(client, userId):
 	"""
@@ -40,7 +41,8 @@ def get_user_posts(client, userId):
 
 	Returns list of post JSONs authered by USER_ID.
 	"""
-	raise NotImplementedError
+	params = {}
+	return client._request('/user/%s/posts' % str(user_id), params)
 
 def get_user_events(client, userId, role):
 	"""
@@ -50,7 +52,9 @@ def get_user_events(client, userId, role):
 
 	Returns list of events related to USER_ID, according to ROLE.
 	"""
-	raise NotImplementedError
+	params = {}
+	return client._request('/user/%s/events' % str(user_id), params)
+
 
 ####################### POST methods #######################
 
@@ -61,7 +65,8 @@ def create_user(client, user):
 
 	Creates a new user.
 	"""
-	raise NotImplementedError
+	params = {"user": user}
+	return client._request('/user', params) 
 
 def add_user_to_event(client, userId, eventId):
 	"""
@@ -71,7 +76,8 @@ def add_user_to_event(client, userId, eventId):
 
 	Registers a user to a attend an event.
 	"""
-	raise NotImplementedError
+	params = {}
+	return client._request('/user/%s/addToEvent/%s' % (str(userId), str(eventId)), params) 
 
 def add_user_to_network(client, userId, networkId):
 	"""
@@ -81,7 +87,8 @@ def add_user_to_network(client, userId, networkId):
 
 	Adds a user to a network.
 	"""
-	raise NotImplementedError
+	params = {}
+	return client._request('/user/%s/addToNetwork/%s' % (str(userId), str(networkId)), params) 
 
 ####################### PUT methods #######################
 
@@ -92,4 +99,10 @@ def update_user(client, user):
 
 	Updates the information of a user.
 	"""
+	params = {'user': user}
+
 	raise NotImplementedError
+
+	#TODO: how to differentiate this as a POST here?
+
+	return client._request('/user', params) 
