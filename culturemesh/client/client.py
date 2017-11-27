@@ -68,6 +68,12 @@ from .events import get_event
 from .events import get_event_attendance_list
 from .events import create_event
 from .events import update_event
+from .languages import get_language
+from .languages import language_autocomplete
+from .locations import get_city
+from .locations import get_region
+from .locations import get_country
+from .locations import location_autocomplete
 from .posts import get_post
 from .posts import get_post_replies
 from .posts import create_post
@@ -90,6 +96,12 @@ Client.get_event = get_event
 Client.get_event_attendance_list = get_event_attendance_list
 Client.create_event = create_event
 Client.update_event = update_event
+Client.get_language = get_language
+Client.language_autocomplete = language_autocomplete
+Client.get_city = get_city
+Client.get_region = get_region
+Client.get_country = get_country
+Client.location_autocomplete = location_autocomplete
 Client.get_post = get_post
 Client.get_post_replies = get_post_replies
 Client.create_post = create_post
