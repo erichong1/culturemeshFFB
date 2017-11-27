@@ -1,6 +1,7 @@
 #
-# Inspired by: https://github.com/googlemaps/google-maps-services-python
+# CultureMesh API Client
 #
+# Inspired by: https://github.com/googlemaps/google-maps-services-python
 # TODO: add license information. 
 #
 
@@ -33,7 +34,7 @@ class Client(object):
     	"""
 		if self.mock:
 			return self._mock_request(url, params)
-		raise NotImplementedError
+		raise NotImplementedError("Coming soon.")
 
 	def _mock_request(self, url, params):
 		"""

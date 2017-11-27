@@ -1,5 +1,5 @@
 #
-# Tests example_api_module.py
+# Tests client/example_api_module.py
 # 
 
 from nose.tools import assert_true
