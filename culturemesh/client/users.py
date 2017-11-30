@@ -4,6 +4,8 @@
 
 ####################### GET methods #######################
 
+from .client import Request
+
 def get_users(client, filter_=None):
 	"""
 	:param client: the CultureMesh API client
@@ -12,7 +14,8 @@ def get_users(client, filter_=None):
 	Returns a list of users filtered by FILTER.
 	"""
 	params = {'filter': filter_}
-	return client._request('/users', params)
+	url = '/users'
+	return client._request(url, Request.GET, body_params=params)
 
 def get_user(client, userId):
 	"""
@@ -21,8 +24,8 @@ def get_user(client, userId):
 
 	Returns JSON of user.
 	"""
-	params = {}
-	return client._request('/user/%s' % str(user_id), params)
+	url = '/user/%s' % str(userId)
+	return client._request(url, Request.GET)
 
 def get_user_networks(client, userId):
 	"""
@@ -31,8 +34,8 @@ def get_user_networks(client, userId):
 
 	Returns list of network JSONs to which USER_ID belongs.
 	"""
-	params = {}
-	return client._request('/user/%s/networks' % str(user_id), params)
+	url = '/user/%s/networks' % str(user_id)
+	return client._request(url, Request.GET)
 
 def get_user_posts(client, userId):
 	"""
@@ -41,8 +44,8 @@ def get_user_posts(client, userId):
 
 	Returns list of post JSONs authered by USER_ID.
 	"""
-	params = {}
-	return client._request('/user/%s/posts' % str(user_id), params)
+	url = '/user/%s/posts' % str(userId)
+	return client._request(url, Request.GET)
 
 def get_user_events(client, userId, role):
 	"""
@@ -52,8 +55,9 @@ def get_user_events(client, userId, role):
 
 	Returns list of events related to USER_ID, according to ROLE.
 	"""
-	params = {}
-	return client._request('/user/%s/events' % str(user_id), params)
+	query_params = {'role': role}
+	url = '/user/%s/events' % str(userId)
+	return client._request(url, Request.GET, query_params=query_params)
 
 
 ####################### POST methods #######################
@@ -66,7 +70,8 @@ def create_user(client, user):
 	Creates a new user.
 	"""
 	params = {"user": user}
-	return client._request('/user', params) 
+	url = '/user'
+	return client._request(url, Request.POST, body_params=params) 
 
 def add_user_to_event(client, userId, eventId):
 	"""
@@ -76,8 +81,8 @@ def add_user_to_event(client, userId, eventId):
 
 	Registers a user to a attend an event.
 	"""
-	params = {}
-	return client._request('/user/%s/addToEvent/%s' % (str(userId), str(eventId)), params) 
+	url = '/user/%s/addToEvent/%s' % (str(userId), str(eventId))
+	return client._request(url, Request.POST) 
 
 def add_user_to_network(client, userId, networkId):
 	"""
@@ -87,8 +92,8 @@ def add_user_to_network(client, userId, networkId):
 
 	Adds a user to a network.
 	"""
-	params = {}
-	return client._request('/user/%s/addToNetwork/%s' % (str(userId), str(networkId)), params) 
+	url = '/user/%s/addToNetwork/%s' % (str(userId), str(networkId))
+	return client._request(url, Request.POST) 
 
 ####################### PUT methods #######################
 
@@ -102,7 +107,5 @@ def update_user(client, user):
 	params = {'user': user}
 
 	raise NotImplementedError
-
-	#TODO: how to differentiate this as a POST here?
-
-	return client._request('/user', params) 
+	url = '/user'
+	return client._request(url, Request.PUT, body_params=params) 

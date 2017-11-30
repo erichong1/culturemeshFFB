@@ -15,6 +15,17 @@ import os
 import json
 from urllib.parse import urlparse
 
+from enum import IntEnum
+
+USER_DATA_LOC_RELATIVE = "../data/db_mock_users.json"
+POST_DATA_LOC_RELATIVE = "../data/db_mock_posts.json"
+EVENT_DATA_LOC_RELATIVE = "../data/db_mock_events.json"
+
+class Request(IntEnum):
+	GET = 1
+	POST = 2
+	PUT = 3
+
 class Client(object):
 	""" Talks directly to CultureMesh """
 
@@ -22,45 +33,106 @@ class Client(object):
 
 	def __init__(self, key=None, client_id=None, client_secret=None,
                  timeout=None, connect_timeout=None, read_timeout=None,
-                 retry_timeout=60, requests_kwargs=None,
-                 queries_per_second=10, channel=None, mock=True):
+                 retry_timeout=60, queries_per_second=10, 
+                 channel=None, mock=True):
+
 		# TODO: insert client initialization here. 
 		self.mock = mock
-		pass 
 
-	def _request(self, url, params):
+		# See: http://docs.python-requests.org/en/master/user/advanced/
+		#      not used yet.
+		self.session = requests.Session()
+
+	def _request(self, url, request_method, query_params=None, body_params=None, 
+				 post_json=None, body_extractor=None):
 		"""
-		Carries out HTTP GET/POST.  Returns body as JSON.
+		Carries out HTTP requests.  
+
+		Returns body as JSON.
     	"""
 		if self.mock:
-			return self._mock_request(url, params)
-		raise NotImplementedError("Coming soon.")
+			return self._mock_request(url, query_params, body_params)
+		raise NotImplementedError("Real API coming soon.")
 
-	def _mock_request(self, url, params):
+	def _get_body(self, response):
+		"""
+		Gets the JSON body of a response. 
+
+		Raises HTTPError exceptions.  
+		"""
+		if response.status_code != 200:
+			raise culturemesh.exceptions.HTTPError(response.status_code)
+
+		return response.json()
+
+	########################### MOCK DATA METHODS BELOW ###############################
+
+	def _mock_request(self, url, query_params, body_params):
 		"""
 		Used in development.  Uses local data to return API responses.
+
+		Warning: VERY AD HOC.
 		"""
+
 		url_ = urlparse(url)
 		path = os.path.normpath(url_.path).split(os.sep)
 		print(path)
-		if len(path) == 3:
+		if len(path) == 2:
+			if path[1] == "users":
+				if body_params and "filter" in body_params and body_params["filter"]:
+					raise NotImplementedError("Sorry. Can't filter.")
+				return self._mock_get_all_users()
+		elif len(path) == 3:
 			if path[1] == "user":
 				user_id = int(path[2])
 				return self._mock_get_user(user_id)
 
-		return 
+		elif len(path) == 4:
+			if path[1] == "user":
+				if path[3] == "posts":
+					return self._mock_get_user_posts(int(path[2]))
+				elif path[3] == "events":
+					if query_params['role'] != "hosting":
+						raise NotImplementedError("Can only get events a user is hosting.")
+
+					return self._mock_get_user_events_hosting(int(path[2]))
+			else:
+				pass
+		elif len(path) == 5:
+			pass
+
+		raise NotImplementedError("Sorry.  Can't get that mock data yet!")
 
 
 	def _mock_get_user(self, user_id):
-		with open('../data/db_mock_users.json') as users:    
+		with open(USER_DATA_LOC_RELATIVE) as users:    
 			users = json.load(users)
 			for u in users:
 				if u['user_id'] == user_id:
 					return u
-		return None
 
+	def _mock_get_all_users(self):
+		with open(USER_DATA_LOC_RELATIVE) as users:    
+			return json.load(users)
 
+	def _mock_get_user_posts(self, user_id):
+		with open(POST_DATA_LOC_RELATIVE) as posts:
+			user_posts = []
+			posts = json.load(posts)
+			for p in posts:
+				if p['user_id'] == user_id:
+					user_posts.append(p)
+			return user_posts
 
+	def _mock_get_user_events_hosting(self, user_id):
+		with open(EVENT_DATA_LOC_RELATIVE) as events:
+			user_hosting = []
+			events = json.load(events)
+			for e in events:
+				if e['host_id'] == user_id:
+					user_hosting.append(e)
+			return user_hosting
+			
 """ Register the client with the API functions. """
 
 from .example_api_module import get_gutenberg_novel
