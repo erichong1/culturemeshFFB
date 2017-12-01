@@ -1,6 +1,6 @@
 from flask import render_template, request
 from culturemesh import app
-from .database import mysql
+# from .database import mysql
 from culturemesh.client import Client
 
 import hashlib
@@ -37,8 +37,22 @@ def dashboard():
 	return render_template('dashboard.html')
 
 @app.route("/register")
-def register():
+def render_register_page():
 	return render_template('register.html')
+
+#TODO: make this work?
+@app.route("/register", methods=['POST'])
+def register():
+	name = request.form["name"]
+	email = request.form["email"]
+	password = request.form["password"]
+	confirm_password = request.form["confirm-password"]
+	user_string = "Name: " + name + " Email: " + email + " Password: " + " Confirm Password: " + confirm_password
+	return render_template('dashboard.html', user=user_string)
+
+@app.route("/login")
+def render_login_page():
+	return render_template('login.html')
 
 @app.route("/login", methods=['GET', 'POST'])
 def login():

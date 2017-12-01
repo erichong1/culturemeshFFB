@@ -28,11 +28,10 @@ body {
 }
 
 .signin-section {
-	background-color: white;
-	padding: 30px 30px 0px 30px;
+	margin: 0px 30px 0px 30px;
 	display: flex;
 	flex-direction: column;
-	justify-content: center;
+	justify-content: space-around;
 	align-items: stretch;
   flex: 1;
 }
@@ -46,8 +45,6 @@ body {
 }
 
 .input-field {
-	background-color: #efefef;
-	border: 1px solid #ccc;
   padding: 10px 15px 10px 15px;
   font-size: 15px;
   color: black;
@@ -62,79 +59,58 @@ body {
   text-align: center;
 	padding: 15px;
   background-color: #dd5935;
-	color: white;
-	border: none;
+  color: white;
+  border: none;
 }
 
 .signup-section {
-	padding: 30px;
-	background-color: white;
-  flex: .6;
+  flex: 1;
 	display: flex;
 	flex-direction: column;
-	justify-content: space-around;
-	align-items: stretch;
+	justify-content: center;
+	align-items: center;
 }
 
-.or-prompt {
-	align-self: center;
+.account-prompt {
 	color: grey;
 }
 
 .text-button {
+	margin-top: 30px;
 	text-decoration: none;
   border: none;
   background: none;
   color: white;
   cursor: pointer;
-	color: grey;
 }
 
-#signinfb-button {
-	background-color: #3c3c3c;
-}
-
-.form-style {
-	background-color: #3c3c3c;
-	margin: 0px 0px;
-	display: flex;
-	flex-direction: column;
-	justify-content: space-around;
-	align-items: stretch;
-	height: 100%;
-	width: 100%;
+.text-button:hover {
+  text-decoration: underline;
 }
 
 </style>
 <body>
-	<form class="form-style" method="POST">
 	<div class="logo-section">
 		<img src="https://www.culturemesh.com/images/logo_header.png" id="logo"/>
 	</div>
 	<div class="signin-section">
-		<form id="name-form">
-			<input type="text" class="input-field" id="name" placeholder="Name"></input>
-		</form>
-		<form id="email-form">
-			<input type="text" class="input-field" id="email" placeholder="Email"></input>
+		<div class="signin-prompt">
+			Sign in, please
+		</div>
+		<form id="username-form">
+			<input type="text" class="input-field" id="username" placeholder="Username"></input>
 		</form>
 		<form id="password-form">
 			<input type="text" class="input-field" id="password" placeholder="Password"></input>
 		</form>
-		<form id="confirm-password-form">
-			<input type="text" class="input-field" id="confirm-password" placeholder="Confirm Password"></input>
-		</form>
+		<input type="submit" class="box-button" id="signin-button" value="SIGN IN">
+    </input>
 	</div>
 	<div class="signup-section">
-		<input type="submit" class="box-button" id="signup-button" value="SIGN UP">
-		</input>
-		<div class="or-prompt">
-			or
+		<div class="account-prompt">
+			Need an account?
 		</div>
-		<input type="submit" class="box-button" id="signinfb-button" value="SIGN IN WITH FACEBOOK">
-		</input>
-		<input type="submit" class="text-button" id="signin-button" value="Already registered? Please Sign In.">
+		<input type="submit" class="text-button" id="signup-button" value="SIGN UP NOW">
 		</input>
 	</div>
-</form>
 </body>
