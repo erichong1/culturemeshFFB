@@ -38,4 +38,7 @@ instance/
 # Virtual environment #
 #######################
 virtual/
+venv
 
+# Rope Project
+*.ropeproject
