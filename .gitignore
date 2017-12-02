@@ -39,6 +39,3 @@ instance/
 #######################
 virtual/
 
-# Json files #
-##############
-*.json
