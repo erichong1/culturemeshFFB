@@ -11,7 +11,9 @@ def get_post(client, postId):
 
 	Returns the corresponding post JSON.
 	"""
-	raise NotImplementedError
+
+	url = '/post/%s' % str(postId)
+	return client._request(url, Request.GET)
 
 def get_post_replies(client, postId):
 	"""
