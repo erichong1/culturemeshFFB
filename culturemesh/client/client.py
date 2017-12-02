@@ -2,7 +2,7 @@
 # CultureMesh API Client
 #
 # Inspired by: https://github.com/googlemaps/google-maps-services-python
-# TODO: add license information. 
+# TODO: add license information.
 #
 
 """
@@ -20,6 +20,7 @@ from enum import IntEnum
 USER_DATA_LOC_RELATIVE = "../data/db_mock_users.json"
 POST_DATA_LOC_RELATIVE = "../data/db_mock_posts.json"
 EVENT_DATA_LOC_RELATIVE = "../data/db_mock_events.json"
+NETWORK_DATA_LOC_RELATIVE = "../data/db_mock_networks.json"
 
 class Request(IntEnum):
 	GET = 1
@@ -33,20 +34,20 @@ class Client(object):
 
 	def __init__(self, key=None, client_id=None, client_secret=None,
                  timeout=None, connect_timeout=None, read_timeout=None,
-                 retry_timeout=60, queries_per_second=10, 
+                 retry_timeout=60, queries_per_second=10,
                  channel=None, mock=True):
 
-		# TODO: insert client initialization here. 
+		# TODO: insert client initialization here.
 		self.mock = mock
 
 		# See: http://docs.python-requests.org/en/master/user/advanced/
 		#      not used yet.
 		self.session = requests.Session()
 
-	def _request(self, url, request_method, query_params=None, body_params=None, 
+	def _request(self, url, request_method, query_params=None, body_params=None,
 				 post_json=None, body_extractor=None):
 		"""
-		Carries out HTTP requests.  
+		Carries out HTTP requests.
 
 		Returns body as JSON.
     	"""
@@ -56,9 +57,9 @@ class Client(object):
 
 	def _get_body(self, response):
 		"""
-		Gets the JSON body of a response. 
+		Gets the JSON body of a response.
 
-		Raises HTTPError exceptions.  
+		Raises HTTPError exceptions.
 		"""
 		if response.status_code != 200:
 			raise culturemesh.exceptions.HTTPError(response.status_code)
@@ -82,6 +83,10 @@ class Client(object):
 				if body_params and "filter" in body_params and body_params["filter"]:
 					raise NotImplementedError("Sorry. Can't filter.")
 				return self._mock_get_all_users()
+			elif path[1] == "networks":
+				if body_params and "filter" in body_params and body_params["filter"]:
+					raise NotImplementedError("Sorry. Can't filter.")
+				return self._mock_get_all_networks()
 		elif len(path) == 3:
 			if path[1] == "user":
 				user_id = int(path[2])
@@ -105,15 +110,19 @@ class Client(object):
 
 
 	def _mock_get_user(self, user_id):
-		with open(USER_DATA_LOC_RELATIVE) as users:    
+		with open(USER_DATA_LOC_RELATIVE) as users:
 			users = json.load(users)
 			for u in users:
 				if u['user_id'] == user_id:
 					return u
 
 	def _mock_get_all_users(self):
-		with open(USER_DATA_LOC_RELATIVE) as users:    
+		with open(USER_DATA_LOC_RELATIVE) as users:
 			return json.load(users)
+
+	def _mock_get_all_networks(self):
+		with open(NETWORK_DATA_LOC_RELATIVE) as networks:
+			return json.load(networks)
 
 	def _mock_get_user_posts(self, user_id):
 		with open(POST_DATA_LOC_RELATIVE) as posts:
@@ -132,7 +141,7 @@ class Client(object):
 				if e['host_id'] == user_id:
 					user_hosting.append(e)
 			return user_hosting
-			
+
 """ Register the client with the API functions. """
 
 from .example_api_module import get_gutenberg_novel
@@ -159,6 +168,7 @@ from .users import create_user
 from .users import add_user_to_event
 from .users import add_user_to_network
 from .users import update_user
+from .networks import get_networks
 
 # We may consider adding a wrapper around these assignments
 # below to introduce more specific features for the client.
@@ -187,3 +197,4 @@ Client.create_user = create_user
 Client.add_user_to_event = add_user_to_event
 Client.add_user_to_network = add_user_to_network
 Client.update_user = update_user
+Client.get_networks = get_networks
