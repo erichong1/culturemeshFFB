@@ -1,6 +1,5 @@
 from flask import render_template, request
 from culturemesh import app
-from .database import mysql
 from culturemesh.client import Client
 
 import hashlib
