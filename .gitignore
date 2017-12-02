@@ -38,7 +38,7 @@ instance/
 # Virtual environment #
 #######################
 virtual/
+venv
 
-# Json files #
-##############
-*.json
+# Rope Project
+*.ropeproject
