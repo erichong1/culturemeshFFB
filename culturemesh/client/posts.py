@@ -4,6 +4,8 @@
 
 ####################### GET methods #######################
 
+from .client import Request
+
 def get_post(client, postId):
 	"""
 	:param client: the CultureMesh API client

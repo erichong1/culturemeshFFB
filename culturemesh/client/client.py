@@ -92,6 +92,10 @@ class Client(object):
 				user_id = int(path[2])
 				return self._mock_get_user(user_id)
 
+			elif path[1] == "post":
+				post_id = int(path[2])
+				return self._mock_get_post(post_id)
+
 		elif len(path) == 4:
 			if path[1] == "user":
 				if path[3] == "posts":
@@ -132,6 +136,14 @@ class Client(object):
 				if p['user_id'] == user_id:
 					user_posts.append(p)
 			return user_posts
+
+	def _mock_get_post(self, post_id):
+		with open(POST_DATA_LOC_RELATIVE) as posts:
+			posts = json.load(posts)
+			for p in posts:
+				if p['id'] == post_id:
+					return p
+			return None
 
 	def _mock_get_user_events_hosting(self, user_id):
 		with open(EVENT_DATA_LOC_RELATIVE) as events:
