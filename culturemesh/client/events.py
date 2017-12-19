@@ -16,14 +16,15 @@ def get_event(client, eventId):
 	url = '/event/%s' % str(eventId)
 	return client._request(url, Request.GET)
 
-def get_event_attendance_list(client, eventId):
+def get_event_registration_list(client, eventId):
 	"""
 	:param client: the CultureMesh API client
 	:param eventId: the id of the event in question
 
 	Returns a list of user JSONs registered to this event.
 	"""
-	raise NotImplementedError
+	url = '/event/%s/reg' % str(eventId)
+	return client._request(url, Request.GET)
 
 ####################### POST methods #######################
 

@@ -21,6 +21,7 @@ USER_DATA_LOC_RELATIVE = "../data/db_mock_users.json"
 POST_DATA_LOC_RELATIVE = "../data/db_mock_posts.json"
 POST_REPLY_DATA_LOC_RELATIVE = "../data/db_mock_post_replies.json"
 EVENT_DATA_LOC_RELATIVE = "../data/db_mock_events.json"
+EVENT_REGISTRATION_LOC_RELATIVE = "../data/db_mock_event_registration.json"
 NETWORK_DATA_LOC_RELATIVE = "../data/db_mock_networks.json"
 
 class Request(IntEnum):
@@ -113,6 +114,11 @@ class Client(object):
 			elif path[1] == "post":
 				if path[3] == "replies":
 					return self._mock_get_post_replies(int(path[2]))
+
+			elif path[1] == "event":
+				if path[3] == "reg":
+					event_id = int(path[2])
+					return self._mock_get_event_registration(event_id)
 			else:
 				pass
 		elif len(path) == 5:
@@ -212,12 +218,18 @@ class Client(object):
 					return e
 			return None
 
-	def _mock_get_event_attendance(self, event_id):
+	def _mock_get_event_registration(self, event_id):
 		"""
 		Returns mock list of users attending
 		this event. 
 		"""
-		raise NotImplementedError
+		with open(EVENT_REGISTRATION_LOC_RELATIVE) as event_regs:
+			event_regs_ = []
+			event_regs = json.load(event_regs)
+			for reg in event_regs:
+				if reg['id_event'] == event_id:
+					event_regs_.append(reg)
+			return event_regs_
 
 	def _mock_get_city(self, city_id):
 		"""
@@ -260,7 +272,7 @@ class Client(object):
 
 from .example_api_module import get_gutenberg_novel
 from .events import get_event
-from .events import get_event_attendance_list
+from .events import get_event_registration_list
 from .events import create_event
 from .events import update_event
 from .languages import get_language
@@ -289,7 +301,7 @@ from .networks import get_networks
 
 Client.get_gutenberg_novel = get_gutenberg_novel
 Client.get_event = get_event
-Client.get_event_attendance_list = get_event_attendance_list
+Client.get_event_registration_list = get_event_registration_list
 Client.create_event = create_event
 Client.update_event = update_event
 Client.get_language = get_language
