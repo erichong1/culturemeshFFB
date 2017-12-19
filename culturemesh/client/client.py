@@ -19,6 +19,7 @@ from enum import IntEnum
 
 USER_DATA_LOC_RELATIVE = "../data/db_mock_users.json"
 POST_DATA_LOC_RELATIVE = "../data/db_mock_posts.json"
+POST_REPLY_DATA_LOC_RELATIVE = "../data/db_mock_post_replies.json"
 EVENT_DATA_LOC_RELATIVE = "../data/db_mock_events.json"
 NETWORK_DATA_LOC_RELATIVE = "../data/db_mock_networks.json"
 
@@ -66,7 +67,7 @@ class Client(object):
 
 		return response.json()
 
-	########################### MOCK DATA METHODS BELOW ###############################
+	########################### MOCK DATA METHODS BELOW ##########################
 
 	def _mock_request(self, url, query_params, body_params):
 		"""
@@ -105,6 +106,9 @@ class Client(object):
 						raise NotImplementedError("Can only get events a user is hosting.")
 
 					return self._mock_get_user_events_hosting(int(path[2]))
+			elif path[1] == "post":
+				if path[3] == "replies":
+					return self._mock_get_post_replies(int(path[2]))
 			else:
 				pass
 		elif len(path) == 5:
@@ -185,7 +189,13 @@ class Client(object):
 		Returns mock list of post replies to this
 		post. 
 		"""
-		raise NotImplementedError
+		with open(POST_REPLY_DATA_LOC_RELATIVE) as post_replies:
+			post_replies_ = []
+			post_replies = json.load(post_replies)
+			for p in post_replies:
+				if p['parent_id'] == post_id:
+					post_replies_.append(p)
+			return post_replies_
 
 	def _mock_get_event(self, event_id):
 		"""
