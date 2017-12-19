@@ -2,9 +2,9 @@
 # CultureMesh Posts API
 #
 
-####################### GET methods #######################
-
 from .client import Request
+
+####################### GET methods #######################
 
 def get_post(client, postId):
 	"""

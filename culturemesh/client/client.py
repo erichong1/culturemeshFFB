@@ -97,6 +97,10 @@ class Client(object):
 				post_id = int(path[2])
 				return self._mock_get_post(post_id)
 
+			elif path[1] == "event":
+				event_id = int(path[2])
+				return self._mock_get_event(event_id)
+
 		elif len(path) == 4:
 			if path[1] == "user":
 				if path[3] == "posts":
@@ -201,7 +205,12 @@ class Client(object):
 		"""
 		Returns this mock event. 
 		"""
-		raise NotImplementedError
+		with open(EVENT_DATA_LOC_RELATIVE) as events:
+			events = json.load(events)
+			for e in events:
+				if e['id'] == event_id:
+					return e
+			return None
 
 	def _mock_get_event_attendance(self, event_id):
 		"""

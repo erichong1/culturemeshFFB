@@ -2,6 +2,8 @@
 # CultureMesh Event API
 #
 
+from .client import Request
+
 ####################### GET methods #######################
 
 def get_event(client, eventId):
@@ -11,7 +13,8 @@ def get_event(client, eventId):
 
 	Returns an event by ID.
 	"""
-	raise NotImplementedError
+	url = '/event/%s' % str(eventId)
+	return client._request(url, Request.GET)
 
 def get_event_attendance_list(client, eventId):
 	"""
