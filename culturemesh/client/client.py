@@ -23,6 +23,7 @@ POST_REPLY_DATA_LOC_RELATIVE = "../data/db_mock_post_replies.json"
 EVENT_DATA_LOC_RELATIVE = "../data/db_mock_events.json"
 EVENT_REGISTRATION_LOC_RELATIVE = "../data/db_mock_event_registration.json"
 NETWORK_DATA_LOC_RELATIVE = "../data/db_mock_networks.json"
+LANG_DATA_LOC_RELATIVE = "../data/db_mock_languages.json"
 
 class Request(IntEnum):
 	GET = 1
@@ -85,10 +86,12 @@ class Client(object):
 				if body_params and "filter" in body_params and body_params["filter"]:
 					raise NotImplementedError("Sorry. Can't filter.")
 				return self._mock_get_all_users()
+
 			elif path[1] == "networks":
 				if body_params and "filter" in body_params and body_params["filter"]:
 					raise NotImplementedError("Sorry. Can't filter.")
 				return self._mock_get_all_networks()
+
 		elif len(path) == 3:
 			if path[1] == "user":
 				user_id = int(path[2])
@@ -102,6 +105,10 @@ class Client(object):
 				event_id = int(path[2])
 				return self._mock_get_event(event_id)
 
+			elif path[1] == "language":
+				lang_id = int(path[2])
+				return self._mock_get_language(lang_id)
+
 		elif len(path) == 4:
 			if path[1] == "user":
 				if path[3] == "posts":
@@ -109,8 +116,8 @@ class Client(object):
 				elif path[3] == "events":
 					if query_params['role'] != "hosting":
 						raise NotImplementedError("Can only get events a user is hosting.")
-
 					return self._mock_get_user_events_hosting(int(path[2]))
+
 			elif path[1] == "post":
 				if path[3] == "replies":
 					return self._mock_get_post_replies(int(path[2]))
@@ -119,6 +126,7 @@ class Client(object):
 				if path[3] == "reg":
 					event_id = int(path[2])
 					return self._mock_get_event_registration(event_id)
+
 			else:
 				pass
 		elif len(path) == 5:
@@ -259,7 +267,12 @@ class Client(object):
 		"""
 		Returns mock data for language. 
 		"""
-		raise NotImplementedError
+		with open(LANG_DATA_LOC_RELATIVE) as langs:
+			langs = json.load(langs)
+			for l in langs:
+				if l['id'] == lang_id:
+					return l
+			return None
 
 	def _mock_language_autocomplete(self, input_text):
 		"""
