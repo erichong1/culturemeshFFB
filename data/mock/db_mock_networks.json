@@ -12,8 +12,8 @@
         "city_id": 0
       },
       "language_origin": {
-        "lang_id": 0,
-        "name": "Spanish",
+        "id": 2,
+        "name": "entish",
         "num_speakers": 10,
         "added": 0
       },
@@ -35,9 +35,9 @@
         "city_id": 0
       },
       "language_origin": {
-        "lang_id": 1,
-        "name": "French",
-        "num_speakers": 100,
+        "id": 3,
+        "name": "valarin",
+        "num_speakers": 1000,
         "added": 0
       },
       "network_class": 0,

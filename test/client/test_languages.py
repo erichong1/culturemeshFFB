@@ -25,4 +25,4 @@ def test_autocomplete():
   c = Client(mock=True)
   autocomplete_ = c.language_autocomplete("some text")
   print(autocomplete_)
-  assert_equal(autocomplete_, "some text + [autocompleted text]")
+  assert_equal(autocomplete_, "some text + [language autocompleted text]")
