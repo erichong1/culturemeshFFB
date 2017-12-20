@@ -2,7 +2,7 @@
 # Tests client/events.py
 # 
 
-from nose.tools import assert_true
+from nose.tools import assert_true, assert_equal
 from culturemesh.client import Client
 
 def test_get_event():
@@ -16,9 +16,9 @@ def test_get_event():
 
   print(event1)
 
-  assert_true(event1 is not None and \
-     event1['title'] == "Reverse-engineered 6thgeneration neural-net")
-  assert_true(event2 == None)
+  assert_true(event1 is not None)
+  assert_equal(event1['title'], "Reverse-engineered 6thgeneration neural-net")
+  assert_true(event2 is None)
 
 def test_event_attendance():
   """
@@ -32,5 +32,6 @@ def test_event_attendance():
 
   print(list1)
 
-  assert_true(list1 and list1[0]['id_guest'] == 1)
-  assert_true(len(list2) == 2)
+  assert_true(list1 is not None)
+  assert_equal(list1[0]['id_guest'], 1)
+  assert_equal(len(list2), 2)

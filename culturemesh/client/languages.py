@@ -24,4 +24,6 @@ def language_autocomplete(client, input_text):
 	Returns a list of language JSONs
 	in order of relevance.
 	"""
-	raise NotImplementedError
+	query_params = {'input_text': input_text}
+	url = '/language/autocomplete'
+	return client._request(url, Request.GET, query_params=query_params)

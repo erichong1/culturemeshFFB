@@ -106,8 +106,14 @@ class Client(object):
 				return self._mock_get_event(event_id)
 
 			elif path[1] == "language":
-				lang_id = int(path[2])
-				return self._mock_get_language(lang_id)
+
+				if path[2] == "autocomplete":
+					input_text = query_params['input_text']
+					return self._mock_language_autocomplete(input_text)
+
+				else:
+					lang_id = int(path[2])
+					return self._mock_get_language(lang_id)
 
 		elif len(path) == 4:
 			if path[1] == "user":
@@ -278,7 +284,7 @@ class Client(object):
 		"""
 		Returns mock autocomplete entries for language input. 
 		"""
-		raise NotImplementedError
+		return input_text + " + [autocompleted text]"
 
 
 """ Register the client with the API functions. """

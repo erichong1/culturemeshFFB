@@ -2,7 +2,7 @@
 # Tests client/posts.py
 # 
 
-from nose.tools import assert_true
+from nose.tools import assert_true, assert_equal
 from culturemesh.client import Client
 
 def test_get_post():
@@ -13,7 +13,7 @@ def test_get_post():
 
   post = c.get_post(4)
   print(post)
-  assert_true(post['vid_link'] == "https://www.lorempixel.com/1016/295")
+  assert_equal(post['vid_link'], "https://www.lorempixel.com/1016/295")
 
 def test_get_post_replies():
   """
@@ -24,5 +24,5 @@ def test_get_post_replies():
   posts2 = c.get_post_replies(2)
   print(posts1)
 
-  assert_true(len(posts1) == 2)
-  assert_true(len(posts2) == 0)
+  assert_equal(len(posts1), 2)
+  assert_equal(len(posts2), 0)
