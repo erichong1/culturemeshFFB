@@ -20,14 +20,22 @@ def test_get_user():
 
 def test_get_users():
 	"""
-	Tests we can retrieve all users. For illustrative purposes, client returns mock
-	data. 
+	Tests basic user pagination.  
 	"""
 	c = Client(mock=True)
-	users = c.get_users()
-	print(users)
 
-	assert_equal(len(users), 5)
+	users1 = c.get_users(3)
+	assert_equal(len(users1), 3)
+	assert_equal(users1[0]['user_id'], 5)
+
+	min_id_got = min(u['user_id'] for u in users1)
+
+	users2 = c.get_users(3, max_id=min_id_got - 1)
+	assert_equal(len(users2), 2)
+	assert_equal(users2[0]['user_id'], 2)
+
+	users3 = c.get_users(3, 1)
+	assert_equal(len(users3), 1)
 
 def test_get_posts():
 	"""

@@ -6,16 +6,22 @@
 
 from .client import Request
 
-def get_users(client, filter_=None):
+def get_users(client, count, max_id=None, filter_=None):
 	"""
 	:param client: the CultureMesh API client
+	:param count: the number of results to return
+	:param max_id: the maximum id, inclusive, of users to fetch
 	:param filter: A json with which to filter a site-wide user query.
 
-	Returns a list of users filtered by FILTER.
+	Returns a list of users filtered by FILTER, sorted in reverse
+	order by id.
 	"""
 	params = {'filter': filter_}
+	query_params = {'count': count}
+	if max_id:
+		query_params['max_id'] = max_id
 	url = '/users'
-	return client._request(url, Request.GET, body_params=params)
+	return client._request(url, Request.GET, body_params=params, query_params=query_params)
 
 def get_user(client, userId):
 	"""

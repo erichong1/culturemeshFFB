@@ -84,12 +84,12 @@ class Client(object):
 
 		url_ = urlparse(url)
 		path = os.path.normpath(url_.path).split(os.sep)
-		print(path)
+		
 		if len(path) == 2:
 			if path[1] == "users":
 				if body_params and "filter" in body_params and body_params["filter"]:
 					raise NotImplementedError("Sorry. Can't filter.")
-				return self._mock_get_all_users()
+				return self._mock_get_users(query_params)
 
 			elif path[1] == "networks":
 				if body_params and "filter" in body_params and body_params["filter"]:
@@ -166,9 +166,29 @@ class Client(object):
 		raise NotImplementedError("Sorry.  Can't get that mock data yet!")
 
 
-	def _mock_get_all_users(self):
+	def _mock_get_users(self, query_params):
+		if 'count' not in query_params:
+			raise AttributeError("count field missing in query parameters")
+
+		count = int(query_params['count'])
+		if count < 1 or count > 100:
+			raise AttributeError("Invalid count field.")
+
 		with open(USER_DATA_LOC_RELATIVE) as users:
-			return json.load(users)
+			users = sorted(json.load(users), key=lambda x: x['user_id'], reverse=True)
+			max_id = users[0]['user_id']
+			if 'max_id' in query_params:
+				max_id = query_params['max_id']
+
+			result = []
+			for u in users:
+				if count == 0:
+					break
+				if u['user_id'] <= max_id:
+					result.append(u)
+					count -= 1
+
+			return result
 
 	def _mock_get_user(self, user_id):
 		with open(USER_DATA_LOC_RELATIVE) as users:
