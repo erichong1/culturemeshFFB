@@ -253,16 +253,22 @@ class Client(object):
 		"""
 		raise NotImplementedError
 
-	def _mock_get_network_events(self, network_id):
+	def _mock_get_network_posts(self, network_id, query_params):
 		"""
-		Returns all events associated with this 
+		Returns posts in the given network.  
+		"""
+		raise NotImplementedError
+
+	def _mock_get_network_events(self, network_id, query_params):
+		"""
+		Returns events associated with this 
 		network. 
 		"""
 		raise NotImplementedError
 
-	def _mock_get_network_users(self, network_id):
+	def _mock_get_network_users(self, network_id, query_params):
 		"""
-		Return mock list of user jsons in the network. 
+		Return mock list of user jsons in the network.
 		"""
 		raise NotImplementedError
 
