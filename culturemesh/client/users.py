@@ -18,10 +18,11 @@ def get_users(client, count, max_id=None, filter_=None):
 	"""
 	params = {'filter': filter_}
 	query_params = {'count': count}
-	if max_id:
+	if max_id is not None:
 		query_params['max_id'] = max_id
 	url = '/users'
-	return client._request(url, Request.GET, body_params=params, query_params=query_params)
+	return client._request(url, Request.GET, body_params=params, 
+		query_params=query_params)
 
 def get_user(client, userId):
 	"""

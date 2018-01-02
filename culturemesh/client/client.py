@@ -84,7 +84,7 @@ class Client(object):
 
 		url_ = urlparse(url)
 		path = os.path.normpath(url_.path).split(os.sep)
-		
+
 		if len(path) == 2:
 			if path[1] == "users":
 				if body_params and "filter" in body_params and body_params["filter"]:
@@ -94,7 +94,7 @@ class Client(object):
 			elif path[1] == "networks":
 				if body_params and "filter" in body_params and body_params["filter"]:
 					raise NotImplementedError("Sorry. Can't filter.")
-				return self._mock_get_all_networks()
+				return self._mock_get_networks(query_params)
 
 		elif len(path) == 3:
 			if path[1] == "user":
@@ -221,9 +221,30 @@ class Client(object):
 					user_hosting.append(e)
 			return user_hosting
 
-	def _mock_get_all_networks(self):
+	def _mock_get_networks(self, query_params):
+		if 'count' not in query_params:
+			raise AttributeError("count field missing in query parameters")
+
+		count = int(query_params['count'])
+		if count < 1 or count > 100:
+			raise AttributeError("Invalid count field.")
+
 		with open(NETWORK_DATA_LOC_RELATIVE) as networks:
-			return json.load(networks)
+			networks = sorted(json.load(networks), key= lambda x: x['id'], reverse=True)
+			max_id = networks[0]['id']
+			if 'max_id' in query_params:
+				max_id = query_params['max_id']
+
+			result = []
+			for n in networks:
+				if count == 0:
+					break
+				if n['id'] <= max_id:
+					result.append(n)
+					count -= 1
+
+			return result
+
 
 	def _mock_get_network(self, network_id):
 		"""

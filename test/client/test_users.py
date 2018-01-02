@@ -7,7 +7,8 @@ from culturemesh.client import Client
 
 def test_get_user():
 	"""
-	Tests we can retrieve a user.  For illustrative purposes, the client is not mocked!
+	Tests we can retrieve a user.  For illustrative purposes, the client is not 
+	mocked!
 	"""
 
 	c = Client(mock=True)
@@ -39,8 +40,8 @@ def test_get_users():
 
 def test_get_posts():
 	"""
-	Tests we can retrieve posts for a user. For illustrative purposes, client returns mock
-	data. 
+	Tests we can retrieve posts for a user. For illustrative purposes, client 
+	returns mock data. 
 	"""
 	c = Client(mock=True)
 	posts = c.get_user_posts(userId=4)
@@ -50,8 +51,8 @@ def test_get_posts():
 
 def test_get_events():
 	"""
-	Tests we can retrieve events related to a user. For illustrative purposes, client returns mock
-	data. 
+	Tests we can retrieve events related to a user. For illustrative purposes, 
+	client returns mock data. 
 	"""
 	c = Client(mock=True)
 	events = c.get_user_events(userId=5, role="hosting")
