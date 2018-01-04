@@ -35,9 +35,6 @@ def test_event_attendance():
   print(list1)
   print(list2)
 
- # print(list1[0]['date_registered'])
-  #d = datetime.datetime.strptime(list1[0]['date_registered'], "%Y-%m-%d %H:%M:%S")
-
   assert_true(list1 is not None)
   assert_equal(list1[0]['id_guest'], 1)
   assert_equal(len(list2), 2)
