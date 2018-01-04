@@ -48,7 +48,6 @@ def get_user_posts(client, userId, count, max_id=None):
 	"""
 	:param client: the CultureMesh API client
 	:param userId: user ID to return posts for
-	:param userId: The id of the user to return posts for.
 	:param count: the number of results to return
 	:param max_id: the maximum id, inclusive, of posts to fetch
 

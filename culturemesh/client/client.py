@@ -13,6 +13,8 @@ HTTP requests).
 import requests
 import os
 import json
+import datetime
+
 from urllib.parse import urlparse
 
 from enum import IntEnum
@@ -28,6 +30,8 @@ LANG_DATA_LOC_RELATIVE = "../data/mock/db_mock_languages.json"
 CITY_DATA_LOC_RELATIVE = "../data/mock/db_mock_location_cities.json"
 REGION_DATA_LOC_RELATIVE = "../data/mock/db_mock_location_regions.json"
 COUNTRY_DATA_LOC_RELATIVE = "../data/mock/db_mock_location_countries.json"
+
+DATETIME_FMT_STR = "%Y-%m-%d %H:%M:%S"
 
 class Request(IntEnum):
 	GET = 1
@@ -142,7 +146,7 @@ class Client(object):
 			elif path[1] == "event":
 				if path[3] == "reg":
 					event_id = int(path[2])
-					return self._mock_get_event_registration(event_id)
+					return self._mock_get_event_registration(event_id, query_params)
 
 			elif path[1] == "location":
 
@@ -164,6 +168,9 @@ class Client(object):
 			pass
 
 		raise NotImplementedError("Sorry.  Can't get that mock data yet!")
+
+	def _mock_str_to_date(self, str_):
+		return datetime.datetime.strptime(str_, DATETIME_FMT_STR)
 
 	def _mock_ensure_count(self, query_params):
 		if 'count' not in query_params:
@@ -356,18 +363,38 @@ class Client(object):
 					return e
 			return None
 
-	def _mock_get_event_registration(self, event_id):
+	def _mock_get_event_registration(self, event_id, query_params):
 		"""
 		Returns mock list of users attending
 		this event. 
 		"""
+		self._mock_ensure_count(query_params)
+		count = query_params['count']
 		with open(EVENT_REGISTRATION_LOC_RELATIVE) as event_regs:
 			event_regs_ = []
 			event_regs = json.load(event_regs)
 			for reg in event_regs:
 				if reg['id_event'] == event_id:
 					event_regs_.append(reg)
-			return event_regs_
+
+			if len(event_regs_) == 0:
+				return event_regs_
+
+			sort_key = lambda x: self._mock_str_to_date(x['date_registered'])
+			event_regs_ = sorted(event_regs_, key=sort_key, reverse=True)
+			max_date = self._mock_str_to_date(event_regs_[0]['date_registered'])
+			if 'max_register_date' in query_params:
+				max_date = self._mock_str_to_date(query_params['max_register_date'])
+
+			res = []
+			for e in event_regs_:
+				if count == 0:
+					break
+
+				if self._mock_str_to_date(e['date_registered']) <= max_date:
+					res.append(e)
+					count -= 1
+			return res
 
 	def _mock_get_city(self, city_id):
 		"""
