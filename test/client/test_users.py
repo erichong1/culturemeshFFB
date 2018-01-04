@@ -40,14 +40,22 @@ def test_get_users():
 
 def test_get_posts():
 	"""
-	Tests we can retrieve posts for a user. For illustrative purposes, client 
+	Tests user posts with paginated calls. For illustrative purposes, client 
 	returns mock data. 
 	"""
 	c = Client(mock=True)
-	posts = c.get_user_posts(userId=4)
+	posts = c.get_user_posts(userId=4, count=2)
 	print(posts)
-
 	assert_equal(len(posts), 2)
+
+	posts2 = c.get_user_posts(userId=4, count=2, max_id=2)
+	print(posts2)
+	assert_equal(len(posts2), 1)
+
+	posts = c.get_user_posts(userId=4, count=1)
+	print(posts)
+	assert_equal(len(posts), 1)
+	assert_equal(posts[0]['id'], 5)
 
 def test_get_events():
 	"""

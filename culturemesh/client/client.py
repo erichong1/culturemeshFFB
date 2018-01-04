@@ -128,7 +128,7 @@ class Client(object):
 		elif len(path) == 4:
 			if path[1] == "user":
 				if path[3] == "posts":
-					return self._mock_get_user_posts(int(path[2]))
+					return self._mock_get_user_posts(int(path[2]), query_params)
 
 				elif path[3] == "events":
 					if query_params['role'] != "hosting":
@@ -165,8 +165,7 @@ class Client(object):
 
 		raise NotImplementedError("Sorry.  Can't get that mock data yet!")
 
-
-	def _mock_get_users(self, query_params):
+	def _mock_ensure_count(self, query_params):
 		if 'count' not in query_params:
 			raise AttributeError("count field missing in query parameters")
 
@@ -174,6 +173,9 @@ class Client(object):
 		if count < 1 or count > 100:
 			raise AttributeError("Invalid count field.")
 
+	def _mock_get_users(self, query_params):
+		self._mock_ensure_count(query_params)
+		count = query_params['count']
 		with open(USER_DATA_LOC_RELATIVE) as users:
 			users = sorted(json.load(users), key=lambda x: x['user_id'], reverse=True)
 			max_id = users[0]['user_id']
@@ -203,14 +205,34 @@ class Client(object):
 		"""
 		raise NotImplementedError
 
-	def _mock_get_user_posts(self, user_id):
+	def _mock_get_user_posts(self, user_id, query_params):
+		self._mock_ensure_count(query_params)
+		count = query_params['count']
 		with open(POST_DATA_LOC_RELATIVE) as posts:
 			user_posts = []
 			posts = json.load(posts)
 			for p in posts:
 				if p['user_id'] == user_id:
 					user_posts.append(p)
-			return user_posts
+
+			if len(user_posts) == 0:
+				return user_posts
+
+			# Sort in reverse id order. 
+			user_posts = sorted(user_posts, key=lambda x: x['id'], reverse=True)
+			max_id = user_posts[0]['id']
+			if 'max_id' in query_params:
+				max_id = query_params['max_id']
+
+			res = []
+			for p in user_posts:
+				if count == 0:
+					break
+				if p['id'] <= max_id:
+					res.append(p)
+					count -= 1
+
+			return res
 
 	def _mock_get_user_events_hosting(self, user_id):
 		with open(EVENT_DATA_LOC_RELATIVE) as events:
@@ -222,15 +244,10 @@ class Client(object):
 			return user_hosting
 
 	def _mock_get_networks(self, query_params):
-		if 'count' not in query_params:
-			raise AttributeError("count field missing in query parameters")
-
-		count = int(query_params['count'])
-		if count < 1 or count > 100:
-			raise AttributeError("Invalid count field.")
-
+		self._mock_ensure_count(query_params)
+		count = query_params['count']
 		with open(NETWORK_DATA_LOC_RELATIVE) as networks:
-			networks = sorted(json.load(networks), key= lambda x: x['id'], reverse=True)
+			networks = sorted(json.load(networks), key=lambda x: x['id'], reverse=True)
 			max_id = networks[0]['id']
 			if 'max_id' in query_params:
 				max_id = query_params['max_id']
