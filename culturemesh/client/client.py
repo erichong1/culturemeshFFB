@@ -132,8 +132,8 @@ class Client(object):
 
 				elif path[3] == "events":
 					if query_params['role'] != "hosting":
-						raise NotImplementedError("Can only get events a user is hosting.")
-					return self._mock_get_user_events_hosting(int(path[2]))
+						raise NotImplementedError("Currently, can only get events a user is hosting.")
+					return self._mock_get_user_events_hosting(int(path[2]), query_params)
 
 			elif path[1] == "post":
 				if path[3] == "replies":
@@ -234,14 +234,31 @@ class Client(object):
 
 			return res
 
-	def _mock_get_user_events_hosting(self, user_id):
+	def _mock_get_user_events_hosting(self, user_id, query_params):
+		self._mock_ensure_count(query_params)
+		count = query_params['count']
 		with open(EVENT_DATA_LOC_RELATIVE) as events:
 			user_hosting = []
 			events = json.load(events)
 			for e in events:
 				if e['host_id'] == user_id:
 					user_hosting.append(e)
-			return user_hosting
+			if len(user_hosting) == 0:
+				return user_hosting
+
+			user_hosting = sorted(user_hosting, key=lambda x: x['id'], reverse=True)
+			max_id = user_hosting[0]['id']
+			if 'max_id' in query_params:
+				max_id = query_params['max_id']
+
+			res = []
+			for e in user_hosting:
+				if count == 0:
+					break
+				if e['id'] <= max_id:
+					res.append(e)
+					count -= 1
+			return res
 
 	def _mock_get_networks(self, query_params):
 		self._mock_ensure_count(query_params)

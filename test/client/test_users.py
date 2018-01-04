@@ -63,8 +63,12 @@ def test_get_events():
 	client returns mock data. 
 	"""
 	c = Client(mock=True)
-	events = c.get_user_events(userId=5, role="hosting")
+	events = c.get_user_events(userId=5, role="hosting", count=3)
 	print(events)
-
 	assert_equal(len(events), 2)
-	assert_equal(len(c.get_user_events(userId=1, role="hosting")), 0)
+	assert_true(events[0]['id'] > events[1]['id'])
+
+	events1 = c.get_user_events(userId=5, role="hosting", count=2, max_id=3)
+	assert_equal(len(events1), 1)
+
+	assert_equal(len(c.get_user_events(userId=1, role="hosting", count=5)), 0)

@@ -47,9 +47,10 @@ def get_user_networks(client, userId):
 def get_user_posts(client, userId, count, max_id=None):
 	"""
 	:param client: the CultureMesh API client
+	:param userId: user ID to return posts for
+	:param userId: The id of the user to return posts for.
 	:param count: the number of results to return
 	:param max_id: the maximum id, inclusive, of posts to fetch
-	:param userId: The id of the user to return posts for.
 
 	Returns list of post JSONs authored by USER_ID,
 	sorted in reverse order by id.
@@ -60,7 +61,7 @@ def get_user_posts(client, userId, count, max_id=None):
 		query_params['max_id'] = max_id
 	return client._request(url, Request.GET, query_params=query_params)
 
-def get_user_events(client, userId, role):
+def get_user_events(client, userId, role, count, max_id=None):
 	"""
 	:param client: the CultureMesh API client
 	:param userId: The id of the user to return events for.
@@ -68,8 +69,10 @@ def get_user_events(client, userId, role):
 
 	Returns list of events related to USER_ID, according to ROLE.
 	"""
-	query_params = {'role': role}
+	query_params = {'role': role, 'count': count}
 	url = '/user/%s/events' % str(userId)
+	if max_id is not None:
+		query_params['max_id'] = max_id
 	return client._request(url, Request.GET, query_params=query_params)
 
 
