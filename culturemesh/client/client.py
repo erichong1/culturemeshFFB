@@ -137,7 +137,7 @@ class Client(object):
 
 			elif path[1] == "post":
 				if path[3] == "replies":
-					return self._mock_get_post_replies(int(path[2]))
+					return self._mock_get_post_replies(int(path[2]), query_params)
 
 			elif path[1] == "event":
 				if path[3] == "reg":
@@ -314,18 +314,36 @@ class Client(object):
 					return p
 			return None
 
-	def _mock_get_post_replies(self, post_id):
+	def _mock_get_post_replies(self, post_id, query_params):
 		"""
 		Returns mock list of post replies to this
 		post. 
 		"""
+		self._mock_ensure_count(query_params)
+		count = query_params['count']
 		with open(POST_REPLY_DATA_LOC_RELATIVE) as post_replies:
 			post_replies_ = []
 			post_replies = json.load(post_replies)
 			for p in post_replies:
 				if p['parent_id'] == post_id:
 					post_replies_.append(p)
-			return post_replies_
+
+			if len(post_replies_) == 0:
+				return post_replies_
+
+			post_replies_ = sorted(post_replies_, key=lambda x: x['id'], reverse=True)
+			max_id = post_replies_[0]['id']
+			if 'max_id' in query_params:
+				max_id = query_params['max_id']
+
+			res = []
+			for repl in post_replies_:
+				if count == 0:
+					break
+				if repl['id'] <= max_id:
+					res.append(repl)
+					count -= 1
+			return res
 
 	def _mock_get_event(self, event_id):
 		"""
