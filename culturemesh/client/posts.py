@@ -2,9 +2,9 @@
 # CultureMesh Posts API
 #
 
-####################### GET methods #######################
-
 from .client import Request
+
+####################### GET methods #######################
 
 def get_post(client, postId):
 	"""
@@ -17,14 +17,21 @@ def get_post(client, postId):
 	url = '/post/%s' % str(postId)
 	return client._request(url, Request.GET)
 
-def get_post_replies(client, postId):
+def get_post_replies(client, postId, count, max_id=None):
 	"""
 	:param client: the CultureMesh API client
 	:param postId: the id of the post to fetch replies from
+	:param count: the number of results to return (may return less)
+	:param max_id: the maximum id, inclusive, of post replies to fetch
 
-	Returns a list of postReply JSONs.
+	Returns a list of postReply JSONs, in reverse sorted order by
+	id.
 	"""
-	raise NotImplementedError
+	url = '/post/%s/replies' % str(postId)
+	query_params = {'count': count}
+	if max_id is not None:
+		query_params['max_id'] = max_id
+	return client._request(url, Request.GET, query_params=query_params)
 
 ####################### POST methods #######################
 

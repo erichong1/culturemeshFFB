@@ -6,16 +6,23 @@
 
 from .client import Request
 
-def get_users(client, filter_=None):
+def get_users(client, count, max_id=None, filter_=None):
 	"""
 	:param client: the CultureMesh API client
+	:param count: the number of results to return
+	:param max_id: the maximum id, inclusive, of users to fetch
 	:param filter: A json with which to filter a site-wide user query.
 
-	Returns a list of users filtered by FILTER.
+	Returns a list of users filtered by FILTER, sorted in reverse
+	order by id.
 	"""
 	params = {'filter': filter_}
+	query_params = {'count': count}
+	if max_id is not None:
+		query_params['max_id'] = max_id
 	url = '/users'
-	return client._request(url, Request.GET, body_params=params)
+	return client._request(url, Request.GET, body_params=params, 
+		query_params=query_params)
 
 def get_user(client, userId):
 	"""
@@ -37,17 +44,23 @@ def get_user_networks(client, userId):
 	url = '/user/%s/networks' % str(user_id)
 	return client._request(url, Request.GET)
 
-def get_user_posts(client, userId):
+def get_user_posts(client, userId, count, max_id=None):
 	"""
 	:param client: the CultureMesh API client
-	:param userId: The id of the user to return posts for.
+	:param userId: user ID to return posts for
+	:param count: the number of results to return
+	:param max_id: the maximum id, inclusive, of posts to fetch
 
-	Returns list of post JSONs authered by USER_ID.
+	Returns list of post JSONs authored by USER_ID,
+	sorted in reverse order by id.
 	"""
 	url = '/user/%s/posts' % str(userId)
-	return client._request(url, Request.GET)
+	query_params = {'count': count}
+	if max_id is not None:
+		query_params['max_id'] = max_id
+	return client._request(url, Request.GET, query_params=query_params)
 
-def get_user_events(client, userId, role):
+def get_user_events(client, userId, role, count, max_id=None):
 	"""
 	:param client: the CultureMesh API client
 	:param userId: The id of the user to return events for.
@@ -55,8 +68,10 @@ def get_user_events(client, userId, role):
 
 	Returns list of events related to USER_ID, according to ROLE.
 	"""
-	query_params = {'role': role}
+	query_params = {'role': role, 'count': count}
 	url = '/user/%s/events' % str(userId)
+	if max_id is not None:
+		query_params['max_id'] = max_id
 	return client._request(url, Request.GET, query_params=query_params)
 
 

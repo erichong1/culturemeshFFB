@@ -2,12 +2,13 @@
 # Tests client/users.py
 # 
 
-from nose.tools import assert_true
+from nose.tools import assert_true, assert_equal
 from culturemesh.client import Client
 
 def test_get_user():
 	"""
-	Tests we can retrieve a user.  For illustrative purposes, the client is not mocked!
+	Tests we can retrieve a user.  For illustrative purposes, the client is not 
+	mocked!
 	"""
 
 	c = Client(mock=True)
@@ -20,34 +21,54 @@ def test_get_user():
 
 def test_get_users():
 	"""
-	Tests we can retrieve all users. For illustrative purposes, client returns mock
-	data. 
+	Tests basic user pagination.  
 	"""
 	c = Client(mock=True)
-	users = c.get_users()
-	print(users)
 
-	assert_true(len(users) == 5)
+	users1 = c.get_users(3)
+	assert_equal(len(users1), 3)
+	assert_equal(users1[0]['user_id'], 5)
+
+	min_id_got = min(u['user_id'] for u in users1)
+
+	users2 = c.get_users(3, max_id=min_id_got - 1)
+	assert_equal(len(users2), 2)
+	assert_equal(users2[0]['user_id'], 2)
+
+	users3 = c.get_users(3, 1)
+	assert_equal(len(users3), 1)
 
 def test_get_posts():
 	"""
-	Tests we can retrieve posts for a user. For illustrative purposes, client returns mock
-	data. 
+	Tests user posts with paginated calls. For illustrative purposes, client 
+	returns mock data. 
 	"""
 	c = Client(mock=True)
-	posts = c.get_user_posts(userId=4)
+	posts = c.get_user_posts(userId=4, count=2)
 	print(posts)
+	assert_equal(len(posts), 2)
 
-	assert_true(len(posts) == 2)
+	posts2 = c.get_user_posts(userId=4, count=2, max_id=2)
+	print(posts2)
+	assert_equal(len(posts2), 1)
+
+	posts = c.get_user_posts(userId=4, count=1)
+	print(posts)
+	assert_equal(len(posts), 1)
+	assert_equal(posts[0]['id'], 5)
 
 def test_get_events():
 	"""
-	Tests we can retrieve events related to a user. For illustrative purposes, client returns mock
-	data. 
+	Tests we can retrieve events related to a user. For illustrative purposes, 
+	client returns mock data. 
 	"""
 	c = Client(mock=True)
-	events = c.get_user_events(userId=5, role="hosting")
+	events = c.get_user_events(userId=5, role="hosting", count=3)
 	print(events)
+	assert_equal(len(events), 2)
+	assert_true(events[0]['id'] > events[1]['id'])
 
-	assert_true(len(events) == 2)
-	assert_true(len(c.get_user_events(userId=1, role="hosting")) == 0)
+	events1 = c.get_user_events(userId=5, role="hosting", count=2, max_id=3)
+	assert_equal(len(events1), 1)
+
+	assert_equal(len(c.get_user_events(userId=1, role="hosting", count=5)), 0)
