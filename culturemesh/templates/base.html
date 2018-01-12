@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    {% block head %}
+      <title>CultureMesh</title>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+      <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    {% endblock %}
+  </head>
+
+  <body>
+    <header id="header">
+      {% block header %}
+        <div class="container-fluid">
+          <p class="text-center">
+            This is the header. 
+          </p>
+        </div>
+      {% endblock %}
+    </header>
+
+    <div id="content">
+     {% block content %}
+      <div class="container-fluid">
+        <h1 class="text-center">Hello, I am base</h1>
+      </div>
+      {% endblock %}
+    </div>
+
+    <div id="footer">
+      {% block footer %}
+      <p class="text-center">
+        &copy; Copyright 2018 by <a href="http://domain.invalid/">CultureMesh</a>.
+      </p>
+      {% endblock %}
+    </div>
+
+  </body>
+</html>
