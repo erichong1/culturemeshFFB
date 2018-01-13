@@ -25,6 +25,10 @@ def home():
 def about():
 	return render_template('about.html')
 
+@app.route("/base")
+def base():
+	return render_template('base.html')
+
 @app.route("/search", methods=['GET', 'POST'])
 def search():
 	searchFrom = request.form["from"]

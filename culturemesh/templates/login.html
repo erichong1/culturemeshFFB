@@ -2,93 +2,10 @@
 	<title>CultureMesh</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/login.css') }}">
   <!-- <link rel="stylesheet" href="css/register.css"/> -->
 </head>
-<style>
-body {
-	background-color: #3c3c3c;
-  margin: 0px 0px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: stretch;
-  height: 100%;
-  width: 100%;
-  font-family: sans-serif;
-  font-size: 14px;
-  color: white;
-	overflow: scroll;
-}
 
-.logo-section {
-  flex: 1;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-}
-
-.signin-section {
-	margin: 0px 30px 0px 30px;
-	display: flex;
-	flex-direction: column;
-	justify-content: space-around;
-	align-items: stretch;
-  flex: 1;
-}
-
-.signin-prompt {
-	display: flex;
-	flex-direction: row;
-	justify-content: center;
-	align-items: center;
-	color: grey;
-}
-
-.input-field {
-  padding: 10px 15px 10px 15px;
-  font-size: 15px;
-  color: black;
-	width: 100%;
-	align-self: stretch;
-}
-
-.box-button {
-  text-decoration: none;
-  cursor: pointer;
-  display: inline-block;
-  text-align: center;
-	padding: 15px;
-  background-color: #dd5935;
-  color: white;
-  border: none;
-}
-
-.signup-section {
-  flex: 1;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-}
-
-.account-prompt {
-	color: grey;
-}
-
-.text-button {
-	margin-top: 30px;
-	text-decoration: none;
-  border: none;
-  background: none;
-  color: white;
-  cursor: pointer;
-}
-
-.text-button:hover {
-  text-decoration: underline;
-}
-
-</style>
 <body>
 	<div class="logo-section">
 		<img src="https://www.culturemesh.com/images/logo_header.png" id="logo"/>
@@ -98,7 +15,7 @@ body {
 			Sign in, please
 		</div>
 		<form id="username-form">
-			<input type="text" class="input-field" id="username" placeholder="Username"></input>
+			<input type="text" class="input-field" id="username" placeholder="Email"></input>
 		</form>
 		<form id="password-form">
 			<input type="text" class="input-field" id="password" placeholder="Password"></input>
@@ -110,7 +27,7 @@ body {
 		<div class="account-prompt">
 			Need an account?
 		</div>
-		<input type="submit" class="text-button" id="signup-button" value="SIGN UP NOW">
+		<input type="submit" class="text-button" id="signup-button" value="SIGN UP">
 		</input>
 	</div>
 </body>
