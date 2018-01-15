@@ -15,7 +15,9 @@
     <div id="header" class="container-fluid">
       {% block header %}
         <div class="row">
-          <img src="https://www.culturemesh.com/images/logo_header.png" id="logo" class="p-3 rounded mx-auto d-block"/>
+          <a href="/">
+            <img src="https://www.culturemesh.com/images/logo_header.png" id="logo" class="p-3 rounded mx-auto d-block"/>
+          </a>
         </div>
       {% endblock %}
     </header>
@@ -34,7 +36,7 @@
       <div class="navbar navbar-fixed-bottom">
       {% block footer %}
         <p class="text-center">
-          &copy; Copyright 2018 by <a href="http://domain.invalid/">CultureMesh</a>.
+          &copy; Copyright 2018 by <a href="/about">CultureMesh</a>.
         </p>
       {% endblock %}
       </div>
