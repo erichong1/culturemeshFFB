@@ -3,39 +3,44 @@
 <html>
   <head>
     {% block head %}
-      <title>CultureMesh</title>
+      <title>CultureMesh - Connecting the World's Diasporas</title>
       <meta charset="utf-8">
+      <meta name="description" content="Welcome to CultureMesh - Connecting the world's diasporas!" />
       <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-      <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+      <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/bootstrap.css') }}">
     {% endblock %}
   </head>
 
   <body>
-    <header id="header">
+    <div id="header" class="container-fluid">
       {% block header %}
-        <div class="container-fluid">
-          <p class="text-center">
-            This is the header. 
-          </p>
+        <div class="row">
+          <a href="/">
+            <img src="https://www.culturemesh.com/images/logo_header.png" id="logo" class="p-3 rounded mx-auto d-block"/>
+          </a>
         </div>
       {% endblock %}
     </header>
 
-    <div id="content">
+    <div id="content" class="container-fluid">
      {% block content %}
-      <div class="container-fluid">
-        <h1 class="text-center">Hello, I am base</h1>
+      <div class="row">
+        <div class="container-fluid">
+          <h1 class="text-center">Hello, I am base</h1>
+        </div>
       </div>
       {% endblock %}
     </div>
 
-    <div id="footer">
+    <footer id="footer" class="page-footer container-fluid">
+      <div class="navbar navbar-fixed-bottom">
       {% block footer %}
-      <p class="text-center">
-        &copy; Copyright 2018 by <a href="http://domain.invalid/">CultureMesh</a>.
-      </p>
+        <p class="text-center">
+          &copy; Copyright 2018 by <a href="/about">CultureMesh</a>.
+        </p>
       {% endblock %}
-    </div>
+      </div>
+    </footer>
 
   </body>
 </html>
