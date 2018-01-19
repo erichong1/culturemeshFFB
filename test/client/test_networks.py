@@ -40,8 +40,16 @@ def test_get_network_posts():
     client returns mock data.
     """
     c = Client(mock=True)
-    posts = c.get_network_posts(1)
+    posts = c.get_network_posts(1, 10)
     assert_true(len(posts) == 3)
+
+    posts1 = c.get_network_posts(1, 1)
+    assert_equal(posts1[0]['id'], 4)
+    assert_equal(len(posts1), 1)
+
+    posts2 = c.get_network_posts(1, 1, max_id=3)
+    assert_equal(posts2[0]['id'], 2)
+    assert_equal(len(posts2), 1)
 
 
 def test_get_network_events():
@@ -50,8 +58,16 @@ def test_get_network_events():
     client returns mock data.
     """
     c = Client(mock=True)
-    events = c.get_network_events(1)
+    events = c.get_network_events(1, 10)
     assert_true(len(events) == 2)
+
+    events1 = c.get_network_events(1, 1)
+    assert_equal(events1[0]['id'], 3)
+    assert_equal(len(events1), 1)
+
+    events2 = c.get_network_events(1, 1, max_id=3)
+    assert_equal(events2[0]['id'], 3)
+    assert_equal(len(events2), 1)
 
 
 def test_get_network_users():
@@ -60,5 +76,13 @@ def test_get_network_users():
     For illustrative purposes, client returns mock data.
     """
     c = Client(mock=True)
-    registrations = c.get_network_users(1)
+    registrations = c.get_network_users(1, 10)
     assert_true(len(registrations) == 3)
+
+    registrations1 = c.get_network_users(1, 1)
+    assert_equal(registrations1[0]['join_date'], "2017-02-27 11:53:30")
+    assert_equal(len(registrations1), 1)
+
+    registrations2 = c.get_network_users(1, 1, max_id="2017-02-28 11:53:30")
+    assert_equal(registrations2[0]['join_date'], "2017-02-27 11:53:30")
+    assert_equal(len(registrations2), 1)
