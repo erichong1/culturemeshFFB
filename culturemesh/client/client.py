@@ -44,15 +44,15 @@ class Client(object):
 	_api_base_url_ = "www.culturemesh.com/api/v1/"
 
 	def __init__(self, key=None, client_id=None, client_secret=None,
-                 timeout=None, connect_timeout=None, read_timeout=None,
-                 retry_timeout=60, queries_per_second=10,
-                 channel=None, mock=True):
+				 timeout=None, connect_timeout=None, read_timeout=None,
+				 retry_timeout=60, queries_per_second=10,
+				 channel=None, mock=True):
 
 		# TODO: insert client initialization here.
 		self.mock = mock
 
 		# See: http://docs.python-requests.org/en/master/user/advanced/
-		#      not used yet.
+		#	  not used yet.
 		self.session = requests.Session()
 
 	def _request(self, url, request_method, query_params=None, body_params=None,
@@ -61,7 +61,7 @@ class Client(object):
 		Carries out HTTP requests.
 
 		Returns body as JSON.
-    	"""
+		"""
 		if self.mock:
 			return self._mock_request(url, query_params, body_params)
 		raise NotImplementedError("Real API coming soon.")
@@ -129,6 +129,10 @@ class Client(object):
 					input_text = query_params['input_text']
 					return self._mock_location_autocomplete(input_text)
 
+			elif path[1] == "network":
+				network_id = int(path[2])
+				return self._mock_get_network(network_id)
+
 		elif len(path) == 4:
 			if path[1] == "user":
 				if path[3] == "posts":
@@ -162,6 +166,15 @@ class Client(object):
 					country_id = int(path[3])
 					return self._mock_get_country(country_id)
 
+			if path[1] == "network":
+				if path[3] == "users":
+					return self._mock_get_network_users(int(path[2]))
+
+				elif path[3] == "posts":
+					return self._mock_get_network_posts(int(path[2]))
+
+				elif path[3] == "events":
+					return self._mock_get_network_events(int(path[2]))
 			else:
 				pass
 		elif len(path) == 5:
@@ -208,7 +221,7 @@ class Client(object):
 
 	def _mock_get_user_networks(self, user_id):
 		"""
-		Returns mock list of networks a user belongs to. 
+		Returns mock list of networks a user belongs to.
 		"""
 		raise NotImplementedError
 
@@ -225,7 +238,7 @@ class Client(object):
 			if len(user_posts) == 0:
 				return user_posts
 
-			# Sort in reverse id order. 
+			# Sort in reverse id order.
 			user_posts = sorted(user_posts, key=lambda x: x['id'], reverse=True)
 			max_id = user_posts[0]['id']
 			if 'max_id' in query_params:
@@ -286,32 +299,50 @@ class Client(object):
 
 			return result
 
-
 	def _mock_get_network(self, network_id):
 		"""
-		Returns mock data for a single 
-		network. 
+		Returns mock data for a single
+		network.
 		"""
-		raise NotImplementedError
+		with open(NETWORK_DATA_LOC_RELATIVE) as networks:
+			networks = json.load(networks)
+			for n in networks:
+				print(n)
+				if n['id'] == network_id:
+					return n
 
-	def _mock_get_network_posts(self, network_id, query_params):
-		"""
-		Returns posts in the given network.  
-		"""
-		raise NotImplementedError
+	def _mock_get_network_posts(self, network_id):
+		with open(POST_DATA_LOC_RELATIVE) as posts:
+			network_posts = []
+			posts = json.load(posts)
+			for p in posts:
+				if p['network_id'] == network_id:
+					network_posts.append(p)
+			return network_posts
 
-	def _mock_get_network_events(self, network_id, query_params):
+	def _mock_get_network_events(self, network_id):
 		"""
-		Returns events associated with this 
-		network. 
+		Returns events associated with this
 		"""
-		raise NotImplementedError
+		with open(EVENT_DATA_LOC_RELATIVE) as events:
+			network_events = []
+			events = json.load(events)
+			for p in events:
+				if p['network_id'] == network_id:
+					network_events.append(p)
+			return network_events
 
-	def _mock_get_network_users(self, network_id, query_params):
+	def _mock_get_network_users(self, network_id):
 		"""
-		Return mock list of user jsons in the network.
+		Return mock list of network registration jsons associated with the network.
 		"""
-		raise NotImplementedError
+		with open(NET_REGISTRATION_LOC_RELATIVE) as registrations:
+			network_registration = []
+			registrations = json.load(registrations)
+			for p in registrations:
+				if p['id_network'] == network_id:
+					network_registration.append(p)
+			return network_registration
 
 	def _mock_get_post(self, post_id):
 		with open(POST_DATA_LOC_RELATIVE) as posts:
@@ -324,7 +355,7 @@ class Client(object):
 	def _mock_get_post_replies(self, post_id, query_params):
 		"""
 		Returns mock list of post replies to this
-		post. 
+		post.
 		"""
 		self._mock_ensure_count(query_params)
 		count = query_params['count']
@@ -354,7 +385,7 @@ class Client(object):
 
 	def _mock_get_event(self, event_id):
 		"""
-		Returns this mock event. 
+		Returns this mock event.
 		"""
 		with open(EVENT_DATA_LOC_RELATIVE) as events:
 			events = json.load(events)
@@ -366,7 +397,7 @@ class Client(object):
 	def _mock_get_event_registration(self, event_id, query_params):
 		"""
 		Returns mock list of users attending
-		this event. 
+		this event.
 		"""
 		self._mock_ensure_count(query_params)
 		count = query_params['count']
@@ -398,7 +429,7 @@ class Client(object):
 
 	def _mock_get_city(self, city_id):
 		"""
-		Returns mock data for this city. 
+		Returns mock data for this city.
 		"""
 		with open(CITY_DATA_LOC_RELATIVE) as cities:
 			cities = json.load(cities)
@@ -409,7 +440,7 @@ class Client(object):
 
 	def _mock_get_region(self, region_id):
 		"""
-		Returns mock data for this region. 
+		Returns mock data for this region.
 		"""
 		with open(REGION_DATA_LOC_RELATIVE) as regions:
 			regions = json.load(regions)
@@ -420,7 +451,7 @@ class Client(object):
 
 	def _mock_get_country(self, country_id):
 		"""
-		Returns mock data for country. 
+		Returns mock data for country.
 		"""
 		with open(COUNTRY_DATA_LOC_RELATIVE) as countries:
 			countries = json.load(countries)
@@ -431,13 +462,13 @@ class Client(object):
 
 	def _mock_location_autocomplete(self, input_text):
 		"""
-		Returns mock autocomplete entries for input_text. 
+		Returns mock autocomplete entries for input_text.
 		"""
 		return input_text + " + [location autocompleted text]"
 
 	def _mock_get_language(self, lang_id):
 		"""
-		Returns mock data for language. 
+		Returns mock data for language.
 		"""
 		with open(LANG_DATA_LOC_RELATIVE) as langs:
 			langs = json.load(langs)
@@ -448,7 +479,7 @@ class Client(object):
 
 	def _mock_language_autocomplete(self, input_text):
 		"""
-		Returns mock autocomplete entries for language input. 
+		Returns mock autocomplete entries for language input.
 		"""
 		return input_text + " + [language autocompleted text]"
 
@@ -480,6 +511,10 @@ from .users import add_user_to_event
 from .users import add_user_to_network
 from .users import update_user
 from .networks import get_networks
+from .networks import get_network
+from .networks import get_network_posts
+from .networks import get_network_events
+from .networks import get_network_users
 
 # We may consider adding a wrapper around these assignments
 # below to introduce more specific features for the client.
@@ -509,3 +544,7 @@ Client.add_user_to_event = add_user_to_event
 Client.add_user_to_network = add_user_to_network
 Client.update_user = update_user
 Client.get_networks = get_networks
+Client.get_network = get_network
+Client.get_network_posts = get_network_posts
+Client.get_network_events = get_network_events
+Client.get_network_users = get_network_users

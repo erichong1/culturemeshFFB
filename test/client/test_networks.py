@@ -5,19 +5,60 @@
 from nose.tools import assert_true, assert_equal
 from culturemesh.client import Client
 
+
 def test_get_networks():
-  """
-	Tests basic network retrieval pagination. For illustrative purposes, 
-  client returns mock data.
-	"""
-  c = Client(mock=True)
-  networks = c.get_networks(10)
-  assert_equal(len(networks), 2)
+    """
+    Tests basic network retrieval pagination. For illustrative purposes,
+    client returns mock data.
+    """
+    c = Client(mock=True)
+    networks = c.get_networks(10)
+    assert_equal(len(networks), 2)
 
-  networks1 = c.get_networks(1)
-  assert_equal(networks1[0]['id'], 1)
-  assert_equal(len(networks1), 1)
+    networks1 = c.get_networks(1)
+    assert_equal(networks1[0]['id'], 1)
+    assert_equal(len(networks1), 1)
 
-  networks2 = c.get_networks(1, max_id=0)
-  assert_equal(networks2[0]['id'], 0)
-  assert_equal(len(networks2), 1)
+    networks2 = c.get_networks(1, max_id=0)
+    assert_equal(networks2[0]['id'], 0)
+    assert_equal(len(networks2), 1)
+
+
+def test_get_network():
+    """
+    Tests we can retrieve a network. For illustrative purposes, client
+    returns mock data.
+    """
+    c = Client(mock=True)
+    network = c.get_network(1)
+    assert_true(network is not None)
+
+
+def test_get_network_posts():
+    """
+    Tests we can retrieve a network's posts. For illustrative purposes,
+    client returns mock data.
+    """
+    c = Client(mock=True)
+    posts = c.get_network_posts(1)
+    assert_true(len(posts) == 3)
+
+
+def test_get_network_events():
+    """
+    Tests we can retrieve a network's events. For illustrative purposes,
+    client returns mock data.
+    """
+    c = Client(mock=True)
+    events = c.get_network_events(1)
+    assert_true(len(events) == 2)
+
+
+def test_get_network_users():
+    """
+    Tests we can retrieve a network's users (network registrations).
+    For illustrative purposes, client returns mock data.
+    """
+    c = Client(mock=True)
+    registrations = c.get_network_users(1)
+    assert_true(len(registrations) == 3)
