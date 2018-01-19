@@ -6,17 +6,6 @@ import hashlib
 import http.client as httplib
 import requests
 
-@app.route("/example_api_call")
-def example_api_call():
-	"""
-	For illustrative purposes only.
-	"""
-
-	c = Client()
-	dracula_ebook_num = 345
-	dracula_text = c.get_gutenberg_novel(dracula_ebook_num)
-	return render_template('example.html', example=dracula_text)
-
 @app.route("/")
 def home():
 	return render_template('index.html')
