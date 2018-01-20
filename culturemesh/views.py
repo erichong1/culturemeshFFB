@@ -5,6 +5,7 @@ from culturemesh.client import Client
 import hashlib
 import http.client as httplib
 import requests
+import config
 
 @app.route("/")
 def home():

@@ -1,5 +1,6 @@
 from culturemesh import app
-from config import DEBUG_PORT, DEBUG_ADDR
+
+import config
 
 #
 # This is the (dev) entry point of the application. 
@@ -7,4 +8,5 @@ from config import DEBUG_PORT, DEBUG_ADDR
 #
 
 if __name__ == "__main__":
-	app.run(host=DEBUG_ADDR, port=DEBUG_PORT, debug=True)
+  config.init()
+  app.run(host=config.DEBUG_ADDR, port=config.DEBUG_PORT, debug=True)
