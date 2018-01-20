@@ -7,6 +7,9 @@ import http.client as httplib
 import requests
 import config
 
+from .forms import SearchForm
+
+
 @app.route("/")
 def home():
 	return render_template('index.html')
@@ -18,12 +21,6 @@ def about():
 @app.route("/base")
 def base():
 	return render_template('base.html')
-
-@app.route("/search", methods=['GET', 'POST'])
-def search():
-	searchFrom = request.form["from"]
-	searchIn = request.form["in"]
-	return "Looking for users from " + searchFrom + " in " + searchIn + "."
 
 @app.route("/dashboard")
 def dashboard():
@@ -52,6 +49,11 @@ def login():
 	email = request.form["email"]
 	password = request.form["password"]
 	return "Email: " + email + " Password: " + password
+
+@app.route("/search", methods=['GET', 'POST'])
+def render_search_page():
+	form = SearchForm()
+	return render_template('search.html', form=form)
 
 ##################### Error handling #########################
 

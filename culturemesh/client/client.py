@@ -197,13 +197,13 @@ class Client(object):
 
 			if path[1] == "network":
 				if path[3] == "users":
-					return self._mock_get_network_users(int(path[2]))
+					return self._mock_get_network_users(int(path[2]), query_params)
 
 				elif path[3] == "posts":
-					return self._mock_get_network_posts(int(path[2]))
+					return self._mock_get_network_posts(int(path[2]), query_params)
 
 				elif path[3] == "events":
-					return self._mock_get_network_events(int(path[2]))
+					return self._mock_get_network_events(int(path[2]), query_params)
 			else:
 				pass
 		elif len(path) == 5:
@@ -309,24 +309,34 @@ class Client(object):
 					count -= 1
 			return res
 
-	def _mock_get_networks(self, query_params):
+	def _pagination(self, query_params, objects, key='id'):
+		""" Pagination """
 		self._mock_ensure_count(query_params)
 		count = query_params['count']
+		if len(objects) == 0:
+			return objects
+
+		# Sort in reverse id order.
+		objects = sorted(objects, key=lambda x: x[key], reverse=True)
+		max_id = objects[0][key]
+		if 'max_id' in query_params:
+			max_id = query_params['max_id']
+
+		res = []
+		for p in objects:
+			if count == 0:
+				break
+			if p[key] <= max_id:
+				res.append(p)
+				count -= 1
+
+		return res
+
+	def _mock_get_networks(self, query_params):
 		with open(NETWORK_DATA_LOC) as networks:
 			networks = sorted(json.load(networks), key=lambda x: x['id'], reverse=True)
-			max_id = networks[0]['id']
-			if 'max_id' in query_params:
-				max_id = query_params['max_id']
+			return self._pagination(query_params, objects=networks, key='id')
 
-			result = []
-			for n in networks:
-				if count == 0:
-					break
-				if n['id'] <= max_id:
-					result.append(n)
-					count -= 1
-
-			return result
 
 	def _mock_get_network(self, network_id):
 		"""
@@ -340,16 +350,16 @@ class Client(object):
 				if n['id'] == network_id:
 					return n
 
-	def _mock_get_network_posts(self, network_id):
+	def _mock_get_network_posts(self, network_id, query_params):
 		with open(POST_DATA_LOC) as posts:
 			network_posts = []
 			posts = json.load(posts)
 			for p in posts:
 				if p['network_id'] == network_id:
 					network_posts.append(p)
-			return network_posts
+			return self._pagination(query_params, objects=network_posts, key='id')
 
-	def _mock_get_network_events(self, network_id):
+	def _mock_get_network_events(self, network_id, query_params):
 		"""
 		Returns events associated with this
 		"""
@@ -359,9 +369,9 @@ class Client(object):
 			for p in events:
 				if p['network_id'] == network_id:
 					network_events.append(p)
-			return network_events
+			return self._pagination(query_params, objects=network_events, key='id')
 
-	def _mock_get_network_users(self, network_id):
+	def _mock_get_network_users(self, network_id, query_params):
 		"""
 		Return mock list of network registration jsons associated with the network.
 		"""
@@ -371,7 +381,7 @@ class Client(object):
 			for p in registrations:
 				if p['id_network'] == network_id:
 					network_registration.append(p)
-			return network_registration
+			return self._pagination(query_params, objects=network_registration, key='join_date')
 
 	def _mock_get_post(self, post_id):
 		with open(POST_DATA_LOC) as posts:
