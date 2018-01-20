@@ -34,7 +34,7 @@ def get_network(client, networkId):
     return client._request(url, Request.GET)
 
 
-def get_network_posts(client, networkId):
+def get_network_posts(client, networkId, count, max_id=None):
     """
     :param client: the CultureMesh API client
     :param networkId: The id of the network to return a list of posts for.
@@ -42,10 +42,13 @@ def get_network_posts(client, networkId):
     Returns list of posts JSONs for posts in networkId
     """
     url = '/network/%s/posts' % str(networkId)
-    return client._request(url, Request.GET)
+    query_params = {'count': count}
+    if max_id is not None:
+        query_params['max_id'] = max_id
+    return client._request(url, Request.GET, query_params=query_params)
 
 
-def get_network_events(client, networkId):
+def get_network_events(client, networkId, count, max_id=None):
     """
     :param client: the CultureMesh API client
     :param networkId: The id of the network to return a list of events for.
@@ -53,10 +56,13 @@ def get_network_events(client, networkId):
     Returns list of events JSONs for events in networkId
     """
     url = '/network/%s/events' % str(networkId)
-    return client._request(url, Request.GET)
+    query_params = {'count': count}
+    if max_id is not None:
+        query_params['max_id'] = max_id
+    return client._request(url, Request.GET, query_params=query_params)
 
 
-def get_network_users(client, networkId):
+def get_network_users(client, networkId, count, max_id=None):
     """
     :param client: the CultureMesh API client
     :param networkId: The id of the network to return a list of network
@@ -65,7 +71,10 @@ def get_network_users(client, networkId):
     Returns list of Network Registration JSONs for networkId
     """
     url = '/network/%s/users' % str(networkId)
-    return client._request(url, Request.GET)
+    query_params = {'count': count}
+    if max_id is not None:
+        query_params['max_id'] = max_id
+    return client._request(url, Request.GET, query_params=query_params)
 
 ####################### POST methods #######################
 ####################### PUT methods #######################
