@@ -20,21 +20,21 @@
     <div class="wrapper container-fluid">
       
       {% block header %}
-      <div id="culturemesh-header" class="row">
+      <div id="cm-header" class="row">
           <div class="p-3 col-8">
               <a href="/">
-                <img id="top-logo" src="//www.culturemesh.com/images/logo_header.png"/>
+                <img id="cm-top-logo" src="//www.culturemesh.com/images/logo_header.png"/>
               </a>
           </div>
 
           <div class="p-3 col-4 text-center">
-              <i id="culturemesh-icon" class="mt-1 p-1 fas fa-search fa-lg"></i>
-              <i id="culturemesh-icon" class="mt-1 p-1 fas fa-home fa-lg"></i>
+              <i id="cm-icon" class="mt-1 p-1 fas fa-search fa-lg"></i>
+              <i id="cm-icon" class="mt-1 p-1 fas fa-home fa-lg"></i>
           </div>
       </div>
       {% endblock %}
 
-      <div id="content" class="p-1 container-fluid">
+      <div id="content" class="container-fluid">
        {% block content %}
         <div class="row">
           <div class="container-fluid">
@@ -45,7 +45,7 @@
       </div>
 
       {% block footer %}
-      <div id="culturemesh-footer" class="page-footer container-fluid">
+      <div id="cm-footer" class="page-footer container-fluid">
         <div class="navbar navbar-fixed-bottom">
           <p class="text-center">
             &copy; Copyright 2018 by <a href="/about">CultureMesh</a>

@@ -7,31 +7,55 @@ input {
 	border-radius: 3px;
 }
 
-.btn:hover,
-.btn:focus,
-.btn:active,
-.btn {
-	background-color: #ff3b3f;
-	border-color: #ff3b3f;
-	color: #efefef;
+#cm-top-logo {
+  width:85%;
+}
+
+#cm-icon {
+  color: #EF5330;
+}
+
+#cm-header {
+  border-bottom: 2px solid #ccc;
+}
+
+#cm-footer {
+  border-top: 2px solid #ccc;
 }
 
 body {
 	background-color: white;
 }
 
-#top-logo {
-  width:85%;
+.cm-profile-card {
+  background-color: #EF5330;
 }
 
-#culturemesh-icon {
-  color: #EF5330;
+.usr-img {
+  border-radius: 50%;
 }
 
-#culturemesh-header {
-  border-bottom: 2px solid #ccc;
+.btn-group button {
+    background-color: #ccc;
+    border: 1px solid #ccc;
+    color: white; /* White text */
+    padding: 10px 24px; /* Some padding */
 }
 
-#culturemesh-footer {
-  border-top: 2px solid #ccc;
+.btn-group button:not(:last-child) {
+    border-right: none; /* Prevent double borders */
+}
+
+/* Clear floats (clearfix hack) */
+.btn-group:after {
+    content: "";
+    clear: both;
+    display: table;
+}
+
+/* Add a background color on hover */
+.btn-group button:hover {
+    background-color: #EF5330;
+    color: white; /* White text */
+    border: 0px;
 }
