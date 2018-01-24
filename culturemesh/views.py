@@ -55,6 +55,10 @@ def render_search_page():
 	form = SearchForm()
 	return render_template('search.html', form=form)
 
+@app.route("/home")
+def render_user_home():
+	return render_template('user_home.html')
+
 ##################### Error handling #########################
 
 @app.errorhandler(httplib.NOT_FOUND)

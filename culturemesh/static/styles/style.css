@@ -1,7 +1,6 @@
-#logo {
-	display: block;
-	margin: auto;
-}
+/*
+* CultureMeshFFB-Specific sheets
+ */
 
 input {
 	width: 100%;
@@ -18,5 +17,21 @@ input {
 }
 
 body {
-	background-color: #efefef;
+	background-color: white;
+}
+
+#top-logo {
+  width:85%;
+}
+
+#culturemesh-icon {
+  color: #EF5330;
+}
+
+#culturemesh-header {
+  border-bottom: 2px solid #ccc;
+}
+
+#culturemesh-footer {
+  border-top: 2px solid #ccc;
 }
