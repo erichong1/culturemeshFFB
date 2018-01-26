@@ -45,8 +45,8 @@ body {
   text-shadow: horizontal-offset vertical-offset blur #6e6e6e;
 }
 
-.usr-img {
-  border-radius: 50%;
+.usr-image {
+  border-radius: 100%;
 }
 
 .cm-profile-dashboard {
