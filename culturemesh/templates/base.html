@@ -28,21 +28,23 @@
           </div>
 
           <div class="p-3 col-4 text-center">
-              <i id="cm-icon" class="mt-1 p-1 fas fa-search fa-lg"></i>
-              <i id="cm-icon" class="mt-1 p-1 fas fa-home fa-lg"></i>
+              <a href="/search">
+                <i id="cm-icon" class="mt-1 p-1 fas fa-search fa-lg"></i>
+              </a>
+              <a href="/home">
+                <i id="cm-icon" class="mt-1 p-1 fas fa-home fa-lg"></i>
+              </a>
           </div>
       </div>
       {% endblock %}
 
-      <div id="content" class="container-fluid">
        {% block content %}
         <div class="row">
           <div class="container-fluid">
             <h1 class="text-center">Hello, I am base</h1>
           </div>
         </div>
-        {% endblock %}
-      </div>
+      {% endblock %}
 
       {% block footer %}
       <div id="cm-footer" class="page-footer container-fluid">

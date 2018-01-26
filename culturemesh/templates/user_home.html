@@ -1,23 +1,22 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="row">
 
-  <div class="cm-profile-card container-fluid">
-    <div class="p-3 cm-profile-image text-center">
+  <div id="cm-profile-card" class="text-center">
+    <div id="cm-profile-image" class="pt-4">
       <img class="usr-image" src="//www.culturemesh.com/images/cm_logo_blank_profile_lrg.png#">
     </div>
-    <div class="cm-profile-name text-center">
-      Welcome, User.
-    </div>
+    <span class="p-1">
+      <h3 id="cm-profile-name">Welcome, User</h3>
+    </span>
   </div>
 
   <div class="container profile-dashboard">
-    <div id="culturemesh-dashboard-menu" class="btn-group btn-group-sm" role="group">
+    <div id="cm-dashboard-menu" class="btn-group btn-group-sm" role="group">
       <button id="cm-button" type="button" class="btn btn-secondary">Dashboard</button>
       <button id="cm-button" type="button" class="btn btn-secondary">Networks</button>
       <button id="cm-button" type="button" class="btn btn-secondary">Events</button>
-      <button id="cm-button" type="button" class="btn btn-secondary">Accounts</button>
+      <button id="cm-button" type="button" class="btn btn-secondary">Account</button>
     </div>
 
     <div class="p-3 container">
@@ -52,5 +51,5 @@
     </div>
   </div>
 
-</div>
+
 {% endblock %}
