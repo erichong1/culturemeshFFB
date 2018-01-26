@@ -11,16 +11,13 @@ from .forms import SearchForm
 
 
 @app.route("/")
+@app.route("/index")
 def home():
 	return render_template('index.html')
 
 @app.route("/about")
 def about():
 	return render_template('about.html')
-
-@app.route("/base")
-def base():
-	return render_template('base.html')
 
 @app.route("/dashboard")
 def dashboard():
@@ -54,6 +51,54 @@ def login():
 def render_search_page():
 	form = SearchForm()
 	return render_template('search.html', form=form)
+
+@app.route("/home")
+@app.route("/home/dashboard")
+def render_user_home():
+	user_id = int(request.args.get('id'))
+	c = Client(mock=True)
+	user = c.get_user(user_id)
+
+	if user is None:
+		return page_not_found("")
+
+	return render_template('home_dashboard.html', user=user)
+
+@app.route("/home/account")
+def render_user_home_account():
+	user_id = int(request.args.get('id'))
+	c = Client(mock=True)
+	user = c.get_user(user_id)
+
+	if user is None:
+		return page_not_found("")
+	return render_template('home_account.html', user=user)
+
+@app.route("/home/events")
+def render_user_home_events():
+	user_id = int(request.args.get('id'))
+	c = Client(mock=True)
+	user = c.get_user(user_id)
+
+	if user is None:
+		return page_not_found("")
+
+	events_hosting = c.get_user_events(user_id, "hosting", 5)
+	if events_hosting is None:
+		return page_not_found("")
+
+	return render_template('home_events.html', user=user, 
+		events_hosting=events_hosting)
+
+@app.route("/home/networks")
+def render_user_home_networks():
+	user_id = int(request.args.get('id'))
+	c = Client(mock=True)
+	user = c.get_user(user_id)
+
+	if user is None:
+		return page_not_found("")
+	return render_template('home_networks.html', user=user)
 
 ##################### Error handling #########################
 

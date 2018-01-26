@@ -1,22 +1,91 @@
-#logo {
-	display: block;
-	margin: auto;
-}
+/*
+* CultureMeshFFB-Specific sheets
+ */
 
 input {
 	width: 100%;
 	border-radius: 3px;
 }
 
-.btn:hover,
-.btn:focus,
-.btn:active,
-.btn {
-	background-color: #ff3b3f;
-	border-color: #ff3b3f;
-	color: #efefef;
+body {
+  background-color: white;
 }
 
-body {
-	background-color: #efefef;
+#cm-profile-name {
+  color: white;
+}
+
+#cm-top-logo {
+  width:85%;
+}
+
+#cm-icon {
+  color: #EF5330;
+}
+
+#cm-header {
+  border-bottom: 2px solid #ccc;
+}
+
+#cm-footer {
+  border-top: 2px solid #ccc;
+}
+
+#cm-profile-card {
+  background-color: #EF5330;
+}
+
+#stage-title{
+  color: white;
+  font-size:30px;
+  font-family: 'Lato-bold', sans-serif;
+  font-weight: 20;
+  letter-spacing:1px;
+  text-shadow: -1px 0 #6e6e6e, 0 1px #6e6e6e, 1px 0 #6e6e6e, 0 -1px #6e6e6e;
+  text-shadow: horizontal-offset vertical-offset blur #6e6e6e;
+}
+
+.usr-image {
+  border-radius: 100%;
+}
+
+.cm-profile-dashboard {
+  background-color: #f7f7f7;
+}
+
+.btn-group a {
+  color: black; /* White text */
+  padding: 10px 24px; /* Some padding */
+}
+
+.btn-group a:not(:last-child) {
+    border-right: none; /* Prevent double borders */
+}
+
+/* Clear floats (clearfix hack) */
+.btn-group:after {
+    content: "";
+    clear: both;
+    display: table;
+}
+
+/* Add a background color on hover */
+#cm-button:active {
+    color: #EF5330;
+    border: 0px;
+}
+
+.cm-event-blurb {
+  border-style: solid;
+  border-width: 1px;
+  border-color: gray;
+  border-radius: 4px;
+  box-shadow: 1px 1px #ccc;
+  width: 100%;
+  background-color: white;
+}
+
+.center {
+    margin: 0 auto;
+    width: 80%;
 }
