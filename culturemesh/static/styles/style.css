@@ -39,9 +39,18 @@ body {
   width: 100%;
 }
 
+#stage-title{
+  color: white;
+  font-size:30px;
+  font-family: 'Lato-bold', sans-serif;
+  font-weight: 20;
+  letter-spacing:1px;
+  text-shadow: -1px 0 #6e6e6e, 0 1px #6e6e6e, 1px 0 #6e6e6e, 0 -1px #6e6e6e;
+  text-shadow: horizontal-offset vertical-offset blur #6e6e6e;
+}
+
 .usr-img {
   border-radius: 50%;
-
 }
 
 .btn-group button {
@@ -67,4 +76,9 @@ body {
     background-color: #EF5330;
     color: white; /* White text */
     border: 0px;
+}
+
+.center {
+    margin: 0 auto;
+    width: 80%;
 }

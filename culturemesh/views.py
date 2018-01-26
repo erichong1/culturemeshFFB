@@ -11,16 +11,13 @@ from .forms import SearchForm
 
 
 @app.route("/")
+@app.route("/index")
 def home():
 	return render_template('index.html')
 
 @app.route("/about")
 def about():
 	return render_template('about.html')
-
-@app.route("/base")
-def base():
-	return render_template('base.html')
 
 @app.route("/dashboard")
 def dashboard():
@@ -55,9 +52,11 @@ def render_search_page():
 	form = SearchForm()
 	return render_template('search.html', form=form)
 
-@app.route("/home")
+# TODO: add redirect /home -> /home/dashboard
+@app.route("/home/")
+@app.route("/home/dashboard/")
 def render_user_home():
-	return render_template('user_home.html')
+	return render_template('home_dashboard.html')
 
 ##################### Error handling #########################
 
