@@ -82,7 +82,13 @@ def render_user_home_events():
 
 	if user is None:
 		return page_not_found("")
-	return render_template('home_events.html', user=user)
+
+	events_hosting = c.get_user_events(user_id, "hosting", 5)
+	if events_hosting is None:
+		return page_not_found("")
+
+	return render_template('home_events.html', user=user, 
+		events_hosting=events_hosting)
 
 @app.route("/home/networks")
 def render_user_home_networks():

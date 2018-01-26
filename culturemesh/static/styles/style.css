@@ -49,6 +49,10 @@ body {
   border-radius: 50%;
 }
 
+.cm-profile-dashboard {
+  background-color: #f7f7f7;
+}
+
 .btn-group a {
   color: black; /* White text */
   padding: 10px 24px; /* Some padding */
@@ -69,6 +73,16 @@ body {
 #cm-button:active {
     color: #EF5330;
     border: 0px;
+}
+
+.cm-event-blurb {
+  border-style: solid;
+  border-width: 1px;
+  border-color: gray;
+  border-radius: 4px;
+  box-shadow: 1px 1px #ccc;
+  width: 100%;
+  background-color: white;
 }
 
 .center {
