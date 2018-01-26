@@ -8,50 +8,27 @@
         <img class="usr-image" src="//www.culturemesh.com/images/cm_logo_blank_profile_lrg.png#">
       </div>
       <span class="p-1">
-        <h3 id="cm-profile-name">Welcome, User</h3>
+        <h3 id="cm-profile-name">Welcome, {{ user['firstName'] }}</h3>
       </span>
     </div>
   </div>
 
-  <div class="row center cm-profile-dashboard">
+  <div class="row cm-profile-dashboard">
+    <div class="col-sm text-center">
       <div id="cm-dashboard-menu" class="btn-group btn-group-sm" role="group">
-        <button id="cm-button" type="button" class="btn btn-secondary">Dashboard</button>
-        <button id="cm-button" type="button" class="btn btn-secondary">Networks</button>
-        <button id="cm-button" type="button" class="btn btn-secondary">Events</button>
-        <button id="cm-button" type="button" class="btn btn-secondary">Account</button>
+        {% block dashboard_buttons %}
+          <a href="/home/dashboard?id=1" id="cm-button" type="button" class="selected-btn btn btn-secondary">Dashboard</a>
+          <a href="/home/networks?id=1" id="cm-button" type="button" class="btn btn-secondary">Networks</a>
+          <a href="/home/events?id=1" id="cm-button" type="button" class="btn btn-secondary">Events</a>
+          <a href="/home/account?id=1" id="cm-button" type="button" class="btn btn-secondary">Account</a>
+        {% endblock %}
       </div>
+    </div>
 
     {% block dashboard_content %}
       <div class="p-3 container">
-        <div class="py-1 row">
-          <div class="p-3 card text-center">
-            <p>Dashboard</p>
-          </div>
-        </div>
-
-      <div class="p-3 container">
-        <div class="py-1 row">
-          <div class="p-3 card text-center">
-            <p>Events</p>
-          </div>
-        </div>
+        Main dashboard
       </div>
-
-        <div class="p-3 container">
-        <div class="py-1 row">
-          <div class="p-3 card text-center">
-            <p>Networks</p>
-          </div>
-        </div>
-      </div>
-
-        <div class="p-3 container">
-        <div class="py-1 row">
-          <div class="p-3 card text-center">
-            <p>Account</p>
-          </div>
-        </div>
-    </div>
     {% endblock %}
 
   </div>
