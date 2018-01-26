@@ -85,6 +85,17 @@ body {
   background-color: white;
 }
 
+.cm-account-section {
+  border-top:    1px solid  #ff0;
+  border-right:  0px;
+  border-left:   0px;
+  border-width: 1px;
+  border-color: gray;
+  border-radius: 0px;
+  width: 100%;
+  background-color: white;
+}
+
 .center {
     margin: 0 auto;
     width: 80%;
