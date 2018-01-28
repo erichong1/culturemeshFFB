@@ -17,17 +17,28 @@
     <div class="col-sm text-center">
       <div id="cm-dashboard-menu" class="btn-group btn-group-sm" role="group">
         {% block dashboard_buttons %}
-          <a href="/home/dashboard?id=1" id="cm-button" type="button" class="selected-btn btn btn-secondary">Dashboard</a>
-          <a href="/home/networks?id=1" id="cm-button" type="button" class="btn btn-secondary">Networks</a>
-          <a href="/home/events?id=1" id="cm-button" type="button" class="btn btn-secondary">Events</a>
-          <a href="/home/account?id=1" id="cm-button" type="button" class="btn btn-secondary">Account</a>
+          <a href="/home/dashboard?id=5" id="cm-button" type="button" class="selected-btn btn btn-secondary">Dashboard</a>
+          <a href="/home/networks?id=5" id="cm-button" type="button" class="btn btn-secondary">Networks</a>
+          <a href="/home/events?id=5" id="cm-button" type="button" class="btn btn-secondary">Events</a>
+          <a href="/home/account?id=5" id="cm-button" type="button" class="btn btn-secondary">Account</a>
         {% endblock %}
       </div>
     </div>
 
     {% block dashboard_content %}
       <div class="p-3 container">
-        Main dashboard coming soon
+        <div class="p-3 text-center">
+          <h4>Events you're hosting</h2>
+            Coming soon!
+        </div>
+        <div class="p-3 text-center">
+          <h4>Upcoming events in your networks</h2>
+            Coming soon!
+        </div>
+        <div class="p-3 text-center">
+          <h4>Recent Posts</h2>
+            Coming soon!
+        </div>
       </div>
     {% endblock %}
 

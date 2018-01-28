@@ -1,7 +1,109 @@
 {% extends "home_dashboard.html" %}
+{% from 'forms.html' import input as input_field %}
 
   {% block dashboard_content %}
-    <div class="p-3 container">
-      Coming soon!
+    <div class="p-4 container-fluid">
+      <div class="cm-account-section">
+
+        <div class="row p-3">
+          <div class="col text-center">
+            <i id="cm-icon" class="fas fa-cog fa-3x"></i>
+          </div>
+          <div class="col-8 my-auto">
+            <h4>Edit Profile</h4>
+          </div>
+        </div>
+
+        <div class="row px-5 py-3">
+          <form>
+            First name:<br>
+            {{ input_field('firstname', value='Mickey', class='p-2') }}
+            Last name:<br>
+            {{ input_field('lastname', value='Mouse', class='p-2') }}
+            About me:<br>
+            {{ input_field('about', placeholder='About me', class='p-2') }}
+            <br><br>
+            <input type="submit" value="Update" class="cm-submit-btn">
+          </form> 
+        </div>
+
+        <div class="row px-5 py-3">
+          <h5 class="p-3">Change Password</h5>
+          <form>
+            <input type="text" name="curr-pass" placeholder="Current Password" class="p-2">
+            <input type="text" name="new-pass" placeholder="New Password" class="p-2">
+            <input type="text" name="confirm-pass" placeholder="Confirm New Password" class="p-2">
+            <br><br>
+            <input type="submit" value="Change" class="cm-submit-btn">
+          </form> 
+        </div>
+
+        <div class="row px-5 py-3">
+          <h5 class="p-3">Update Profile Picture</h5>
+          <form>
+              Select image to upload:
+              <input type="file" name="fileToUpload" id="fileToUpload" class="p-4">
+              <input type="submit" value="Update Image" name="submit" class="cm-submit-btn">
+          </form>
+        </div>
+
+      </div>
+
+
+      <div class="cm-account-section">
+        <div class="row p-3">
+          <div class="col text-center">
+            <i id="cm-icon" class="far fa-bell fa-3x"></i>
+          </div>
+          <div class="col-8 my-auto">
+            <h4>Set Notifications</h4>
+          </div>
+        </div>
+
+          <span class="px-3">Send me emails when:</span>
+
+          <form class="p-3">
+            <div class="row">
+              <div class="col-2">
+                <input type="checkbox" name="opt1" value="events-near-me-notif">
+              </div>
+              <div class="col">
+                CultureMesh finds events near me
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-2">
+                <input type="checkbox" name="opt2" value="company-news-notif">
+              </div>
+              <div class="col">
+                CultureMesh has fun company news
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-2">
+                <input type="checkbox" name="opt3" value="upcoming-event-notif">
+              </div>
+              <div class="col">
+                I have an upcoming event
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-2">
+                <input type="checkbox" name="opt4" value="comment-notif">
+              </div>
+              <div class="col">
+                I have received comments to a network event I added
+              </div>
+            </div>
+
+            <br>
+            <input type="submit" value="Update Notifications" name="submit" class="cm-submit-btn">
+          </form>
+
+      </div>
+
     </div>
   {% endblock %}

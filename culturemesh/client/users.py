@@ -34,17 +34,23 @@ def get_user(client, userId):
 	url = '/user/%s' % str(userId)
 	return client._request(url, Request.GET)
 
-def get_user_networks(client, userId):
+def get_user_networks(client, user_id, count, max_register_date=None):
 	"""
 	:param client: the CultureMesh API client
-	:param userId: The id of the user to return a list of networks for.
+	:param user_id: The id of the user to return a list of networks for.
+	:param count: the number of results to return
+	:param max_register_date: the maximum network register date, inclusive, 
+														to return networks for.
 
 	Returns list of network JSONs to which USER_ID belongs.
 	"""
 	url = '/user/%s/networks' % str(user_id)
-	return client._request(url, Request.GET)
+	query_params = {'count': count}
+	if max_register_date is not None:
+		query_params['max_register_date'] = max_register_date
+	return client._request(url, Request.GET, query_params=query_params)
 
-def get_user_posts(client, userId, count, max_id=None):
+def get_user_posts(client, user_id, count, max_id=None):
 	"""
 	:param client: the CultureMesh API client
 	:param userId: user ID to return posts for
@@ -54,13 +60,13 @@ def get_user_posts(client, userId, count, max_id=None):
 	Returns list of post JSONs authored by USER_ID,
 	sorted in reverse order by id.
 	"""
-	url = '/user/%s/posts' % str(userId)
+	url = '/user/%s/posts' % str(user_id)
 	query_params = {'count': count}
 	if max_id is not None:
 		query_params['max_id'] = max_id
 	return client._request(url, Request.GET, query_params=query_params)
 
-def get_user_events(client, userId, role, count, max_id=None):
+def get_user_events(client, user_id, role, count, max_id=None):
 	"""
 	:param client: the CultureMesh API client
 	:param userId: The id of the user to return events for.
@@ -69,7 +75,7 @@ def get_user_events(client, userId, role, count, max_id=None):
 	Returns list of events related to USER_ID, according to ROLE.
 	"""
 	query_params = {'role': role, 'count': count}
-	url = '/user/%s/events' % str(userId)
+	url = '/user/%s/events' % str(user_id)
 	if max_id is not None:
 		query_params['max_id'] = max_id
 	return client._request(url, Request.GET, query_params=query_params)
