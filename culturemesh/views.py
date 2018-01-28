@@ -83,6 +83,7 @@ def render_user_home_events():
 	if user is None:
 		return page_not_found("")
 
+	# TODO: incorporate paging into the events hosting API call
 	events_hosting = c.get_user_events(user_id, "hosting", 5)
 	if events_hosting is None:
 		return page_not_found("")
@@ -98,7 +99,11 @@ def render_user_home_networks():
 
 	if user is None:
 		return page_not_found("")
-	return render_template('home_networks.html', user=user)
+
+	# TODO: incorporate paging into the user networks call. 
+	user_networks = c.get_user_networks(user_id, count=5)
+	return render_template('home_networks.html', user=user,
+		user_networks=user_networks)
 
 ##################### Error handling #########################
 
