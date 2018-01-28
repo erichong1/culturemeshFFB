@@ -83,7 +83,7 @@ body {
 .cm-event-blurb {
   border-style: solid;
   border-width: 1px;
-  border-color: gray;
+  border-color: #CBCBCB;
   border-radius: 4px;
   box-shadow: 1px 1px #ccc;
   width: 100%;

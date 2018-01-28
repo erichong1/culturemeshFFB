@@ -102,6 +102,7 @@ def render_user_home_networks():
 
 	# TODO: incorporate paging into the user networks call. 
 	user_networks = c.get_user_networks(user_id, count=5)
+	# TODO: construct network titles
 	return render_template('home_networks.html', user=user,
 		user_networks=user_networks)
 
