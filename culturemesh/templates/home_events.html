@@ -1,0 +1,29 @@
+{% extends "home_dashboard.html" %}
+
+  {% block dashboard_content %}
+  <div class="container-fluid">
+    <div class="p-3 text-center">
+      <h4>Events you're hosting</h2>
+        {% if events_hosting|length == 0 %}
+            You are not hosting an events!
+        {% else %}
+            {% for event in events_hosting %}
+              <div class="py-1 row">
+                <div class="p-2 cm-event-blurb">
+                  <div class="text-center">
+                    Title: {{ event['title'] }} <br>
+                    Date: {{ event['event_date'] }} <br>
+                    Location: {{ event['location']|reverse|join(', ') }} <br>
+                  </div>
+                </div>
+              </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+
+    <div class="p-3 text-center">
+      <h4>Events you're attending</h2>
+        Coming soon!
+    </div>
+  </div>
+  {% endblock %}

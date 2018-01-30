@@ -8,39 +8,55 @@
       <meta name="description" content="Welcome to CultureMesh - Connecting the world's diasporas!" />
       <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
       <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/bootstrap.css') }}">
+      <link rel=stylesheet type=text/css href="{{ url_for('static', filename='styles/style.css') }}">
+      <link rel="stylesheet" href="{{ url_for('static', filename='fonts/font-awesome/css/fontawesome-all.min.css') }}">
     {% endblock %}
   </head>
 
   <body>
-    <div id="header" class="container-fluid">
+
+    <!-- Content Starts Here -->
+
+    <div class="wrapper container-fluid">
+      
       {% block header %}
+      <div id="cm-header" class="row">
+          <div class="p-3 col-8">
+              <a href="/">
+                <img id="cm-top-logo" src="//www.culturemesh.com/images/logo_header.png"/>
+              </a>
+          </div>
+
+          <div class="p-3 col-4 text-center">
+              <a href="/search">
+                <i id="cm-icon" class="mt-1 p-1 fas fa-search fa-lg"></i>
+              </a>
+              <a href="/home?id=5">
+                <i id="cm-icon" class="mt-1 p-1 fas fa-home fa-lg"></i>
+              </a>
+          </div>
+      </div>
+      {% endblock %}
+
+       {% block content %}
         <div class="row">
-          <a href="/">
-            <img src="https://www.culturemesh.com/images/logo_header.png" id="logo" class="p-3 rounded mx-auto d-block"/>
-          </a>
+          <div class="container-fluid">
+            <h1 class="text-center">Hello, I am base</h1>
+          </div>
         </div>
       {% endblock %}
-    </header>
 
-    <div id="content" class="container-fluid">
-     {% block content %}
-      <div class="row">
-        <div class="container-fluid">
-          <h1 class="text-center">Hello, I am base</h1>
-        </div>
-      </div>
-      {% endblock %}
-    </div>
-
-    <footer id="footer" class="page-footer container-fluid">
-      <div class="navbar navbar-fixed-bottom">
       {% block footer %}
-        <p class="text-center">
-          &copy; Copyright 2018 by <a href="/about">CultureMesh</a>.
-        </p>
-      {% endblock %}
+      <div id="cm-footer" class="page-footer container-fluid">
+        <div class="navbar navbar-fixed-bottom">
+          <p class="text-center">
+            &copy; Copyright 2018 by <a href="/about">CultureMesh</a>
+          </p>
+        </div>
       </div>
-    </footer>
+      {% endblock %}
+
+    </div>
 
   </body>
 </html>

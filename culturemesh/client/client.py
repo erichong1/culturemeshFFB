@@ -172,6 +172,9 @@ class Client(object):
 						raise NotImplementedError("Currently, can only get events a user is hosting.")
 					return self._mock_get_user_events_hosting(int(path[2]), query_params)
 
+				elif path[3] == "networks":
+					return self._mock_get_user_networks(int(path[2]), query_params)
+
 			elif path[1] == "post":
 				if path[3] == "replies":
 					return self._mock_get_post_replies(int(path[2]), query_params)
@@ -248,11 +251,49 @@ class Client(object):
 				if u['user_id'] == user_id:
 					return u
 
-	def _mock_get_user_networks(self, user_id):
+	def _mock_get_user_networks(self, user_id, query_params):
 		"""
-		Returns mock list of networks a user belongs to.
+		Returns mock list of networks a user belongs to. Returns the most recently
+		joined networks first.
 		"""
-		raise NotImplementedError
+		self._mock_ensure_count(query_params)
+		count = query_params['count']
+		with open(NET_REGISTRATION_LOC) as network_reg:
+			user_network_regs = []
+			network_reg = json.load(network_reg)
+			for n_reg in network_reg:
+				if n_reg['id_user'] == user_id:
+					user_network_regs.append(n_reg)
+
+			if len(user_network_regs) == 0:
+				return []
+
+			# Sort in reverse join-date order, i.e. latest joins go first
+			user_network_regs = sorted(user_network_regs,
+																	key=lambda x: self._mock_str_to_date(x['join_date']), 
+																	reverse=True)
+
+			max_date = self._mock_str_to_date(user_network_regs[0]['join_date'])
+			if 'max_register_date' in query_params:
+				max_date = self._mock_str_to_date(query_params['max_register_date'])
+
+			# Construct the id's of the networks according to pagination
+			network_ids = []
+			for n in user_network_regs:
+				if count == 0:
+					break
+
+				if self._mock_str_to_date(n['join_date']) <= max_date:
+					network_ids.append(n['id_network'])
+					count -= 1
+			
+			# Fetch the network objects
+			networks = []
+			for network_id in network_ids:
+				network = self._mock_get_network(network_id)
+				if network is not None:
+					networks.append(network)
+			return networks
 
 	def _mock_get_user_posts(self, user_id, query_params):
 		self._mock_ensure_count(query_params)
@@ -346,7 +387,6 @@ class Client(object):
 		with open(NETWORK_DATA_LOC) as networks:
 			networks = json.load(networks)
 			for n in networks:
-				print(n)
 				if n['id'] == network_id:
 					return n
 
