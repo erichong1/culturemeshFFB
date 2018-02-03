@@ -49,8 +49,14 @@ def login():
 
 @app.route("/search", methods=['GET', 'POST'])
 def render_search_page():
-	form = SearchForm()
-	return render_template('search.html', form=form)
+	if request.method == 'POST':
+		c = Client(mock=True)
+		data = request.form
+		networks = c.get_networks(10, max_id=None) # filter_=data)
+		return render_template('search_results.html', networks=networks)
+	else:
+		form = SearchForm()
+		return render_template('search.html', form=form)
 
 @app.route("/network")
 def network():
