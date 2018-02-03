@@ -61,6 +61,9 @@ def network():
 	except ValueError:
 		return render_template('404.html')
 	network = c.get_network(network_id)
+	posts = c.get_network_posts(network_id, 10)
+	events = c.get_network_events(network_id, 10)
+	users = c.get_network_events(network_id, 10)
 	if not network:
 		return render_template('404.html')
 
@@ -69,20 +72,23 @@ def network():
 	# what unspecified region IDs will look like in  API calls.
 
 	network_info = {}
+	network_info['posts'] = posts
+	network_info['events'] = events
+	network_info['users'] = users
 	cur_country = c.get_country(network['location_cur']['country_id'])
 	cur_region = c.get_region(network['location_cur']['region_id'])
 	cur_city = c.get_city(network['location_cur']['city_id'])
 
 	if network['network_class'] == 0:
 		language = network['language_origin']['name']
-		title = "%s speakers in %s, %s, %s" % (language, cur_city['name'], cur_region['name'], cur_country['name'])
-		network_info['title'] = title
+		network_title = "%s speakers in %s, %s, %s" % tuple(map(lambda x: x.title(), [language, cur_city['name'], cur_region['name'], cur_country['name']]))
+		network_info['network_title'] = network_title
 	elif network['network_class'] == 1:
 		orig_country = c.get_country(network['location_origin']['country_id'])
 		orig_region = c.get_region(network['location_origin']['region_id'])
 		orig_city = c.get_city(network['location_origin']['city_id'])
-		title = 'From %s, %s, %s in %s, %s, %s' % (orig_city['name'], orig_region['name'], orig_country['name'], cur_city['name'], cur_region['name'], cur_country['name'])
-		network_info['title'] = title
+		network_title = 'From %s, %s, %s in %s, %s, %s' % tuple(map(lambda x: x.title(), [orig_city['name'], orig_region['name'], orig_country['name'], cur_city['name'], cur_region['name'], cur_country['name']]))
+		network_info['network_title'] = network_title
 
 	return render_template('network.html', network_info=network_info)
 
