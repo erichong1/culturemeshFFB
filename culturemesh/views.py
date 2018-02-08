@@ -64,6 +64,21 @@ def render_user_home():
 
 	return render_template('home_dashboard.html', user=user)
 
+@app.route("/post")
+def render_post():
+	fake_post = {
+	    "user_id": 3,
+	    "post_text": "Minus cumque corrupti porro natus tenetur delectus illum. Amet aut molestias eaque autem ea odio.\nAsperiores sed officia. Similique accusantium facilis sed. Eligendi tempora nisi sint tempora incidunt perferendis.",
+	    "network_id": 1,
+	    "img_link": "https://www.lorempixel.com/556/586",
+	    "vid_link": "https://dummyimage.com/909x765",
+	    "post_date": "2017-02-01 05:49:35",
+	    "post_class": 0,
+	    "id": 2,
+	    "post_original": "Not sure what this field is"
+	  }
+	return render_template('post.html', post=fake_post)
+
 @app.route("/home/account")
 def render_user_home_account():
 	user_id = int(request.args.get('id'))
@@ -88,7 +103,7 @@ def render_user_home_events():
 	if events_hosting is None:
 		return page_not_found("")
 
-	return render_template('home_events.html', user=user, 
+	return render_template('home_events.html', user=user,
 		events_hosting=events_hosting)
 
 @app.route("/home/networks")
@@ -100,7 +115,7 @@ def render_user_home_networks():
 	if user is None:
 		return page_not_found("")
 
-	# TODO: incorporate paging into the user networks call. 
+	# TODO: incorporate paging into the user networks call.
 	user_networks = c.get_user_networks(user_id, count=5)
 	# TODO: construct network titles
 	return render_template('home_networks.html', user=user,

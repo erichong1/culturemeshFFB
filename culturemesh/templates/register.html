@@ -2,139 +2,39 @@
 	<title>CultureMesh</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <!-- <link rel="stylesheet" href="css/register.css"/> -->
+	<link rel=stylesheet type=text/css href="{{ url_for('static', filename='styles/style.css') }}">
 </head>
-<style>
-body {
-	background-color: #3c3c3c;
-  margin: 0px 0px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: stretch;
-  height: 100%;
-  width: 100%;
-  font-family: sans-serif;
-  font-size: 14px;
-  color: white;
-	overflow: scroll;
-}
-
-.logo-section {
-  flex: 1;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-}
-
-.signin-section {
-	background-color: white;
-	padding: 30px 30px 0px 30px;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: stretch;
-  flex: 1;
-}
-
-.signin-prompt {
-	display: flex;
-	flex-direction: row;
-	justify-content: center;
-	align-items: center;
-	color: grey;
-}
-
-.input-field {
-	background-color: #efefef;
-	border: 1px solid #ccc;
-  padding: 10px 15px 10px 15px;
-  font-size: 15px;
-  color: black;
-	width: 100%;
-	align-self: stretch;
-}
-
-.box-button {
-  text-decoration: none;
-  cursor: pointer;
-  display: inline-block;
-  text-align: center;
-	padding: 15px;
-  background-color: #dd5935;
-	color: white;
-	border: none;
-}
-
-.signup-section {
-	padding: 30px;
-	background-color: white;
-  flex: .6;
-	display: flex;
-	flex-direction: column;
-	justify-content: space-around;
-	align-items: stretch;
-}
-
-.or-prompt {
-	align-self: center;
-	color: grey;
-}
-
-.text-button {
-	text-decoration: none;
-  border: none;
-  background: none;
-  color: white;
-  cursor: pointer;
-	color: grey;
-}
-
-#signinfb-button {
-	background-color: #3c3c3c;
-}
-
-.form-style {
-	background-color: #3c3c3c;
-	margin: 0px 0px;
-	display: flex;
-	flex-direction: column;
-	justify-content: space-around;
-	align-items: stretch;
-	height: 100%;
-	width: 100%;
-}
-
-</style>
 <body>
-	<form class="form-style" method="POST">
-	<div class="logo-section">
-		<img src="https://www.culturemesh.com/images/logo_header.png" id="logo"/>
-	</div>
-	<div class="signin-section">
-		<form id="name-form">
-			<input type="text" class="input-field" id="name" placeholder="Name"></input>
-		</form>
-		<form id="email-form">
-			<input type="text" class="input-field" id="email" placeholder="Email"></input>
-		</form>
-		<form id="password-form">
-			<input type="text" class="input-field" id="password" placeholder="Password"></input>
-		</form>
-		<form id="confirm-password-form">
-			<input type="text" class="input-field" id="confirm-password" placeholder="Confirm Password"></input>
-		</form>
-	</div>
-	<div class="signup-section">
-		<input type="submit" class="box-button" id="signup-button" value="SIGN UP">
-		</input>
-		<div class="or-prompt">
-			or
+	<div class="cm-register-body">
+		<form class="cm-form-style" method="POST">
+		<div class="cm-logo-section">
+			<img src="https://www.culturemesh.com/images/logo_header.png" id="logo"/>
 		</div>
-		<input type="submit" class="box-button" id="signinfb-button" value="SIGN IN WITH FACEBOOK">
-		</input>
-		<input type="submit" class="text-button" id="signin-button" value="Already registered? Please Sign In.">
-		</input>
+		<div class="cm-signin-section">
+			<form id="name-form">
+				<input type="text" class="cm-input-field" id="name" placeholder="Name"></input>
+			</form>
+			<form id="email-form">
+				<input type="text" class="cm-input-field" id="email" placeholder="Email"></input>
+			</form>
+			<form id="password-form">
+				<input type="text" class="cm-input-field" id="password" placeholder="Password"></input>
+			</form>
+			<form id="confirm-password-form">
+				<input type="text" class="cm-input-field" id="confirm-password" placeholder="Confirm Password"></input>
+			</form>
+		</div>
+		<div class="cm-register-signup-section">
+			<input type="submit" class="cm-box-button" id="signup-button" value="SIGN UP">
+			</input>
+			<div class="cm-or-prompt">
+				or
+			</div>
+			<input type="submit" class="cm-box-button" id="cm-signinfb-button" value="SIGN IN WITH FACEBOOK">
+			</input>
+			<input type="submit" class="cm-register-text-button" id="signin-button" value="Already registered? Please Sign In.">
+			</input>
+		</div>
+		</form>
 	</div>
-</form>
 </body>
