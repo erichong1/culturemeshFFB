@@ -113,3 +113,143 @@ body {
     margin: 0 auto;
     width: 80%;
 }
+
+/*
+ * Styling for login and register pages.
+ */
+
+.cm-login-body {
+  background-color: #3c3c3c;
+  margin: 0px 0px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: stretch;
+  height: 100%;
+  width: 100%;
+  font-family: sans-serif;
+  font-size: 14px;
+  overflow: scroll;
+}
+
+.cm-logo-section {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.cm-signin-section {
+  margin: 0px 30px 0px 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: stretch;
+  flex: 1;
+}
+
+.cm-signin-prompt {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  color: grey;
+}
+
+.cm-input-field {
+  padding: 10px 15px 10px 15px;
+  font-size: 15px;
+  color: black;
+  width: 100%;
+  align-self: stretch;
+}
+
+.cm-box-button {
+  text-decoration: none;
+  cursor: pointer;
+  display: inline-block;
+  text-align: center;
+  padding: 15px;
+  background-color: #dd5935;
+  color: white;
+  border: none;
+}
+
+.cm-signup-section {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.cm-account-prompt {
+  color: grey;
+}
+
+.cm-text-button {
+  margin-top: 30px;
+  text-decoration: none;
+  border: none;
+  background: none;
+  color: white;
+  cursor: pointer;
+}
+
+.cm-text-button:hover {
+  text-decoration: underline;
+}
+
+.cm-register-body {
+	background-color: #3c3c3c;
+  margin: 0px 0px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: stretch;
+  height: 100%;
+  width: 100%;
+  font-family: sans-serif;
+  font-size: 14px;
+  color: white;
+	overflow: scroll;
+}
+
+.cm-register-signup-section {
+	padding: 30px;
+	background-color: #3c3c3c;
+  flex: .6;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
+	align-items: stretch;
+}
+
+.cm-or-prompt {
+	align-self: center;
+	color: grey;
+}
+
+.cm-register-text-button {
+	text-decoration: none;
+  border: none;
+  background: none;
+  color: white;
+  cursor: pointer;
+	color: grey;
+}
+
+#cm-signinfb-button {
+	background-color: #3c3c3c;
+}
+
+.cm-form-style {
+	background-color: #3c3c3c;
+	margin: 0px 0px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
+	align-items: stretch;
+	height: 100%;
+	width: 100%;
+}
