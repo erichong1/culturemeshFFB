@@ -1,61 +1,65 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="p-3 container-fluid">
-  <h3 class="text-center">{{ network_info['network_title'] }}</h4>
 
-  <div class="p-3 row">
-    <p class="font-italic text-center">Number of users and posts and events will go here!</p>
-  <div>
-
-  <h5 class="text-center">Posts</h5>
-  <div class="p-3 container">
-    <div class="py-1 row">
-      {% for post in network_info['posts'] %}
-      <div class="p-3 card">
-        <div class="text-center card-body">
-          <p>{{ post }}</p>
-        </div>
-      </div>
-      {% endfor %}
+<div id="cm-profile-card" class="row">
+  <div class="center text-center">
+    <div id="cm-profile-image" class="pt-4">
+      <img class="usr-image" src="//www.culturemesh.com/images/cm_logo_blank_profile_lrg.png#">
     </div>
+    <span class="p-1">
+      <h3 id="cm-profile-name">{{ network_info['network_title']}}</h3>
+    </span>
+  </div>
+</div>
 
-    <div class="py-1 row">
-      <div class="p-3 card">
-        <div class="text-center card-body">
-          More posts!
-        </div>
-      </div>
-    </div>
 
-    <h5 class="text-center">Events</h5>
-    <div class="py-1 row">
-      {% for event in network_info['events'] %}
-      <div class="p-3 card">
-        <div class="text-center card-body">
-          <p>{{ event }}</p>
-        </div>
-      </div>
-      {% endfor %}
-    </div>
+<div class="container-fluid">
 
-    <div class="py-1 row">
-      <div class="p-3 card">
-        <div class="text-center card-body">
-          More events!
-        </div>
+  <div class="p-3 text-center">
+    <h4>Posts</h4>
+  </div>
+
+  {% for post in network_info['posts'] %}
+  <div class="py-1 row">
+    <div class="p-2 cm-event-blurb">
+      <div class="text-center">
+        User ID: {{ post['user_id'] }} <br />
+        Post Text: {{ post['post_text']}} <br />
       </div>
     </div>
+  </div>
+  {% endfor %}
 
-    <h5 class="text-center">Users</h5>
-    <div class="py-1 row">
-      {% for user in network_info['users'] %}
-      <div class="p-3 card">
-        <div class="text-center card-body">
-          <p>{{ user }}</p>
-        </div>
+  <div class="py-1 row">
+    <div class="p-2 cm-event-blurb">
+      <div class="text-center">
+        More posts!
       </div>
-      {% endfor %}
+    </div>
+  </div>
+
+  <div class="p-3 text-center">
+    <h4>Events</h4>
+  </div>
+
+  {% for event in network_info['events'] %}
+  <div class="py-1 row">
+    <div class="p-2 cm-event-blurb">
+      <div class="text-center">
+        Title: {{ event['title'] }} <br />
+        Date: {{ event['event_date'] }} <br />
+        Location: {{ event['location']|reverse|join(', ') }} <br />
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+
+  <div class="py-1 row">
+    <div class="p-2 cm-event-blurb">
+      <div class="text-center">
+        More events!
+      </div>
     </div>
   </div>
 </div>

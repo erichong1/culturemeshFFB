@@ -69,7 +69,6 @@ def network():
 	network = c.get_network(network_id)
 	posts = c.get_network_posts(network_id, 10)
 	events = c.get_network_events(network_id, 10)
-	users = c.get_network_events(network_id, 10)
 	if not network:
 		return render_template('404.html')
 
@@ -80,7 +79,6 @@ def network():
 	network_info = {}
 	network_info['posts'] = posts
 	network_info['events'] = events
-	network_info['users'] = users
 	cur_country = c.get_country(network['location_cur']['country_id'])
 	cur_region = c.get_region(network['location_cur']['region_id'])
 	cur_city = c.get_city(network['location_cur']['city_id'])
