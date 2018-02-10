@@ -2,32 +2,33 @@
 	<title>CultureMesh</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/login.css') }}">
-  <!-- <link rel="stylesheet" href="css/register.css"/> -->
+  <link rel=stylesheet type=text/css href="{{ url_for('static', filename='styles/style.css') }}">
 </head>
 
 <body>
-	<div class="logo-section">
-		<img src="https://www.culturemesh.com/images/logo_header.png" id="logo"/>
-	</div>
-	<div class="signin-section">
-		<div class="signin-prompt">
-			Sign in, please
+	<div class="cm-login-body">
+		<div class="cm-logo-section">
+			<img src="https://www.culturemesh.com/images/logo_header.png"/>
 		</div>
-		<form id="username-form">
-			<input type="text" class="input-field" id="username" placeholder="Email"></input>
-		</form>
-		<form id="password-form">
-			<input type="text" class="input-field" id="password" placeholder="Password"></input>
-		</form>
-		<input type="submit" class="box-button" id="signin-button" value="SIGN IN">
-    </input>
-	</div>
-	<div class="signup-section">
-		<div class="account-prompt">
-			Need an account?
+		<div class="cm-signin-section">
+			<div class="cm-signin-prompt">
+				Sign in, please
+			</div>
+			<form id="cm-username-form">
+				<input type="text" class="cm-input-field" id="username" placeholder="Email"></input>
+			</form>
+			<form id="cm-password-form">
+				<input type="text" class="cm-input-field" id="password" placeholder="Password"></input>
+			</form>
+			<input type="submit" class="cm-box-button" id="signin-button" value="SIGN IN">
+	    </input>
 		</div>
-		<input type="submit" class="text-button" id="signup-button" value="SIGN UP">
-		</input>
+		<div class="cm-signup-section">
+			<div class="cm-account-prompt">
+				Need an account?
+			</div>
+			<input type="submit" class="cm-text-button" id="signup-button" value="SIGN UP">
+			</input>
+		</div>
 	</div>
 </body>
