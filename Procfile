@@ -1,1 +1,1 @@
-web: gunicorn culturemesh:run
+web: gunicorn run:app
