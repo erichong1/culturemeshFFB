@@ -13,7 +13,7 @@ from .forms import SearchForm
 @app.route("/")
 @app.route("/index")
 def home():
-	return render_template('index.html', x=app.root_path)
+	return render_template('index.html')
 
 @app.route("/about")
 def about():
