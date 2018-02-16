@@ -15,22 +15,23 @@ import os
 import json
 import datetime
 import config
+from culturemesh import app
 
 from urllib.parse import urlparse
 from enum import IntEnum
 
 # Relative from app.root_path
-USER_DATA_LOC = "../data/mock/db_mock_users.json"
-POST_DATA_LOC = "../data/mock/db_mock_posts.json"
-POST_REPLY_DATA_LOC = "../data/mock/db_mock_post_replies.json"
-EVENT_DATA_LOC = "../data/mock/db_mock_events.json"
-EVENT_REGISTRATION_LOC = "../data/mock/db_mock_event_registration.json"
-NET_REGISTRATION_LOC = "../data/mock/db_mock_network_registration.json"
-NETWORK_DATA_LOC = "../data/mock/db_mock_networks.json"
-LANG_DATA_LOC = "../data/mock/db_mock_languages.json"
-CITY_DATA_LOC = "../data/mock/db_mock_location_cities.json"
-REGION_DATA_LOC = "../data/mock/db_mock_location_regions.json"
-COUNTRY_DATA_LOC = "../data/mock/db_mock_location_countries.json"
+USER_DATA_LOC = os.path.join(app.root_path, "../data/mock/db_mock_users.json")
+POST_DATA_LOC = os.path.join(app.root_path, "../data/mock/db_mock_posts.json")
+POST_REPLY_DATA_LOC = os.path.join(app.root_path, "../data/mock/db_mock_post_replies.json")
+EVENT_DATA_LOC = os.path.join(app.root_path, "../data/mock/db_mock_events.json")
+EVENT_REGISTRATION_LOC = os.path.join(app.root_path, "../data/mock/db_mock_event_registration.json")
+NET_REGISTRATION_LOC = os.path.join(app.root_path, "../data/mock/db_mock_network_registration.json")
+NETWORK_DATA_LOC = os.path.join(app.root_path, "../data/mock/db_mock_networks.json")
+LANG_DATA_LOC = os.path.join(app.root_path, "../data/mock/db_mock_languages.json")
+CITY_DATA_LOC = os.path.join(app.root_path, "../data/mock/db_mock_location_cities.json")
+REGION_DATA_LOC = os.path.join(app.root_path, "../data/mock/db_mock_location_regions.json")
+COUNTRY_DATA_LOC = os.path.join(app.root_path, "../data/mock/db_mock_location_countries.json")
 
 DATETIME_FMT_STR = "%Y-%m-%d %H:%M:%S"
 
