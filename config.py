@@ -7,12 +7,4 @@
 
 DEBUG_PORT=8080
 DEBUG_ADDR='127.0.0.1'
-ROOT_PATH=""
-
-from culturemesh import app
-
-def init():
-  global ROOT_PATH
-  ROOT_PATH = app.root_path
-
-
+DATETIME_FMT_STR = "%Y-%m-%d %H:%M:%S"

@@ -7,3 +7,7 @@ class SearchForm(FlaskForm):
     language = StringField('Or speaking', validators=[])
     residence = StringField('And living in', validators=[DataRequired()])
     submit = SubmitField('Search Networks')
+
+class LoginForm(FlaskForm):
+    user_id = StringField('User ID', validators=[])
+    submit = SubmitField('Login')

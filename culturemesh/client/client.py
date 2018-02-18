@@ -33,8 +33,6 @@ CITY_DATA_LOC = os.path.join(app.root_path, "../data/mock/db_mock_location_citie
 REGION_DATA_LOC = os.path.join(app.root_path, "../data/mock/db_mock_location_regions.json")
 COUNTRY_DATA_LOC = os.path.join(app.root_path, "../data/mock/db_mock_location_countries.json")
 
-DATETIME_FMT_STR = "%Y-%m-%d %H:%M:%S"
-
 class Request(IntEnum):
 	GET = 1
 	POST = 2
@@ -53,8 +51,6 @@ class Client(object):
 
 		# TODO: insert client initialization here.
 		self.mock = mock
-		if mock:
-			self._init_mock_data()
 
 		# See: http://docs.python-requests.org/en/master/user/advanced/
 		#	  not used yet.
@@ -83,31 +79,6 @@ class Client(object):
 		return response.json()
 
 	########################### MOCK DATA METHODS BELOW ##########################
-
-	def _init_mock_data(self):
-		global USER_DATA_LOC
-		global POST_DATA_LOC
-		global POST_REPLY_DATA_LOC
-		global EVENT_DATA_LOC
-		global EVENT_REGISTRATION_LOC
-		global NET_REGISTRATION_LOC
-		global NETWORK_DATA_LOC
-		global LANG_DATA_LOC
-		global CITY_DATA_LOC
-		global REGION_DATA_LOC
-		global COUNTRY_DATA_LOC
-
-		USER_DATA_LOC = os.path.join(config.ROOT_PATH, USER_DATA_LOC)
-		POST_DATA_LOC = os.path.join(config.ROOT_PATH, POST_DATA_LOC)
-		POST_REPLY_DATA_LOC = os.path.join(config.ROOT_PATH, POST_REPLY_DATA_LOC)
-		EVENT_DATA_LOC = os.path.join(config.ROOT_PATH, EVENT_DATA_LOC)
-		EVENT_REGISTRATION_LOC = os.path.join(config.ROOT_PATH, EVENT_REGISTRATION_LOC)
-		NET_REGISTRATION_LOC = os.path.join(config.ROOT_PATH, NET_REGISTRATION_LOC)
-		NETWORK_DATA_LOC = os.path.join(config.ROOT_PATH, NETWORK_DATA_LOC)
-		LANG_DATA_LOC = os.path.join(config.ROOT_PATH, LANG_DATA_LOC)
-		CITY_DATA_LOC = os.path.join(config.ROOT_PATH, CITY_DATA_LOC)
-		REGION_DATA_LOC = os.path.join(config.ROOT_PATH, REGION_DATA_LOC)
-		COUNTRY_DATA_LOC = os.path.join(config.ROOT_PATH, COUNTRY_DATA_LOC)
 
 	def _mock_request(self, url, query_params, body_params):
 		"""
@@ -216,7 +187,7 @@ class Client(object):
 		raise NotImplementedError("Sorry.  Can't get that mock data yet!")
 
 	def _mock_str_to_date(self, str_):
-		return datetime.datetime.strptime(str_, DATETIME_FMT_STR)
+		return datetime.datetime.strptime(str_, config.DATETIME_FMT_STR)
 
 	def _mock_ensure_count(self, query_params):
 		if 'count' not in query_params:

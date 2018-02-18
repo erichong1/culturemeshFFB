@@ -80,6 +80,11 @@ body {
     display: table;
 }
 
+.cm-copyright {
+  font-size: small;
+  border-top: 1px solid #ccc;
+}
+
 .cm-event-blurb {
   border-style: solid;
   border-width: 1px;

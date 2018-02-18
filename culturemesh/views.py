@@ -1,13 +1,17 @@
 from flask import render_template, request
 from culturemesh import app
+from culturemesh import login_manager
 from culturemesh.client import Client
 
-import hashlib
 import http.client as httplib
 import requests
 import config
+import flask_login
+from flask_login import current_user
+import flask
 
-from .forms import SearchForm
+from .forms import SearchForm, LoginForm
+from .models import User
 
 
 @app.route("/")
@@ -19,13 +23,12 @@ def home():
 def about():
 	return render_template('about.html')
 
-@app.route("/dashboard")
-def dashboard():
-	return render_template('dashboard.html')
-
 @app.route("/register")
 def render_register_page():
-	return render_template('register.html')
+	if current_user and current_user.is_authenticated:
+		return page_not_found("")
+	else:
+		return render_template('register.html')
 
 #TODO: make this work?
 @app.route("/register", methods=['POST'])
@@ -41,11 +44,46 @@ def register():
 def render_login_page():
 	return render_template('login.html')
 
-@app.route("/login", methods=['GET', 'POST'])
+@app.route('/login_dummy', methods=['GET', 'POST'])
 def login():
-	email = request.form["email"]
-	password = request.form["password"]
-	return "Email: " + email + " Password: " + password
+    # Here we use a class of some kind to represent and validate our
+    # client-side form data. For example, WTForms is a library that will
+    # handle this for us, and we use a custom LoginForm to validate.
+    if request.method == 'POST':
+      user_id = request.form['user_id']
+
+      if not user_id.isdigit():
+        form = LoginForm()
+        return render_template('login_dummy_fail.html', form=form)
+
+      c = Client(mock=True)
+      user_dict = c.get_user(int(user_id))
+      if user_dict is not None:
+
+        user = User(user_dict)
+        flask_login.login_user(user)
+        next = flask.request.args.get('next')
+
+        # is_safe_url should check if the url is safe for redirects.
+        # See http://flask.pocoo.org/snippets/62/ for an example.
+
+        # TODO: ensure URL is safe. 
+        #if not flask_login.is_safe_url(next):
+           # return flask.abort(400)
+
+        return flask.redirect(next or '/home')
+      else:
+        form = LoginForm()
+        return render_template('login_dummy_fail.html', form=form)
+    else:
+        form = LoginForm()
+        return render_template('login_dummy.html', form=form)
+
+@app.route("/logout")
+@flask_login.login_required
+def logout():
+    flask_login.logout_user()
+    return flask.redirect('/index')
 
 @app.route("/search", methods=['GET', 'POST'])
 def render_search_page():
@@ -60,8 +98,9 @@ def render_search_page():
 
 @app.route("/home")
 @app.route("/home/dashboard")
+@flask_login.login_required
 def render_user_home():
-	user_id = int(request.args.get('id'))
+	user_id = current_user.get_id()
 	c = Client(mock=True)
 	user = c.get_user(user_id)
 
@@ -70,7 +109,12 @@ def render_user_home():
 
 	return render_template('home_dashboard.html', user=user)
 
+@login_manager.unauthorized_handler
+def unauthorized_callback():
+    return flask.redirect('/login_dummy')
+
 @app.route("/post")
+@flask_login.login_required
 def render_post():
 	fake_post = {
 	    "user_id": 3,
@@ -86,8 +130,9 @@ def render_post():
 	return render_template('post.html', post=fake_post)
 
 @app.route("/home/account")
+@flask_login.login_required
 def render_user_home_account():
-	user_id = int(request.args.get('id'))
+	user_id = current_user.get_id()
 	c = Client(mock=True)
 	user = c.get_user(user_id)
 
@@ -96,8 +141,9 @@ def render_user_home_account():
 	return render_template('home_account.html', user=user)
 
 @app.route("/home/events")
+@flask_login.login_required
 def render_user_home_events():
-	user_id = int(request.args.get('id'))
+	user_id = current_user.get_id()
 	c = Client(mock=True)
 	user = c.get_user(user_id)
 
@@ -113,8 +159,9 @@ def render_user_home_events():
 		events_hosting=events_hosting)
 
 @app.route("/home/networks")
+@flask_login.login_required
 def render_user_home_networks():
-	user_id = int(request.args.get('id'))
+	user_id = current_user.get_id()
 	c = Client(mock=True)
 	user = c.get_user(user_id)
 
@@ -126,6 +173,16 @@ def render_user_home_networks():
 	# TODO: construct network titles
 	return render_template('home_networks.html', user=user,
 		user_networks=user_networks)
+
+##################### Other Callbacks #########################
+
+@login_manager.user_loader
+def load_user(user_id):
+	c = Client(mock=True)
+	user = c.get_user(user_id)
+	if user is None:
+		return None
+	return User(user)
 
 ##################### Error handling #########################
 

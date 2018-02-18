@@ -23,3 +23,11 @@
     </div>
   </div>
   {% endblock %}
+
+  {% block footer %}
+      {% if current_user.is_authenticated %}
+          {{ super() }}
+      {% else %}
+          <!-- empty -->
+      {% endif %}
+  {% endblock %}

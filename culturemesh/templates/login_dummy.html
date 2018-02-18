@@ -1,0 +1,30 @@
+<head>
+  <title>CultureMesh</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/culturemesh-style.css') }}">
+</head>
+
+<body>
+  <div class="cm-login-body">
+    <div class="cm-logo-section">
+      <img src="https://www.culturemesh.com/images/logo_header.png"/>
+    </div>
+    <div class="cm-signin-section">
+      <div class="cm-signin-prompt">
+        {% block msg %}
+          Sign in, please
+        {% endblock %}
+      </div>
+      <form action="" method="post">
+        {{ form.hidden_tag() }}
+        <p>
+            {{ form.user_id.label }} (1-5) <br><br>
+            {{ form.user_id(size=32) }}<br>
+        </p>
+        <p>{{ form.submit() }}</p>
+      </form>
+    </div>
+
+  </div>
+</body>
