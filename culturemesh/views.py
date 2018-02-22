@@ -59,19 +59,9 @@ def login():
       c = Client(mock=True)
       user_dict = c.get_user(int(user_id))
       if user_dict is not None:
-
         user = User(user_dict)
         flask_login.login_user(user)
-        next = flask.request.args.get('next')
-
-        # is_safe_url should check if the url is safe for redirects.
-        # See http://flask.pocoo.org/snippets/62/ for an example.
-
-        # TODO: ensure URL is safe. 
-        #if not flask_login.is_safe_url(next):
-           # return flask.abort(400)
-
-        return flask.redirect(next or '/home')
+        return flask.redirect('/home')
       else:
         form = LoginForm()
         return render_template('login_dummy_fail.html', form=form)
