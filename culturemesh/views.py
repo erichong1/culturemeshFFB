@@ -46,14 +46,12 @@ def render_login_page():
 
 @app.route('/login_dummy', methods=['GET', 'POST'])
 def login():
-    # Here we use a class of some kind to represent and validate our
-    # client-side form data. For example, WTForms is a library that will
-    # handle this for us, and we use a custom LoginForm to validate.
+    print("LOGINs")
     if request.method == 'POST':
       user_id = request.form['user_id']
 
       if not user_id.isdigit():
-        form = LoginForm()
+        form = LoginForm() # TODO: actually use the login form. 
         return render_template('login_dummy_fail.html', form=form)
 
       c = Client(mock=True)
