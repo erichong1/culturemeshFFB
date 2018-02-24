@@ -8,5 +8,4 @@ import config
 #
 
 if __name__ == "__main__":
-  config.init()
   app.run(host=config.DEBUG_ADDR, port=config.DEBUG_PORT, debug=True)
