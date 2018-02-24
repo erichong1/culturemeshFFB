@@ -1,0 +1,30 @@
+{% extends "network.html" %}
+
+{% block network_content %}
+
+  <div class="p-3 text-center">
+    <h4>Events</h4>
+  </div>
+
+  {% for event in network_info['events'] %}
+  <div class="py-1 row">
+    <div class="p-2 cm-event-blurb">
+      <div class="text-center">
+        Title: {{ event['title'] }} <br />
+        Date: {{ event['event_date'] }} <br />
+        Location: {{ event['location']|reverse|join(', ') }} <br />
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+
+  <div class="py-1 row">
+    <div class="p-2">
+      <a type="button" class="btn btn-primary">
+        More events!
+      </a>
+    </div>
+  </div>
+
+{% endblock %}
+</div>

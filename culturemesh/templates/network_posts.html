@@ -1,0 +1,30 @@
+{% extends "network.html" %}
+
+{% block network_content %}
+
+  <div class="p-3 text-center">
+    <h4>Posts</h4>
+  </div>
+
+  {% for post in network_info['posts'] %}
+  <div class="py-1 row">
+    <div class="p-2 cm-event-blurb">
+      <div class="text-center">
+        User: {{ post['user_id'] }} <br />
+        Date: {{ post['post_date'] }} <br />
+        Post Text: {{ post['post_text']}} <br />
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+
+  <div class="py-1 row">
+    <div class="text-center">
+      <a id="cm-button" type="button" class="btn btn-secondary">
+        More posts!
+      </a>
+    </div>
+  </div>
+
+{% endblock %}
+</div>
