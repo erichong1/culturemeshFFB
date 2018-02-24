@@ -61,6 +61,8 @@ def render_search_page():
 @app.route("/network")
 def network():
 	network_id = request.args.get('id')
+	if not network_id :
+		return render_template('404.html')
 	c = Client(mock=True)
 	try:
 		network_id = int(network_id)
@@ -103,9 +105,11 @@ def network():
 
 @app.route("/network/events")
 def network_events() :
-	# A LOT of this code is repeated from network(), with just minor variations.
+	# TODO: A lot of this code is repeated from network(), with just minor variations.
 	# This should be factored out.
 	network_id = request.args.get('id')
+	if not network_id :
+		return render_template('404.html')
 	c = Client(mock=True)
 	try:
 		network_id = int(network_id)
@@ -118,7 +122,24 @@ def network_events() :
 	# TODO: Get user ID and work out if user is in network.
 	# Add join us button to page if they're not.
 
-	events = c.get_network_events(network_id, 10)
+	events = None
+
+	old_index = request.args.get('index')
+	if not old_index:
+		events = c.get_network_events(network_id, 10)
+	else:
+		try:
+			old_index = int(old_index)
+		except ValueError:
+			return render_template('404.html')
+		events = c.get_network_events(network_id, 10, old_index - 1)
+
+	# TODO: Add better handling for when there's no posts left.
+
+	if not events :
+		event_index = old_index
+	else :
+		event_index = events[-1]['id']
 
 	# TODO: This assumes that the region ID and city ID are specified in the data.
 	# This is not necessarily the case. This needs to be changed using the new information
@@ -142,13 +163,15 @@ def network_events() :
 		network_title = 'From %s, %s, %s in %s, %s, %s' % tuple(map(lambda x: x.title(), [orig_city['name'], orig_region['name'], orig_country['name'], cur_city['name'], cur_region['name'], cur_country['name']]))
 		network_info['network_title'] = network_title
 
-	return render_template('network_events.html', network_info=network_info)
+	return render_template('network_events.html', network_info=network_info, event_index=event_index)
 
 @app.route("/network/posts")
 def network_posts() :
-	# A LOT of this code is repeated from network(), with just minor variations.
+	# TODO: A lot of this code is repeated from network(), with just minor variations.
 	# This should be factored out.
 	network_id = request.args.get('id')
+	if not network_id :
+		return render_template('404.html')
 	c = Client(mock=True)
 	try:
 		network_id = int(network_id)
@@ -161,7 +184,24 @@ def network_posts() :
 	# TODO: Get user ID and work out if user is in network.
 	# Add join us button to page if they're not.
 
-	posts = c.get_network_posts(network_id, 10)
+	posts = None
+
+	old_index = request.args.get('index')
+	if not old_index:
+		posts = c.get_network_posts(network_id, 10)
+	else:
+		try:
+			old_index = int(old_index)
+		except ValueError:
+			return render_template('404.html')
+		posts = c.get_network_posts(network_id, 10, old_index - 1)
+
+	# TODO: Add better handling for when there's no events left.
+
+	if not posts :
+		post_index = old_index
+	else :
+		post_index = posts[-1]['id']
 
 	# TODO: This assumes that the region ID and city ID are specified in the data.
 	# This is not necessarily the case. This needs to be changed using the new information
@@ -185,7 +225,7 @@ def network_posts() :
 		network_title = 'From %s, %s, %s in %s, %s, %s' % tuple(map(lambda x: x.title(), [orig_city['name'], orig_region['name'], orig_country['name'], cur_city['name'], cur_region['name'], cur_country['name']]))
 		network_info['network_title'] = network_title
 
-	return render_template('network_posts.html', network_info=network_info)
+	return render_template('network_posts.html', network_info=network_info, post_index=post_index)
 
 @app.route("/home")
 @app.route("/home/dashboard")
