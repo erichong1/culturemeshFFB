@@ -16,6 +16,7 @@ import json
 import datetime
 import config
 from culturemesh import app
+from difflib import SequenceMatcher
 
 from urllib.parse import urlparse
 from enum import IntEnum
@@ -97,9 +98,7 @@ class Client(object):
 				return self._mock_get_users(query_params)
 
 			elif path[1] == "networks":
-				if body_params and "filter" in body_params and body_params["filter"]:
-					raise NotImplementedError("Sorry. Can't filter.")
-				return self._mock_get_networks(query_params)
+				return self._mock_get_networks(query_params, body_params)
 
 		elif len(path) == 3:
 			if path[1] == "user":
@@ -242,7 +241,7 @@ class Client(object):
 
 			# Sort in reverse join-date order, i.e. latest joins go first
 			user_network_regs = sorted(user_network_regs,
-																	key=lambda x: self._mock_str_to_date(x['join_date']), 
+																	key=lambda x: self._mock_str_to_date(x['join_date']),
 																	reverse=True)
 
 			max_date = self._mock_str_to_date(user_network_regs[0]['join_date'])
@@ -258,7 +257,7 @@ class Client(object):
 				if self._mock_str_to_date(n['join_date']) <= max_date:
 					network_ids.append(n['id_network'])
 					count -= 1
-			
+
 			# Fetch the network objects
 			networks = []
 			for network_id in network_ids:
@@ -345,10 +344,57 @@ class Client(object):
 
 		return res
 
-	def _mock_get_networks(self, query_params):
+	def filter_networks(self, filter_params, networks):
+		"""
+			Rank networks based on search parameters
+		"""
+		def similarity(a, b):
+		    return SequenceMatcher(None, a, b).ratio()
+		cities = {c["id"]:c["name"] for c in json.load(open(CITY_DATA_LOC))}
+		countries = {c["id"]:c["name"] for c in json.load(open(COUNTRY_DATA_LOC))}
+		regions = {r["id"]:r["name"] for r in json.load(open(REGION_DATA_LOC))}
+		N = len(networks)
+		query_near = filter_params["near"]
+		networks_cur_countries = [countries[net["location_cur"]["country_id"]] for net in networks]
+		networks_cur_cities = [cities[net["location_cur"]["city_id"]] for net in networks]
+		networks_cur_regions = [regions[net["location_cur"]["region_id"]] for net in networks]
+		near_similarity = {}
+		near_similarity["countries"] = [similarity(query_near, c) for c in networks_cur_regions]
+		near_similarity["cities"] = [similarity(query_near, c) for c in networks_cur_cities]
+		near_similarity["regions"] = [similarity(query_near, r) for r in networks_cur_regions]
+		near_similarity = [max(near_similarity["countries"][k], near_similarity["cities"][k],
+						near_similarity["regions"][k]) for k in range(N)]
+		if filter_params["search_type"] == "location":
+			query_from = filter_params["from"]
+			networks_orig_countries = [countries[net["location_origin"]["country_id"]] for net in networks]
+			networks_orig_cities = [cities[net["location_origin"]["city_id"]] for net in networks]
+			networks_orig_regions = [regions[net["location_origin"]["region_id"]] for net in networks]
+			from_similarity = {}
+			from_similarity["countries"] = [similarity(query_from, c) for c in networks_orig_regions]
+			from_similarity["cities"] = [similarity(query_from, c) for c in networks_orig_cities]
+			from_similarity["regions"] = [similarity(query_from, r) for r in networks_orig_regions]
+			from_similarity = [max(from_similarity["countries"][k], from_similarity["cities"][k],
+							from_similarity["regions"][k]) for k in range(N)]
+			similarity = [(near_similarity[k] + from_similarity[k])/2 for k in range(N)]
+		elif filter_params["search_type"] == "language":
+			query_language = filter_params["language"]
+			networks_languages = [net["language_origin"]["name"] for net in networks]
+			language_similarity = {}
+			language_similarity = [similarity(query_language, l) for l in networks_languages]
+			similarity = [(near_similarity[k] + language_similarity[k])/2 for k in range(N)]
+		else:
+			raise Exception("Invalid Network search type")
+		for i, net in enumerate(networks):
+			net["search_rank"] = similarity[i]
+
+	def _mock_get_networks(self, query_params, body_params):
 		with open(NETWORK_DATA_LOC) as networks:
 			networks = sorted(json.load(networks), key=lambda x: x['id'], reverse=True)
-			return self._pagination(query_params, objects=networks, key='id')
+			networks = self._pagination(query_params, objects=networks, key='id')
+			if body_params and "filter" in body_params and body_params["filter"]:
+				self.filter_networks(body_params["filter"], networks)
+				networks = sorted(networks, key=lambda x: x['search_rank'], reverse=True)
+			return networks
 
 
 	def _mock_get_network(self, network_id):
