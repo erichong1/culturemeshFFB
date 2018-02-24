@@ -64,11 +64,26 @@ def render_user_home():
 	user_id = int(request.args.get('id'))
 	c = Client(mock=True)
 	user = c.get_user(user_id)
-
+	events_hosting = c.get_user_events(user_id, "hosting", 5)
 	if user is None:
 		return page_not_found("")
 
-	return render_template('home_dashboard.html', user=user)
+	return render_template('home_dashboard.html', user=user, events_hosting=events_hosting)
+
+@app.route("/post")
+def render_post():
+	fake_post = {
+		"user_id": 3,
+		"post_text": "Minus cumque corrupti porro natus tenetur delectus illum. Amet aut molestias eaque autem ea odio.\nAsperiores sed officia. Similique accusantium facilis sed. Eligendi tempora nisi sint tempora incidunt perferendis.",
+		"network_id": 1,
+		"img_link": "https://www.lorempixel.com/556/586",
+		"vid_link": "https://dummyimage.com/909x765",
+		"post_date": "2017-02-01 05:49:35",
+		"post_class": 0,
+		"id": 2,
+		"post_original": "Not sure what this field is"
+	}
+	return render_template('post.html', post=fake_post)
 
 @app.route("/home/account")
 def render_user_home_account():
