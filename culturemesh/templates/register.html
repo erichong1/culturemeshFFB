@@ -1,40 +1,39 @@
-<head>
-	<title>CultureMesh</title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel=stylesheet type=text/css href="{{ url_for('static', filename='styles/style.css') }}">
-</head>
-<body>
-	<div class="cm-register-body">
-		<form class="cm-form-style" method="POST">
-		<div class="cm-logo-section">
-			<img src="https://www.culturemesh.com/images/logo_header.png" id="logo"/>
-		</div>
-		<div class="cm-signin-section">
-			<form id="name-form">
-				<input type="text" class="cm-input-field" id="name" placeholder="Name"></input>
-			</form>
-			<form id="email-form">
-				<input type="text" class="cm-input-field" id="email" placeholder="Email"></input>
-			</form>
-			<form id="password-form">
-				<input type="text" class="cm-input-field" id="password" placeholder="Password"></input>
-			</form>
-			<form id="confirm-password-form">
-				<input type="text" class="cm-input-field" id="confirm-password" placeholder="Confirm Password"></input>
-			</form>
-		</div>
-		<div class="cm-register-signup-section">
-			<input type="submit" class="cm-box-button" id="signup-button" value="SIGN UP">
-			</input>
-			<div class="cm-or-prompt">
-				or
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>CultureMesh</title>
+	  <meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+		<link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/bootstrap.css') }}">
+		<link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/culturemesh-style.css') }}">
+	</head>
+	<body>
+		<div class="wrapper container-fluid">
+			<div class="row">
+				<!-- <div class="center text-center"> -->
+					<!-- <div id="cm-register-logo"> -->
+						<img class="center-block" src="https://www.culturemesh.com/images/logo_header.png"/>
+					<!-- </div> -->
+				<!-- </div> -->
 			</div>
-			<input type="submit" class="cm-box-button" id="cm-signinfb-button" value="SIGN IN WITH FACEBOOK">
-			</input>
-			<input type="submit" class="cm-register-text-button" id="signin-button" value="Already registered? Please Sign In.">
-			</input>
+			<form method="POST">
+				<div class="row">
+					<div class="container p-5">
+						<div class="row">
+							<input type="text" class="form-control my-1" id="name" placeholder="Name"></input>
+							<input type="email" class="form-control my-1" id="email" placeholder="Email"></input>
+							<input type="password" class="form-control my-1" id="password" placeholder="Password"></input>
+							<input type="password" class="form-control my-1" id="confirm-password" placeholder="Confirm Password"></input>
+						</div>
+						<div class="row">
+							<button type="submit" class="btn btn-primary center my-3" id="signup-button">Sign Up</button>
+						</div>
+						<p class="text-center my-2">Already have an account?</p>
+						<div class="row">
+							<button type="submit" class="btn btn-primary center my-2" id="signup-button">Sign in</button>
+						</div>
+					</div>
+			</form>
 		</div>
-		</form>
-	</div>
-</body>
+	</body>
+</html>
