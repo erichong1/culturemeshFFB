@@ -46,7 +46,6 @@ def render_login_page():
 
 @app.route('/login_dummy', methods=['GET', 'POST'])
 def login():
-    print("LOGINs")
     if request.method == 'POST':
       user_id = request.form['user_id']
 
