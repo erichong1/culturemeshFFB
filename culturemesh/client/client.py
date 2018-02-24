@@ -379,7 +379,6 @@ class Client(object):
 		elif filter_params["search_type"] == "language":
 			query_language = filter_params["language"]
 			networks_languages = [net["language_origin"]["name"] for net in networks]
-			language_similarity = {}
 			language_similarity = [similarity(query_language, l) for l in networks_languages]
 			similarity = [(near_similarity[k] + language_similarity[k])/2 for k in range(N)]
 		else:
