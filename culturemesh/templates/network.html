@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div id="cm-profile-card" class="row">
+  <div class="center text-center">
+    <div class="p-3 text-center">
+      <h3 id="cm-profile-name">{{ network_info['network_title']}}</h3>
+      <p style="color:white">Number of users/posts to go here!</p>
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid">
+  <div class="col-sm text-center">
+    <div id="cm-dashboard-menu" class="btn-group btn-group-sm" role="group">
+      {% block network_buttons %}
+        <a href="/network?id={{ network_info['network_id'] }}" id="cm-button" type="button" class="btn btn-secondary">Home</a>
+        <a href="/network/posts?id={{ network_info['network_id'] }}" id="cm-button" type="button" class="btn btn-secondary">Posts</a>
+        <a href="/network/events?id={{ network_info['network_id'] }}" id="cm-button" type="button" class="btn btn-secondary">Events</a>
+      {% endblock %}
+    </div>
+  </div>
+
+  {% block network_content %}
+  <div class="p-3 text-center">
+    <h4>Recent Posts</h4>
+  </div>
+
+  {% for post in network_info['posts'] %}
+  <div class="py-1 row">
+    <div class="p-2 cm-event-blurb">
+      <div class="text-center">
+        User: {{ post['user_id'] }} <br />
+        Date: {{ post['post_date'] }} <br />
+        Post Text: {{ post['post_text']}} <br />
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+
+  <div class="py-1 row">
+    <div class="text-center">
+      <a type="button" class="btn btn-secondary" href="/network/posts?id={{ network_info['network_id'] }}">
+        More posts!
+      </a>
+    </div>
+  </div>
+
+  <div class="p-3 text-center">
+    <h4>Recent Events</h4>
+  </div>
+
+  {% for event in network_info['events'] %}
+  <div class="py-1 row">
+    <div class="p-2 cm-event-blurb">
+      <div class="text-center">
+        Title: {{ event['title'] }} <br />
+        Date: {{ event['event_date'] }} <br />
+        Location: {{ event['location']|reverse|join(', ') }} <br />
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+
+  <div class="py-1 row">
+    <div class="p-2">
+      <a type="button" class="btn btn-secondary" href="/network/events?id={{ network_info['network_id'] }}">
+        More events!
+      </a>
+    </div>
+  </div>
+
+{% endblock %}
+</div>
+
+{% endblock %}
