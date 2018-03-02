@@ -19,7 +19,7 @@ def render_user_home():
   if user is None:
     return page_not_found("")
 
-  return render_template('home_dashboard.html', user=user, events_hosting=events_hosting)
+  return render_template('dashboard.html', user=user, events_hosting=events_hosting)
 
 @user_home.route("/account")
 @flask_login.login_required
@@ -30,7 +30,7 @@ def render_user_home_account():
 
   if user is None:
     return page_not_found("")
-  return render_template('home_account.html', user=user)
+  return render_template('account.html', user=user)
 
 @user_home.route("/events")
 @flask_login.login_required
@@ -47,7 +47,7 @@ def render_user_home_events():
   if events_hosting is None:
     return page_not_found("")
 
-  return render_template('home_events.html', user=user,
+  return render_template('events.html', user=user,
     events_hosting=events_hosting)
 
 @user_home.route("/networks")
@@ -84,4 +84,4 @@ def render_user_home_networks():
                                     city.title(), region.title(), country.title(), language)
     networks.append(network_)
 
-  return render_template('home_networks.html', user=user, networks=networks)
+  return render_template('networks.html', user=user, networks=networks)
