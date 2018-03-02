@@ -10,8 +10,8 @@ import flask_login
 from flask_login import current_user
 import flask
 
-from .forms import SearchForm, LoginForm
-from .models import User
+from culturemesh.forms import LoginForm
+from culturemesh.models import User
 
 
 LOGIN_FAILED_MSG = "Login failed, try again"
@@ -74,16 +74,6 @@ def logout():
     flask_login.logout_user()
     return flask.redirect('/index')
 
-@app.route("/search", methods=['GET', 'POST'])
-def render_search_page():
-	if request.method == 'POST':
-		c = Client(mock=True)
-		data = request.form
-		networks = c.get_networks(10, max_id=None) # filter_=data)
-		return render_template('search_results.html', networks=networks)
-	else:
-		form = SearchForm()
-		return render_template('search.html', form=form)
 
 @app.route("/network")
 @flask_login.login_required
