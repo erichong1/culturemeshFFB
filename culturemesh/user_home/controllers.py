@@ -5,7 +5,6 @@ import flask_login
 from flask_login import current_user
 
 user_home = Blueprint('user_home', __name__, template_folder='templates')
-app = user_home
 
 @user_home.route("/")
 @user_home.route("/dashboard")

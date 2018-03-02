@@ -19,6 +19,12 @@ import culturemesh.views
 
 from culturemesh.user_home.controllers import user_home
 from culturemesh.search.controllers import search
+from culturemesh.networks.controllers import networks
+from culturemesh.events.controllers import events
+from culturemesh.posts.controllers import posts
 
 app.register_blueprint(user_home, url_prefix='/home')
 app.register_blueprint(search, url_prefix='/search')
+app.register_blueprint(networks, url_prefix='/network')
+app.register_blueprint(events, url_prefix='/event')
+app.register_blueprint(posts, url_prefix='/post')

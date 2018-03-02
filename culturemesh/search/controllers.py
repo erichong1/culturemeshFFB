@@ -3,9 +3,8 @@ from culturemesh.client import Client
 from culturemesh.search.forms.search_forms import SearchForm
 
 search = Blueprint('search', __name__, template_folder='templates')
-app = search
 
-@app.route("/", methods=['GET', 'POST'])
+@search.route("/", methods=['GET', 'POST'])
 def render_search_page():
   if request.method == 'POST':
     c = Client(mock=True)
