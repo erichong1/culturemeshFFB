@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request
 from culturemesh.client import Client
-from culturemesh.search.forms.search_forms import SearchForm
+from culturemesh.blueprints.search.forms.search_forms import SearchForm
 
 search = Blueprint('search', __name__, template_folder='templates')
 
