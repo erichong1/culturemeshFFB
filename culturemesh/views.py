@@ -14,6 +14,9 @@ from .forms import SearchForm, LoginForm
 from .models import User
 
 
+LOGIN_FAILED_MSG = "Login failed, try again"
+LOGIN_MSG = "Sign in, please"
+
 @app.route("/")
 @app.route("/index")
 def home():
@@ -23,35 +26,32 @@ def home():
 def about():
 	return render_template('about.html')
 
-@app.route("/register")
-def render_register_page():
+#TODO: this needs to be fleshed out. 
+@app.route("/register", methods=['GET', 'POST'])
+def register():
 	if current_user and current_user.is_authenticated:
 		return page_not_found("")
+
+	if request.method == 'POST':
+		return "<h1>Coming soon :) </h1>"
+		name = request.form["name"]
+		email = request.form["email"]
+		password = request.form["password"]
+		confirm_password = request.form["confirm-password"]
+		user_string = "Name: " + name + " Email: " + email + " Password: " + " Confirm Password: " + confirm_password
+		return render_template('dashboard.html', user=user_string)
 	else:
-		return render_template('register.html')
+		return render_template('register.html', form=LoginForm())
 
-#TODO: make this work?
-@app.route("/register", methods=['POST'])
-def register():
-	name = request.form["name"]
-	email = request.form["email"]
-	password = request.form["password"]
-	confirm_password = request.form["confirm-password"]
-	user_string = "Name: " + name + " Email: " + email + " Password: " + " Confirm Password: " + confirm_password
-	return render_template('dashboard.html', user=user_string)
-
-@app.route("/login")
+# TODO: needs to actually use a login form object 
+#       for security. 
+@app.route("/login", methods=['GET', 'POST'])
 def render_login_page():
-	return render_template('login.html')
-
-@app.route('/login_dummy', methods=['GET', 'POST'])
-def login():
     if request.method == 'POST':
-      user_id = request.form['user_id']
+      user_id = request.form['username']
 
       if not user_id.isdigit():
-        form = LoginForm() # TODO: actually use the login form. 
-        return render_template('login_dummy_fail.html', form=form)
+        return render_template('login.html', msg=LOGIN_FAILED_MSG, form=LoginForm())
 
       c = Client(mock=True)
       user_dict = c.get_user(int(user_id))
@@ -60,11 +60,9 @@ def login():
         flask_login.login_user(user)
         return flask.redirect('/home')
       else:
-        form = LoginForm()
-        return render_template('login_dummy_fail.html', form=form)
+        return render_template('login.html', msg=LOGIN_FAILED_MSG, form=LoginForm())
     else:
-        form = LoginForm()
-        return render_template('login_dummy.html', form=form)
+        return render_template('login.html', msg=LOGIN_MSG, form=LoginForm())
 
 @app.route("/logout")
 @flask_login.login_required
@@ -267,7 +265,7 @@ def render_user_home():
 
 @login_manager.unauthorized_handler
 def unauthorized_callback():
-    return flask.redirect('/login_dummy')
+    return flask.redirect('/login')
 
 @app.route("/post")
 @flask_login.login_required
