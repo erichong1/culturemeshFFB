@@ -15,6 +15,9 @@
                     Date: {{ event['event_date'] }} <br>
                     Location: {{ event['location']|reverse|join(', ') }} <br>
                   </div>
+                  <div class="p-2 text-right">
+                    <a href="/coming-soon">Go to Event</a>
+                  </div>
                 </div>
               </div>
             {% endfor %}

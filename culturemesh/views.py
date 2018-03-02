@@ -17,6 +17,10 @@ from .models import User
 LOGIN_FAILED_MSG = "Login failed, try again"
 LOGIN_MSG = "Sign in, please"
 
+@app.route("/coming-soon")
+def coming_soon():
+	return "<h1>Coming soon :) </h1>"
+
 @app.route("/")
 @app.route("/index")
 def home():
@@ -33,7 +37,7 @@ def register():
 		return page_not_found("")
 
 	if request.method == 'POST':
-		return "<h1>Coming soon :) </h1>"
+		return coming_soon()
 		name = request.form["name"]
 		email = request.form["email"]
 		password = request.form["password"]
@@ -82,9 +86,10 @@ def render_search_page():
 		return render_template('search.html', form=form)
 
 @app.route("/network")
+@flask_login.login_required
 def network():
 	network_id = request.args.get('id')
-	if not network_id :
+	if not network_id:
 		return render_template('404.html')
 	c = Client(mock=True)
 	try:
@@ -127,6 +132,7 @@ def network():
 	return render_template('network.html', network_info=network_info)
 
 @app.route("/network/events")
+@flask_login.login_required
 def network_events() :
 	# TODO: A lot of this code is repeated from network(), with just minor variations.
 	# This should be factored out.
@@ -189,6 +195,7 @@ def network_events() :
 	return render_template('network_events.html', network_info=network_info, event_index=event_index)
 
 @app.route("/network/posts")
+@flask_login.login_required
 def network_posts() :
 	# TODO: A lot of this code is repeated from network(), with just minor variations.
 	# This should be factored out.
@@ -326,7 +333,7 @@ def render_user_home_networks():
 	user_networks = c.get_user_networks(user_id, count=5)
 	# TODO: construct network titles
 
-	titles = []
+	networks = [] # TODO: make this a dedicated object.
 	for network in user_networks:
 		title_template = "From %s, %s, %s in %s, %s, %s, that speak %s."
 		location_cur = network['location_cur']
@@ -339,14 +346,14 @@ def render_user_home_networks():
 		region_orig = c.get_region(location_origin['region_id'])['name']
 		country_orig = c.get_country(location_origin['country_id'])['name']
 
-
+		network_ = {'title':'', 'id': network['id']}
 
 		language = network['language_origin']['name']
-		titles.append(title_template % (city_orig.title(), region_orig.title(), country_orig.title(),
-															      city.title(), region.title(), country.title(), language))
+		network_['title'] = title_template % (city_orig.title(), region_orig.title(), country_orig.title(),
+															      city.title(), region.title(), country.title(), language)
+		networks.append(network_)
 
-	return render_template('home_networks.html', user=user,
-		user_network_titles=titles)
+	return render_template('home_networks.html', user=user, networks=networks)
 
 ##################### Other Callbacks #########################
 
