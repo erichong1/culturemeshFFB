@@ -19,5 +19,6 @@ import culturemesh.views
 
 from culturemesh.user_home.controllers import user_home
 from culturemesh.search.controllers import search
+
 app.register_blueprint(user_home, url_prefix='/home')
 app.register_blueprint(search, url_prefix='/search')
