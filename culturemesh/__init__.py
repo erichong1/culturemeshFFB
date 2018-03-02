@@ -14,3 +14,8 @@ app.secret_key = '\x18\xe5\x16E\x15;\xd6\xdb8:\x88F\xcb\x03\x9cU\x08\x01\xb8\xe5
 csrf = CSRFProtect(app)
 
 import culturemesh.views
+
+# Register Blueprints
+
+from culturemesh.user_home.controllers import user_home
+app.register_blueprint(user_home, url_prefix='/home')
