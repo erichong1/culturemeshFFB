@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+    {% block content %}
+        <h3>Search for people</h3>
+        <form action="" method="post">
+            {{ form.hidden_tag() }}
+            <p>
+                {{ form.origin.label }}<br>
+                {{ form.origin(size=32) }}
+            </p>
+            <p>
+                {{ form.language.label }}<br>
+                {{ form.language(size=32) }}
+            </p>
+            <p>
+                {{ form.residence.label }}<br>
+                {{ form.residence(size=32) }}
+            </p>
+            <p>{{ form.submit() }}</p>
+        </form>
+    {% endblock %}
+    
+    {% block footer %}
+        {% if current_user.is_authenticated %}
+            {{ super() }}
+        {% else %}
+            <!-- empty -->
+        {% endif %}
+    {% endblock %}

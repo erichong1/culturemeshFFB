@@ -23,6 +23,14 @@ def test_get_networks():
     assert_equal(networks2[0]['id'], 0)
     assert_equal(len(networks2), 1)
 
+    filter_ = {"search_type": "location", "near": "northe", "from": "Ciay C"}
+    networks = c.get_networks(10, filter_=filter_)
+    assert_equal(networks[0]["id"], 0)
+
+    filter_ = {"search_type": "language", "near": "roha", "language": "talarine"}
+    networks = c.get_networks(10, filter_=filter_)
+    assert_equal(networks[0]["id"], 1)
+
 
 def test_get_network():
     """

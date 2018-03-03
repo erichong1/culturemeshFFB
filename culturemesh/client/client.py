@@ -15,24 +15,24 @@ import os
 import json
 import datetime
 import config
+from culturemesh import app
+from difflib import SequenceMatcher
 
 from urllib.parse import urlparse
 from enum import IntEnum
 
 # Relative from app.root_path
-USER_DATA_LOC = "../data/mock/db_mock_users.json"
-POST_DATA_LOC = "../data/mock/db_mock_posts.json"
-POST_REPLY_DATA_LOC = "../data/mock/db_mock_post_replies.json"
-EVENT_DATA_LOC = "../data/mock/db_mock_events.json"
-EVENT_REGISTRATION_LOC = "../data/mock/db_mock_event_registration.json"
-NET_REGISTRATION_LOC = "../data/mock/db_mock_network_registration.json"
-NETWORK_DATA_LOC = "../data/mock/db_mock_networks.json"
-LANG_DATA_LOC = "../data/mock/db_mock_languages.json"
-CITY_DATA_LOC = "../data/mock/db_mock_location_cities.json"
-REGION_DATA_LOC = "../data/mock/db_mock_location_regions.json"
-COUNTRY_DATA_LOC = "../data/mock/db_mock_location_countries.json"
-
-DATETIME_FMT_STR = "%Y-%m-%d %H:%M:%S"
+USER_DATA_LOC = os.path.join(app.root_path, "../data/mock/db_mock_users.json")
+POST_DATA_LOC = os.path.join(app.root_path, "../data/mock/db_mock_posts.json")
+POST_REPLY_DATA_LOC = os.path.join(app.root_path, "../data/mock/db_mock_post_replies.json")
+EVENT_DATA_LOC = os.path.join(app.root_path, "../data/mock/db_mock_events.json")
+EVENT_REGISTRATION_LOC = os.path.join(app.root_path, "../data/mock/db_mock_event_registration.json")
+NET_REGISTRATION_LOC = os.path.join(app.root_path, "../data/mock/db_mock_network_registration.json")
+NETWORK_DATA_LOC = os.path.join(app.root_path, "../data/mock/db_mock_networks.json")
+LANG_DATA_LOC = os.path.join(app.root_path, "../data/mock/db_mock_languages.json")
+CITY_DATA_LOC = os.path.join(app.root_path, "../data/mock/db_mock_location_cities.json")
+REGION_DATA_LOC = os.path.join(app.root_path, "../data/mock/db_mock_location_regions.json")
+COUNTRY_DATA_LOC = os.path.join(app.root_path, "../data/mock/db_mock_location_countries.json")
 
 class Request(IntEnum):
 	GET = 1
@@ -52,8 +52,6 @@ class Client(object):
 
 		# TODO: insert client initialization here.
 		self.mock = mock
-		if mock:
-			self._init_mock_data()
 
 		# See: http://docs.python-requests.org/en/master/user/advanced/
 		#	  not used yet.
@@ -83,31 +81,6 @@ class Client(object):
 
 	########################### MOCK DATA METHODS BELOW ##########################
 
-	def _init_mock_data(self):
-		global USER_DATA_LOC
-		global POST_DATA_LOC
-		global POST_REPLY_DATA_LOC
-		global EVENT_DATA_LOC
-		global EVENT_REGISTRATION_LOC
-		global NET_REGISTRATION_LOC
-		global NETWORK_DATA_LOC
-		global LANG_DATA_LOC
-		global CITY_DATA_LOC
-		global REGION_DATA_LOC
-		global COUNTRY_DATA_LOC
-
-		USER_DATA_LOC = os.path.join(config.ROOT_PATH, USER_DATA_LOC)
-		POST_DATA_LOC = os.path.join(config.ROOT_PATH, POST_DATA_LOC)
-		POST_REPLY_DATA_LOC = os.path.join(config.ROOT_PATH, POST_REPLY_DATA_LOC)
-		EVENT_DATA_LOC = os.path.join(config.ROOT_PATH, EVENT_DATA_LOC)
-		EVENT_REGISTRATION_LOC = os.path.join(config.ROOT_PATH, EVENT_REGISTRATION_LOC)
-		NET_REGISTRATION_LOC = os.path.join(config.ROOT_PATH, NET_REGISTRATION_LOC)
-		NETWORK_DATA_LOC = os.path.join(config.ROOT_PATH, NETWORK_DATA_LOC)
-		LANG_DATA_LOC = os.path.join(config.ROOT_PATH, LANG_DATA_LOC)
-		CITY_DATA_LOC = os.path.join(config.ROOT_PATH, CITY_DATA_LOC)
-		REGION_DATA_LOC = os.path.join(config.ROOT_PATH, REGION_DATA_LOC)
-		COUNTRY_DATA_LOC = os.path.join(config.ROOT_PATH, COUNTRY_DATA_LOC)
-
 	def _mock_request(self, url, query_params, body_params):
 		"""
 		Used in development.  Uses local data to return API responses.
@@ -125,9 +98,7 @@ class Client(object):
 				return self._mock_get_users(query_params)
 
 			elif path[1] == "networks":
-				if body_params and "filter" in body_params and body_params["filter"]:
-					raise NotImplementedError("Sorry. Can't filter.")
-				return self._mock_get_networks(query_params)
+				return self._mock_get_networks(query_params, body_params)
 
 		elif len(path) == 3:
 			if path[1] == "user":
@@ -215,7 +186,7 @@ class Client(object):
 		raise NotImplementedError("Sorry.  Can't get that mock data yet!")
 
 	def _mock_str_to_date(self, str_):
-		return datetime.datetime.strptime(str_, DATETIME_FMT_STR)
+		return datetime.datetime.strptime(str_, config.DATETIME_FMT_STR)
 
 	def _mock_ensure_count(self, query_params):
 		if 'count' not in query_params:
@@ -270,7 +241,7 @@ class Client(object):
 
 			# Sort in reverse join-date order, i.e. latest joins go first
 			user_network_regs = sorted(user_network_regs,
-																	key=lambda x: self._mock_str_to_date(x['join_date']), 
+																	key=lambda x: self._mock_str_to_date(x['join_date']),
 																	reverse=True)
 
 			max_date = self._mock_str_to_date(user_network_regs[0]['join_date'])
@@ -286,7 +257,7 @@ class Client(object):
 				if self._mock_str_to_date(n['join_date']) <= max_date:
 					network_ids.append(n['id_network'])
 					count -= 1
-			
+
 			# Fetch the network objects
 			networks = []
 			for network_id in network_ids:
@@ -373,10 +344,56 @@ class Client(object):
 
 		return res
 
-	def _mock_get_networks(self, query_params):
+	def filter_networks(self, filter_params, networks):
+		"""
+			Rank networks based on search parameters
+		"""
+		def similarity(a, b):
+		    return SequenceMatcher(None, a, b).ratio()
+		cities = {c["id"]:c["name"] for c in json.load(open(CITY_DATA_LOC))}
+		countries = {c["id"]:c["name"] for c in json.load(open(COUNTRY_DATA_LOC))}
+		regions = {r["id"]:r["name"] for r in json.load(open(REGION_DATA_LOC))}
+		N = len(networks)
+		query_near = filter_params["near"]
+		networks_cur_countries = [countries[net["location_cur"]["country_id"]] for net in networks]
+		networks_cur_cities = [cities[net["location_cur"]["city_id"]] for net in networks]
+		networks_cur_regions = [regions[net["location_cur"]["region_id"]] for net in networks]
+		near_similarity = {}
+		near_similarity["countries"] = [similarity(query_near, c) for c in networks_cur_regions]
+		near_similarity["cities"] = [similarity(query_near, c) for c in networks_cur_cities]
+		near_similarity["regions"] = [similarity(query_near, r) for r in networks_cur_regions]
+		near_similarity = [max(near_similarity["countries"][k], near_similarity["cities"][k],
+						near_similarity["regions"][k]) for k in range(N)]
+		if filter_params["search_type"] == "location":
+			query_from = filter_params["from"]
+			networks_orig_countries = [countries[net["location_origin"]["country_id"]] for net in networks]
+			networks_orig_cities = [cities[net["location_origin"]["city_id"]] for net in networks]
+			networks_orig_regions = [regions[net["location_origin"]["region_id"]] for net in networks]
+			from_similarity = {}
+			from_similarity["countries"] = [similarity(query_from, c) for c in networks_orig_regions]
+			from_similarity["cities"] = [similarity(query_from, c) for c in networks_orig_cities]
+			from_similarity["regions"] = [similarity(query_from, r) for r in networks_orig_regions]
+			from_similarity = [max(from_similarity["countries"][k], from_similarity["cities"][k],
+							from_similarity["regions"][k]) for k in range(N)]
+			similarity = [(near_similarity[k] + from_similarity[k])/2 for k in range(N)]
+		elif filter_params["search_type"] == "language":
+			query_language = filter_params["language"]
+			networks_languages = [net["language_origin"]["name"] for net in networks]
+			language_similarity = [similarity(query_language, l) for l in networks_languages]
+			similarity = [(near_similarity[k] + language_similarity[k])/2 for k in range(N)]
+		else:
+			raise Exception("Invalid Network search type")
+		for i, net in enumerate(networks):
+			net["search_rank"] = similarity[i]
+
+	def _mock_get_networks(self, query_params, body_params):
 		with open(NETWORK_DATA_LOC) as networks:
 			networks = sorted(json.load(networks), key=lambda x: x['id'], reverse=True)
-			return self._pagination(query_params, objects=networks, key='id')
+			networks = self._pagination(query_params, objects=networks, key='id')
+			if body_params and "filter" in body_params and body_params["filter"]:
+				self.filter_networks(body_params["filter"], networks)
+				networks = sorted(networks, key=lambda x: x['search_rank'], reverse=True)
+			return networks
 
 
 	def _mock_get_network(self, network_id):

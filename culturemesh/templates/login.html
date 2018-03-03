@@ -7,32 +7,34 @@
 		<link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/bootstrap.css') }}">
 	  <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/culturemesh-style.css') }}">
 	</head>
-
+	
 	<body>
 		<div class="cm-login-body">
+
 			<div class="cm-logo-section">
 				<img src="https://www.culturemesh.com/images/logo_header.png"/>
 			</div>
+
 			<div class="cm-signin-section">
-				<div class="cm-signin-prompt">
-					Sign in, please
-				</div>
-				<form id="cm-username-form">
-					<input type="text" class="cm-input-field" id="username" placeholder="Email"></input>
-				</form>
-				<form id="cm-password-form">
-					<input type="text" class="cm-input-field" id="password" placeholder="Password"></input>
-				</form>
-				<input type="submit" class="cm-box-button" id="signin-button" value="SIGN IN">
-		    </input>
+				<div class="cm-signin-prompt">{{ msg }}</div>
+					<form action="" method="post">
+						{{ form.hidden_tag() }}
+						<input type="text" class="cm-input-field" name="username" placeholder="Email (actually just user id (1-5))"></input>
+						<br>
+						<input type="text" class="cm-input-field" name="password" placeholder="Password"></input>
+						<br><br>
+						<input type="submit" class="cm-box-button" id="signin-button" value="Login"></input>
+					</form>
 			</div>
+
 			<div class="cm-signup-section">
-				<div class="cm-account-prompt">
+				<div class="cm-account-prompt p-2">
 					Need an account?
 				</div>
-				<input type="submit" class="cm-text-button" id="signup-button" value="SIGN UP">
-				</input>
+				<a href="/register">Sign Up</a>
 			</div>
 		</div>
+
+
 	</body>
 </html>

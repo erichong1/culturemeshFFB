@@ -17,10 +17,10 @@
     <div class="col-sm text-center">
       <div id="cm-dashboard-menu" class="btn-group btn-group-sm" role="group">
         {% block dashboard_buttons %}
-          <a href="/home/dashboard?id=5" id="cm-button" type="button" class="selected-btn btn btn-secondary">Dashboard</a>
-          <a href="/home/networks?id=5" id="cm-button" type="button" class="btn btn-secondary">Networks</a>
-          <a href="/home/events?id=5" id="cm-button" type="button" class="btn btn-secondary">Events</a>
-          <a href="/home/account?id=5" id="cm-button" type="button" class="btn btn-secondary">Account</a>
+          <a href="/home/dashboard" id="cm-button" type="button" class="selected-btn btn btn-secondary">Dashboard</a>
+          <a href="/home/networks" id="cm-button" type="button" class="btn btn-secondary">Networks</a>
+          <a href="/home/events" id="cm-button" type="button" class="btn btn-secondary">Events</a>
+          <a href="/home/account" id="cm-button" type="button" class="btn btn-secondary">Account</a>
         {% endblock %}
       </div>
     </div>
@@ -40,6 +40,9 @@
                           Title: {{ event['title'] }} <br>
                           Date: {{ event['event_date'] }} <br>
                           Location: {{ event['location']|reverse|join(', ') }} <br>
+                        </div>
+                        <div class="p-2 text-right">
+                          <a href="/coming-soon">Go to Event</a>
                         </div>
                       </div>
                     </div>
