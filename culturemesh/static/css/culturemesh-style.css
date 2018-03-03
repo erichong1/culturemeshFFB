@@ -232,6 +232,10 @@ body {
   align-items: stretch;
 }
 
+.button-background {
+	background-color: #000000;
+}
+
 .cm-or-prompt {
   align-self: center;
   color: grey;

@@ -8,17 +8,12 @@
 		<link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/culturemesh-style.css') }}">
 	</head>
 	<body>
-		<div class="wrapper container-fluid">
-			<div class="row">
-				<!-- <div class="center text-center"> -->
-					<!-- <div id="cm-register-logo"> -->
-						<img class="center-block" src="https://www.culturemesh.com/images/logo_header.png"/>
-					<!-- </div> -->
-				<!-- </div> -->
-
+		<div class="cm-login-body">
+			<div class="cm-logo-section">
+				<img src="https://www.culturemesh.com/images/logo_header.png"/>
 			</div>
-			<form method="POST">
 				<div class="row">
+					<form method="POST">
 					<div class="container p-5">
 						<div class="row">
 							{{ form.hidden_tag() }}
@@ -27,15 +22,18 @@
 							<input type="password" class="form-control my-1" id="password" placeholder="Password"></input>
 							<input type="password" class="form-control my-1" id="confirm-password" placeholder="Confirm Password"></input>
 						</div>
-						<div class="row">
-							<button type="submit" class="btn btn-primary center my-3" id="signup-button">Sign Up</button>
+						<div class="row my-3">
+							<input type="submit" class="cm-box-button" id="signup-button-register" value="SIGN UP">
+							</input>
 						</div>
 						<p class="text-center my-2">Already have an account?</p>
-						<div class="text-center">
-								<a href="/login">Sign In</a>
+						<div class="row">
+							<input type="submit" class="cm-box-button" id="signin-button-register" value="SIGN IN">
+							</input>
 						</div>
 					</div>
 			</form>
 		</div>
+	</div>
 	</body>
 </html>
