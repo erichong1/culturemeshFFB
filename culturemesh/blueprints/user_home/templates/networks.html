@@ -2,9 +2,9 @@
 
 
   {% block dashboard_content %}
-  <div class="container-fluid">
-    <div class="p-3 text-center">
-      <h4>Your Networks</h2>
+  <div class="p-3 container">
+    <div class="p-3">
+      <h4 class="text-center">Your Networks</h2>
         {% if networks|length == 0 %}
             You don't belong to any networks yet!
         {% else %}
@@ -22,6 +22,5 @@
             {% endfor %}
         {% endif %}
     </div>
-
   </div>
   {% endblock %}
