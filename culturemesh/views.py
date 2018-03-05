@@ -1,13 +1,11 @@
-from flask import render_template, request, redirect
-from culturemesh import app
-from culturemesh import login_manager
-from culturemesh.client import Client
-
 import http.client as httplib
 import requests
 import config
 import flask_login
 
+from flask import render_template, request, redirect
+from culturemesh import app, login_manager
+from culturemesh.client import Client
 from flask_login import current_user
 from culturemesh.forms import LoginForm
 from culturemesh.models import User
