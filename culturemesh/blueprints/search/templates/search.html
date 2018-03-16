@@ -1,16 +1,15 @@
 {% extends "base.html" %}
 
     {% block content %}
-        <h3>Search for people</h3>
+        <h3>Search for people who</h3>
         <form action="" method="post">
+            <select name="search_type">
+                <option value="location">are from</option>
+                <option value="language">speak</option>
+            </select>
             {{ form.hidden_tag() }}
             <p>
-                {{ form.origin.label }}<br>
-                {{ form.origin(size=32) }}
-            </p>
-            <p>
-                {{ form.language.label }}<br>
-                {{ form.language(size=32) }}
+                {{ form.origin_or_language(size=32) }}
             </p>
             <p>
                 {{ form.residence.label }}<br>

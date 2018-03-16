@@ -3,16 +3,33 @@
   {% block content %}
   <div class="container-fluid">
     <div class="p-3 text-center">
-      <h4>Network Results</h4>
         {% if networks|length == 0 %}
             No matching networks found!
         {% else %}
-            {% for network in networks %}
+            <h5 class="text-left"> Best Match </h5>
               <div class="py-1 row">
                   <div class="text-left">
-                    <h5>Network {{ network['location_cur']['city_id']}} </h5>
-                    Current Location: {{ network['location_cur']['city_id']}} <br>
-                    Origin Location: {{ network['location_origin']['city_id']}} <br>
+                    <h5><a href=/network?id={{networks[0]['id']}}>
+                    From {{ networks[0]['location_origin']['city_name']}}
+                        {{ networks[0]['location_origin']['country_name']}},
+                        in {{ networks[0]['location_cur']['city_name']}}
+                        {{ networks[0]['location_origin']['country_name']}}
+                    </a></h5>
+                    Language: {{ networks[0]['language_origin']['name'] }} <br>
+                    Number of Speakers: {{ networks[0]['language_origin']['num_speakers'] }} <br>
+                    <br>
+                  </div>
+              </div>
+            <h5 class="text-left"> Related Networks </h5>
+            {% for network in networks[1:] %}
+              <div class="py-1 row">
+                  <div class="text-left">
+                    <h5><a href=/network?id={{network['id']}}>
+                        From {{ network['location_origin']['city_name']}}
+                        {{ network['location_origin']['country_name']}},
+                        in {{ network['location_cur']['city_name']}}
+                        {{ network['location_origin']['country_name']}}
+                    </a></h5>
                     Language: {{ network['language_origin']['name'] }} <br>
                     Number of Speakers: {{ network['language_origin']['num_speakers'] }} <br>
                     <br>
