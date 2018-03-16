@@ -1,7 +1,7 @@
+import flask_login
+
 from flask import Blueprint, render_template
 from culturemesh.client import Client
-
-import flask_login
 from flask_login import current_user
 
 user_home = Blueprint('user_home', __name__, template_folder='templates')

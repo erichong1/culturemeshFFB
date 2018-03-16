@@ -1,7 +1,7 @@
+import flask_login
+
 from flask import Blueprint, render_template, request
 from culturemesh.client import Client
-
-import flask_login
 
 networks = Blueprint('networks', __name__, template_folder='templates')
 

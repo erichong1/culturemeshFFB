@@ -9,21 +9,23 @@
 	</head>
 	
 	<body>
-		<div class="cm-login-body">
+		<div class="wrapper container-fluid cm-login-body">
 
 			<div class="cm-logo-section">
 				<img src="https://www.culturemesh.com/images/logo_header.png"/>
 			</div>
 
 			<div class="cm-signin-section">
-				<div class="cm-signin-prompt">{{ msg }}</div>
-					<form action="" method="post">
-						{{ form.hidden_tag() }}
-						<input type="text" class="cm-input-field" name="username" placeholder="Email (actually just user id (1-5))"></input>
-						<br>
-						<input type="text" class="cm-input-field" name="password" placeholder="Password"></input>
-						<br><br>
-						<input type="submit" class="cm-box-button" id="signin-button" value="Login"></input>
+				<div class="cm-signin-prompt">
+					{{ msg }}
+				</div>
+				<form action="" method="post">
+					{{ form.hidden_tag() }}
+					<input type="text" class="cm-input-field" name="username" placeholder="Email (actually just user id (1-5))"></input>
+					<br>
+					<input type="text" class="cm-input-field" name="password" placeholder="Password"></input>
+					<br><br>
+					<input type="submit" class="cm-box-button" id="signin-button" value="Login"></input>
 					</form>
 			</div>
 
