@@ -1,0 +1,26 @@
+{% macro eventblurb(event) %}
+    <div class="p-2 cm-event-blurb">
+      <a href="/coming-soon" class="hidden-link">
+        <div class="container">
+          <div class="row">
+            <div class="col-4 cm-event-blurb-col-l">
+              <p class="pt-3 cm-blurb-date">
+                {{ event['month_abbr'] }} {{ event['day'] }} 
+              </p>
+              <p class="cm-blurb-weekday">
+                {{ event['weekday_abbr'] }}
+              </p>
+            </div>
+            <div class="col-8 cm-event-blurb-col-r">
+              <p class="cm-blurb-title"> 
+                {{ event['title'] }} 
+              </p>
+              <p class="cm-blurb-subtitle"> 
+                4:00PM - 6:00 PM
+              </p>
+            </div>
+          </div>
+        </div>
+      </a>
+    </div>
+{% endmacro %}

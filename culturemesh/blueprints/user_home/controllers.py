@@ -1,4 +1,5 @@
 import flask_login
+import utils
 
 from flask import Blueprint, render_template
 from culturemesh.client import Client
@@ -17,6 +18,9 @@ def render_user_home():
   if user is None:
     return page_not_found("")
 
+  for event in events_hosting:
+    utils.enhance_event_date_info(event)
+    
   return render_template('dashboard.html', user=user, events_hosting=events_hosting)
 
 @user_home.route("/account")
@@ -44,6 +48,9 @@ def render_user_home_events():
   events_hosting = c.get_user_events(user_id, "hosting", 5)
   if events_hosting is None:
     return page_not_found("")
+
+  for event in events_hosting:
+    utils.enhance_event_date_info(event)
 
   return render_template('events.html', user=user,
     events_hosting=events_hosting)

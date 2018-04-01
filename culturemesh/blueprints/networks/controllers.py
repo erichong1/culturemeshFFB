@@ -1,4 +1,5 @@
 import flask_login
+import utils
 
 from flask import Blueprint, render_template, request
 from culturemesh.client import Client
@@ -25,6 +26,8 @@ def network():
 
   posts = c.get_network_posts(network_id, 3)
   events = c.get_network_events(network_id, 3)
+  for event in events:
+    utils.enhance_event_date_info(event)
 
   # TODO: This assumes that the region ID and city ID are specified in the data.
   # This is not necessarily the case. This needs to be changed using the new information
@@ -90,6 +93,9 @@ def network_events() :
   else :
     event_index = events[-1]['id']
 
+  for event in events:
+    utils.enhance_event_date_info(event)
+
   # TODO: This assumes that the region ID and city ID are specified in the data.
   # This is not necessarily the case. This needs to be changed using the new information
   # that Ian sent us about network classes.
@@ -145,6 +151,8 @@ def network_posts() :
     except ValueError:
       return render_template('404.html')
     posts = c.get_network_posts(network_id, 10, old_index - 1)
+ 
+  posts = posts[::-1]
 
   # TODO: Add better handling for when there's no events left.
 
