@@ -29,6 +29,9 @@ def network():
   for event in events:
     utils.enhance_event_date_info(event)
 
+  for post in posts:
+    post['username'] = c.get_user(post['user_id'])['username']
+
   # TODO: This assumes that the region ID and city ID are specified in the data.
   # This is not necessarily the case. This needs to be changed using the new information
   # that Ian sent us about network classes.
@@ -153,6 +156,8 @@ def network_posts() :
     posts = c.get_network_posts(network_id, 10, old_index - 1)
  
   posts = posts[::-1]
+  for post in posts:
+    post['username'] = c.get_user(post['user_id'])['username']
 
   # TODO: Add better handling for when there's no events left.
 
