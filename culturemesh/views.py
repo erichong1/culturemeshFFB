@@ -3,7 +3,7 @@ import requests
 import config
 import flask_login
 
-from flask import render_template, request, redirect
+from flask import render_template, request, redirect, session
 from culturemesh import app, login_manager
 from culturemesh.client import Client
 from flask_login import current_user
@@ -76,7 +76,7 @@ def unauthorized_callback():
     return redirect('/login')
 
 
-##################### Other Callbacks #########################
+##################### Other functions #########################
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -85,6 +85,11 @@ def load_user(user_id):
 	if user is None:
 		return None
 	return User(user)
+
+@app.before_request
+def make_session_permanent():
+    session.permanent = True
+    app.permanent_session_lifetime = config.PERMANENT_SESSION_LIFETIME
 
 ##################### Error handling #########################
 
