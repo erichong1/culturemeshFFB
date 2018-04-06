@@ -8,6 +8,7 @@ posts = Blueprint('posts', __name__, template_folder='templates')
 @flask_login.login_required
 def render_post():
   fake_post = {
+    "post_title": "This is an example post title",
     "user_id": 3,
     "post_text": "Minus cumque corrupti porro natus tenetur delectus illum. Amet aut molestias eaque autem ea odio.\nAsperiores sed officia. Similique accusantium facilis sed. Eligendi tempora nisi sint tempora incidunt perferendis.",
     "network_id": 1,
@@ -16,6 +17,7 @@ def render_post():
     "post_date": "2017-02-01 05:49:35",
     "post_class": 0,
     "id": 2,
-    "post_original": "Not sure what this field is"
+    "post_original": "Not sure what this field is",
+    "comments": [("anotheruser", "This is a comment about the post."), ("yetanotheruser", "I agree with above."), ("randomuser", "I don't agree with what you're saying. Why do you think that this is true?")]
   }
   return render_template('post.html', post=fake_post)
