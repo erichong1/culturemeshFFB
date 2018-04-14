@@ -169,7 +169,7 @@ class Client(object):
 					country_id = int(path[3])
 					return self._mock_get_country(country_id)
 
-			if path[1] == "network":
+			elif path[1] == "network":
 				if path[3] == "users":
 					return self._mock_get_network_users(int(path[2]), query_params)
 
@@ -178,6 +178,8 @@ class Client(object):
 
 				elif path[3] == "events":
 					return self._mock_get_network_events(int(path[2]), query_params)
+			elif path[1] == "verify_account":
+				return self._mock_verify_account(path[2], path[3])
 			else:
 				pass
 		elif len(path) == 5:
@@ -195,6 +197,14 @@ class Client(object):
 		count = int(query_params['count'])
 		if count < 1 or count > 100:
 			raise AttributeError("Invalid count field.")
+
+	def _mock_verify_account(self, email_or_username, password):
+		with open(USER_DATA_LOC) as users:
+			users = json.load(users)
+			for u in users:
+				if (u['email'] == email_or_username or u['username'] == email_or_username) and u['password'] == password:
+					return u['user_id']
+		return None
 
 	def _mock_get_users(self, query_params):
 		self._mock_ensure_count(query_params)
@@ -596,6 +606,7 @@ from .posts import get_post
 from .posts import get_post_replies
 from .posts import create_post
 from .posts import create_post_reply
+from .accounts import verify_account
 from .users import get_users
 from .users import get_user
 from .users import get_user_networks
@@ -628,6 +639,7 @@ Client.get_post = get_post
 Client.get_post_replies = get_post_replies
 Client.create_post = create_post
 Client.create_post_reply = create_post_reply
+Client.verify_account = verify_account
 Client.get_users = get_users
 Client.get_user = get_user
 Client.get_user_networks = get_user_networks

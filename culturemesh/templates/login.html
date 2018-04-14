@@ -7,7 +7,7 @@
 		<link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/bootstrap.css') }}">
 	  <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/culturemesh-style.css') }}">
 	</head>
-	
+
 	<body>
 		<div class="wrapper container-fluid cm-login-body">
 
@@ -21,7 +21,7 @@
 				</div>
 				<form action="" method="post">
 					{{ form.hidden_tag() }}
-					<input type="text" class="cm-input-field" name="username" placeholder="Email (actually just user id (1-5))"></input>
+					<input type="text" class="cm-input-field" name="email_or_username" placeholder="Email/Username"></input>
 					<br>
 					<input type="text" class="cm-input-field" name="password" placeholder="Password"></input>
 					<br><br>
