@@ -1,3 +1,4 @@
+{% from "macros.html" import eventblurb %}
 {% extends "dashboard.html" %}
 
   {% block dashboard_content %}
@@ -9,16 +10,8 @@
         {% else %}
             {% for event in events_hosting %}
               <div class="py-1 row">
-                <div class="p-2 cm-event-blurb">
-                  <div class="text-center">
-                    Title: {{ event['title'] }} <br>
-                    Date: {{ event['event_date'] }} <br>
-                    Location: {{ event['location']|reverse|join(', ') }} <br>
-                  </div>
-                  <div class="p-2 text-right">
-                    <a href="/coming-soon">Go to Event</a>
-                  </div>
-                </div>
+                {{ eventblurb(event) }}
+                {{ date }}
               </div>
             {% endfor %}
         {% endif %}
