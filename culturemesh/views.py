@@ -26,7 +26,7 @@ def home():
 def about():
 	return render_template('about.html')
 
-#TODO: this needs to be fleshed out. 
+#TODO: this needs to be fleshed out.
 @app.route("/register", methods=['GET', 'POST'])
 def register():
 	if current_user and current_user.is_authenticated:
@@ -43,17 +43,17 @@ def register():
 	else:
 		return render_template('register.html', form=LoginForm())
 
-# TODO: needs to actually use a login form object 
-#       for security. 
+# TODO: needs to actually use a login form object
+#       for security.
 @app.route("/login", methods=['GET', 'POST'])
 def render_login_page():
     if request.method == 'POST':
-      user_id = request.form['username']
-
-      if not user_id.isdigit():
-        return render_template('login.html', msg=LOGIN_FAILED_MSG, form=LoginForm())
-
+      email_or_username = request.form['email_or_username']
+      password = request.form['password']
       c = Client(mock=True)
+      user_id = c.verify_account(email_or_username, password)
+      if user_id is None:
+        return render_template('login.html', msg=LOGIN_FAILED_MSG, form=LoginForm())
       user_dict = c.get_user(int(user_id))
       if user_dict is not None:
         user = User(user_dict)
