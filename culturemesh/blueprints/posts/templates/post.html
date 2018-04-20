@@ -2,7 +2,7 @@
 
 {% block content %}
 <div class="p-3 container-fluid">
-  <h4 class="text-center">{{ post['post_title'] }}</h4>
+  <h4 class="text-center">{{ title }}</h4>
 
     <div class="py-1 row">
         <div class="text-center">
@@ -24,13 +24,13 @@
       </div>
     </div>
     <div class="py-1 row">
-      {% for comment in post['comments'] %}
+      {% for i in range(num_replies) %}
       <div class="py-2 text-left">
-        {{ comment[0] }}
+        Comment by {{ reply_usernames[i] }} on {{ replies[i]["reply_date"] }}:
       </div>
       <div class="p-2 cm-event-blurb">
         <div class="text-left">
-          {{ comment[1] }} <br>
+          {{ replies[i]["reply_text"] }} <br>
         </div>
       </div>
       {% endfor %}
