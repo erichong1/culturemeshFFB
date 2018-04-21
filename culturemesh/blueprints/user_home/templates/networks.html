@@ -1,3 +1,4 @@
+{% from "macros.html" import networkblurb %}
 {% extends "dashboard.html" %}
 
 
@@ -10,14 +11,7 @@
         {% else %}
             {% for network in networks %}
               <div class="py-1 row">
-                <div class="p-2 cm-event-blurb">
-                  <div class="text-center">
-                    {{ network.title }}
-                  </div>
-                  <div class="p-2 text-right">
-                    <a href="/network?id={{network.id}}">Go to Network</a>
-                  </div>
-                </div>
+                {{ networkblurb(network) }}
               </div>
             {% endfor %}
         {% endif %}

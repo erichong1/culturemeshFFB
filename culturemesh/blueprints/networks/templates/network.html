@@ -1,3 +1,5 @@
+{% from "macros.html" import eventblurb %}
+{% from "macros.html" import postblurb %}
 {% extends "base.html" %}
 
 {% block content %}
@@ -6,7 +8,7 @@
   <div class="center text-center">
     <div class="p-3 text-center">
       <h3 id="cm-profile-name">{{ network_info['network_title']}}</h3>
-      <p style="color:white">Number of users/posts to go here!</p>
+      <p style="color:white">128 members  &middot; 322 posts </p>
     </div>
   </div>
 </div>
@@ -29,13 +31,7 @@
 
   {% for post in network_info['posts'] %}
   <div class="py-1 row">
-    <div class="p-2 cm-event-blurb">
-      <div class="text-center">
-        User: {{ post['user_id'] }} <br />
-        Date: {{ post['post_date'] }} <br />
-        Post Text: {{ post['post_text']}} <br />
-      </div>
-    </div>
+    {{ postblurb(post) }}
   </div>
   {% endfor %}
 
@@ -53,13 +49,7 @@
 
   {% for event in network_info['events'] %}
   <div class="py-1 row">
-    <div class="p-2 cm-event-blurb">
-      <div class="text-center">
-        Title: {{ event['title'] }} <br />
-        Date: {{ event['event_date'] }} <br />
-        Location: {{ event['location']|reverse|join(', ') }} <br />
-      </div>
-    </div>
+    {{ eventblurb(event) }}
   </div>
   {% endfor %}
 
