@@ -8,9 +8,10 @@ posts = Blueprint('posts', __name__, template_folder='templates')
 @posts.route("/")
 @flask_login.login_required
 def render_post():
+  current_post_id = request.args.get('id')
   user_id = current_user.get_id()
   c = Client(mock=True)
-  fake_post = c.get_post(user_id)
+  fake_post = c.get_post(current_post_id)
   post_text_arr = fake_post["post_text"].split(" ")
   title = ""
   for i in range(10):
