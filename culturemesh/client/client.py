@@ -204,7 +204,7 @@ class Client(object):
 			for u in users:
 				if (u['email'] == email_or_username or u['username'] == email_or_username) and u['password'] == password:
 					return u['user_id']
-		return None
+		return -1
 
 	def _mock_get_users(self, query_params):
 		self._mock_ensure_count(query_params)
