@@ -2,23 +2,38 @@
 
 {% block content %}
 <div class="p-3 container-fluid">
-  <h4 class="text-center">Post</h4>
+  <h4 class="text-center">{{ title }}</h4>
 
     <div class="py-1 row">
-      <div class="p-2 cm-event-blurb">
         <div class="text-center">
-          Post Id: {{ post['id'] }} <br>
-          Date: {{ post['post_date'] }} <br>
-          Posted By: User {{ post['user_id'] }} in  Network {{ post['network_id'] }}
+          Posted by: User {{ post['user_id'] }} | {{ post['post_date'] }} |  Network {{ post['network_id'] }}
         </div>
-      </div>
     </div>
-    <div class="py-1 row">
-      <div class="p-2 cm-event-blurb">
+    <div class="my-2 py-1 row">
+      <div class="p-3 cm-event-blurb">
         <div class="text-center">
           {{ post['post_text'] }} <br>
         </div>
       </div>
+    </div>
+    <div class="p-1 row">
+      <div class="form-group">
+        <label for="comment">Comment:</label>
+        <textarea class="form-control" rows="5" id="cm-post-comment"></textarea>
+        <button type="button" class="my-2 btn btn-secondary btn-sm">Submit</button>
+      </div>
+    </div>
+    <div class="py-1 row">
+      {% for i in range(num_replies) %}
+      <div class="py-2 text-left">
+        Comment by {{ reply_usernames[i] }} on {{ replies[i]["reply_date"] }}:
+      </div>
+      <div class="p-2 cm-event-blurb">
+        <div class="text-left">
+          {{ replies[i]["reply_text"] }} <br>
+        </div>
+      </div>
+      {% endfor %}
     </div>
 
   </div>
