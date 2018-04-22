@@ -52,7 +52,7 @@ def render_login_page():
       password = request.form['password']
       c = Client(mock=True)
       user_id = c.verify_account(email_or_username, password)
-      if user_id is None:
+      if user_id == -1:
         return render_template('login.html', msg=LOGIN_FAILED_MSG, form=LoginForm())
       user_dict = c.get_user(int(user_id))
       if user_dict is not None:

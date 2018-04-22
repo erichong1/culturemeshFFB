@@ -25,6 +25,11 @@ def render_search_page():
             network[location]['country_name'] = c.get_country(network[location]['country_id'])['name']
             network[location]['region_name'] = c.get_region(network[location]['region_id'])['name']
 
-    return render_template('search_results.html', networks=networks)
+    if search_type == "location":
+        return render_template('location_search_results.html', networks=networks)
+    elif search_type == "language":
+        return render_template('language_search_results.html', networks=networks)
+    else:
+        raise Exception("Invalid Search Type %s" % search_type)
   else:
     return render_template('search.html', form=SearchForm())

@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+  {% block content %}
+  <div class="container-fluid">
+    <div class="p-3 text-center">
+        {% if networks|length == 0 %}
+            No matching networks found!
+        {% else %}
+            <h5 class="text-left"> Best Match </h5>
+              <div class="py-1 row">
+                  <div class="text-left">
+                    <h5><a href=/network?id={{networks[0]['id']}}>
+                    {{ networks[0]['language_origin']['name']}} speakers
+                        in {{ networks[0]['location_cur']['city_name']}},
+                        {{ networks[0]['location_cur']['country_name']}}
+                    </a></h5>
+                    Language: {{ networks[0]['language_origin']['name'] }} <br>
+                    Number of Speakers: {{ networks[0]['language_origin']['num_speakers'] }} <br>
+                    <br>
+                  </div>
+              </div>
+            <h5 class="text-left"> Related Networks </h5>
+            {% for network in networks[1:] %}
+              <div class="py-1 row">
+                  <div class="text-left">
+                    <h5><a href=/network?id={{network['id']}}>
+                        {{ network['language_origin']['name']}} speakers
+                        in {{ network['location_cur']['city_name']}},
+                        {{ network['location_cur']['country_name']}}
+                    </a></h5>
+                    Language: {{ network['language_origin']['name'] }} <br>
+                    Number of Speakers: {{ network['language_origin']['num_speakers'] }} <br>
+                    <br>
+                  </div>
+              </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+  </div>
+  {% endblock %}
+
+  {% block footer %}
+      {% if current_user.is_authenticated %}
+          {{ super() }}
+      {% else %}
+          <!-- empty -->
+      {% endif %}
+  {% endblock %}
