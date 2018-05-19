@@ -34,7 +34,7 @@ LANG_DATA_LOC = os.path.join(app.root_path, "../data/mock/db_mock_languages.json
 CITY_DATA_LOC = os.path.join(app.root_path, "../data/mock/db_mock_location_cities.json")
 REGION_DATA_LOC = os.path.join(app.root_path, "../data/mock/db_mock_location_regions.json")
 COUNTRY_DATA_LOC = os.path.join(app.root_path, "../data/mock/db_mock_location_countries.json")
-KEY = os.environ('CULTUMESH_API_KEY')
+KEY = os.environ['CULTUREMESH_API_KEY']
 class Request(IntEnum):
 	GET = 1
 	POST = 2
