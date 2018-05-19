@@ -68,7 +68,6 @@ class Client(object):
 		if self.mock:
 			return self._mock_request(url, query_params, body_params)
 		url = "%s/%s?key=%s" % (self._api_base_url_, url, KEY)
-		print(url)
 		response = requests.get(url)
 
 		return self._get_body(response)
