@@ -6,5 +6,5 @@ events = Blueprint('events', __name__, template_folder='templates')
 @events.route("/ping")
 @flask_login.login_required
 def ping():
-  c = Client()
+  c = Client(mock=False)
   return c.ping_event()

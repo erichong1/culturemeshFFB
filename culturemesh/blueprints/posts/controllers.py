@@ -28,5 +28,5 @@ def render_post():
 @posts.route("/ping")
 @flask_login.login_required
 def ping():
-  c = Client()
+  c = Client(mock=False)
   return c.ping_post()

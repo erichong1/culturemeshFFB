@@ -90,9 +90,9 @@ def render_user_home_networks():
     networks.append(network_)
 
   return render_template('networks.html', user=user, networks=networks)
-  
+
 @user_home.route("/ping")
 @flask_login.login_required
 def ping():
-  c = Client()
+  c = Client(mock=False)
   return c.ping_user()

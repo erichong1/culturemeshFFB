@@ -81,8 +81,10 @@ class Client(object):
 		"""
 		if response.status_code != 200:
 			abort(response.status_code)
-
-		return response.text
+		try:
+			return response.json()
+		except json.decoder.JSONDecodeError:
+			return response.text
 
 	########################### MOCK DATA METHODS BELOW ##########################
 
