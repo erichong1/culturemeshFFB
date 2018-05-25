@@ -128,7 +128,7 @@ body {
 }
 
 .cm-event-blurb-col-l {
-  padding-right:10px; 
+  padding-right:10px;
   border-right: 1px solid #ccc;
 }
 
@@ -381,4 +381,12 @@ body {
   align-items: stretch;
   height: 100%;
   width: 100%;
+}
+
+.cm-post-form-group {
+  width: 300px;
+}
+
+.cm-post-info-text {
+  color: pink;
 }

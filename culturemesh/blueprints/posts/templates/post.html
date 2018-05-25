@@ -5,7 +5,7 @@
   <h4 class="text-center">{{ title }}</h4>
 
     <div class="py-1 row">
-        <div class="text-center">
+        <div class="text-center" style="color:#a3a3a3;">
           Posted by: User {{ post['user_id'] }} | {{ post['post_date'] }} |  Network {{ post['network_id'] }}
         </div>
     </div>
@@ -16,26 +16,29 @@
         </div>
       </div>
     </div>
-    <div class="p-1 row">
-      <div class="form-group">
-        <label for="comment">Comment:</label>
-        <textarea class="form-control" rows="5" id="cm-post-comment"></textarea>
-        <button type="button" class="my-2 btn btn-secondary btn-sm">Submit</button>
-      </div>
-    </div>
     <div class="py-1 row">
+      <div class="text-center" style="color:#EF5330;font-size:24px;text-align:center;">
+        Comments:
+      </div>
       {% for i in range(num_replies) %}
-      <div class="py-2 text-left">
-        Comment by {{ reply_usernames[i] }} on {{ replies[i]["reply_date"] }}:
+      <div class="py-2 text-left" style="color:#a3a3a3;">
+        {{ reply_usernames[i] }} on {{ replies[i]["reply_date"] }}:
       </div>
       <div class="p-2 cm-event-blurb">
         <div class="text-left">
           {{ replies[i]["reply_text"] }} <br>
         </div>
       </div>
+      <div class="m-3"></div>
       {% endfor %}
     </div>
-
+    <div class="p-2 row">
+      <div class="form-group" style="width:100%;">
+        <label for="comment" style="color:#EF5330;">Share your thoughts:</label>
+        <textarea class="my-1 form-control" rows="4" id="cm-post-comment"></textarea>
+        <button type="button" class="my-2 btn btn-secondary btn-sm" style="background-color:#EF5330;color: white;">Submit</button>
+      </div>
+    </div>
   </div>
 </div>
 {% endblock %}
