@@ -21,9 +21,11 @@ def render_post():
   replies = c.get_post_replies(fake_post["id"], num_replies)
   usernames = []
   for reply in replies:
-      username = c.get_user(reply["user_id"])["username"]
+      username = c.get_user(reply["id_user"])["username"]
       usernames.append(username)
-  return render_template('post.html', title=title, post=fake_post, replies=replies, reply_usernames=usernames, num_replies=num_replies)
+  return render_template('post.html', title=title,
+    post=fake_post, replies=replies,
+    reply_usernames=usernames, num_replies=num_replies)
 
 @posts.route("/ping")
 @flask_login.login_required

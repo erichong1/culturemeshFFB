@@ -112,8 +112,8 @@ class Client(object):
 
 		elif len(path) == 3:
 			if path[1] == "user":
-				user_id = int(path[2])
-				return self._mock_get_user(user_id)
+				id_user = int(path[2])
+				return self._mock_get_user(id_user)
 
 			elif path[1] == "post":
 				post_id = int(path[2])
@@ -213,15 +213,15 @@ class Client(object):
 			users = json.load(users)
 			for u in users:
 				if (u['email'] == email_or_username or u['username'] == email_or_username) and u['password'] == password:
-					return u['user_id']
+					return u['id']
 		return -1
 
 	def _mock_get_users(self, query_params):
 		self._mock_ensure_count(query_params)
 		count = query_params['count']
 		with open(USER_DATA_LOC) as users:
-			users = sorted(json.load(users), key=lambda x: x['user_id'], reverse=True)
-			max_id = users[0]['user_id']
+			users = sorted(json.load(users), key=lambda x: x['id'], reverse=True)
+			max_id = users[0]['id']
 			if 'max_id' in query_params:
 				max_id = query_params['max_id']
 
@@ -229,20 +229,20 @@ class Client(object):
 			for u in users:
 				if count == 0:
 					break
-				if u['user_id'] <= max_id:
+				if u['id'] <= max_id:
 					result.append(u)
 					count -= 1
 
 			return result
 
-	def _mock_get_user(self, user_id):
+	def _mock_get_user(self, id_user):
 		with open(USER_DATA_LOC) as users:
 			users = json.load(users)
 			for u in users:
-				if u['user_id'] == user_id:
+				if u['id'] == id_user:
 					return u
 
-	def _mock_get_user_networks(self, user_id, query_params):
+	def _mock_get_user_networks(self, id_user, query_params):
 		"""
 		Returns mock list of networks a user belongs to. Returns the most recently
 		joined networks first.
@@ -253,7 +253,7 @@ class Client(object):
 			user_network_regs = []
 			network_reg = json.load(network_reg)
 			for n_reg in network_reg:
-				if n_reg['id_user'] == user_id:
+				if n_reg['id_user'] == id_user:
 					user_network_regs.append(n_reg)
 
 			if len(user_network_regs) == 0:
@@ -286,14 +286,14 @@ class Client(object):
 					networks.append(network)
 			return networks
 
-	def _mock_get_user_posts(self, user_id, query_params):
+	def _mock_get_user_posts(self, id_user, query_params):
 		self._mock_ensure_count(query_params)
 		count = query_params['count']
 		with open(POST_DATA_LOC) as posts:
 			user_posts = []
 			posts = json.load(posts)
 			for p in posts:
-				if p['user_id'] == user_id:
+				if p['id_user'] == id_user:
 					user_posts.append(p)
 
 			if len(user_posts) == 0:
@@ -315,14 +315,14 @@ class Client(object):
 
 			return res
 
-	def _mock_get_user_events_hosting(self, user_id, query_params):
+	def _mock_get_user_events_hosting(self, id_user, query_params):
 		self._mock_ensure_count(query_params)
 		count = query_params['count']
 		with open(EVENT_DATA_LOC) as events:
 			user_hosting = []
 			events = json.load(events)
 			for e in events:
-				if e['host_id'] == user_id:
+				if e['id_host'] == id_user:
 					user_hosting.append(e)
 			if len(user_hosting) == 0:
 				return user_hosting

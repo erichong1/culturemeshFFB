@@ -20,9 +20,9 @@
   <div class="col-sm text-center">
     <div id="cm-dashboard-menu" class="btn-group btn-group-sm" role="group">
       {% block network_buttons %}
-        <a href="/network?id={{ network_info['network_id'] }}" id="cm-button" type="button" class="btn btn-secondary">Home</a>
-        <a href="/network/posts?id={{ network_info['network_id'] }}" id="cm-button" type="button" class="btn btn-secondary">Posts</a>
-        <a href="/network/events?id={{ network_info['network_id'] }}" id="cm-button" type="button" class="btn btn-secondary">Events</a>
+        <a href="/network?id={{ network_info['id'] }}" id="cm-button" type="button" class="btn btn-secondary">Home</a>
+        <a href="/network/posts?id={{ network_info['id'] }}" id="cm-button" type="button" class="btn btn-secondary">Posts</a>
+        <a href="/network/events?id={{ network_info['id'] }}" id="cm-button" type="button" class="btn btn-secondary">Events</a>
       {% endblock %}
     </div>
   </div>
@@ -40,7 +40,7 @@
 
   <div class="py-1 row">
     <div class="text-center">
-      <a type="button" class="btn btn-secondary" href="/network/posts?id={{ network_info['network_id'] }}">
+      <a type="button" class="btn btn-secondary" href="/network/posts?id={{ network_info['id'] }}">
         More posts!
       </a>
     </div>
@@ -58,7 +58,7 @@
 
   <div class="py-1 row">
     <div class="p-2">
-      <a type="button" class="btn btn-secondary" href="/network/events?id={{ network_info['network_id'] }}">
+      <a type="button" class="btn btn-secondary" href="/network/events?id={{ network_info['id'] }}">
         More events!
       </a>
     </div>
