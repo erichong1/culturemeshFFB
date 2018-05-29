@@ -55,6 +55,13 @@ def network():
     network_title = 'From %s, %s, %s in %s, %s, %s' % tuple(map(lambda x: x.title(), [orig_city['name'], orig_region['name'], orig_country['name'], cur_city['name'], cur_region['name'], cur_country['name']]))
     network_info['network_title'] = network_title
 
+  c_real = Client(mock=False)
+  num_users = c_real.get_network_user_count(network_id)['user_count']
+  num_posts = c_real.get_network_post_count(network_id)['post_count']
+
+  network_info['num_users'] = num_users
+  network_info['num_posts'] = num_posts
+
   return render_template('network.html', network_info=network_info)
 
 @networks.route("/events")

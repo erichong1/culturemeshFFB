@@ -79,5 +79,25 @@ def get_network_users(client, networkId, count, max_id=None):
         query_params['max_id'] = max_id
     return client._request(url, Request.GET, query_params=query_params)
 
+def get_network_user_count(client, networkId):
+    """
+    :param client: the CultureMesh API client
+    :param networkId: The id of the network
+
+    Returns the number of users on this network.
+    """
+    url = '/network/%s/user_count' % str(networkId)
+    return client._request(url, Request.GET)
+
+def get_network_post_count(client, networkId):
+    """
+    :param client: the CultureMesh API client
+    :param networkId: The id of the network
+
+    Returns the number of posts on this network.
+    """
+    url = '/network/%s/post_count' % str(networkId)
+    return client._request(url, Request.GET)
+
 ####################### POST methods #######################
 ####################### PUT methods #######################

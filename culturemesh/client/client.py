@@ -35,6 +35,7 @@ CITY_DATA_LOC = os.path.join(app.root_path, "../data/mock/db_mock_location_citie
 REGION_DATA_LOC = os.path.join(app.root_path, "../data/mock/db_mock_location_regions.json")
 COUNTRY_DATA_LOC = os.path.join(app.root_path, "../data/mock/db_mock_location_countries.json")
 KEY = os.environ['CULTUREMESH_API_KEY']
+
 class Request(IntEnum):
 	GET = 1
 	POST = 2
@@ -43,7 +44,7 @@ class Request(IntEnum):
 class Client(object):
 	""" Talks directly to CultureMesh """
 
-	_api_base_url_ = "http://www.culturemesh.com/api-dev/v1"
+	_api_base_url_ = "http://www.culturemesh.com/api-dev/v-afl"
 
 	def __init__(self, key=None, client_id=None, client_secret=None,
 				 timeout=None, connect_timeout=None, read_timeout=None,
@@ -51,7 +52,6 @@ class Client(object):
 				 channel=None, mock=True):
 
 
-		# TODO: insert client initialization here.
 		self.mock = mock
 
 		# See: http://docs.python-requests.org/en/master/user/advanced/
@@ -67,9 +67,13 @@ class Client(object):
 		"""
 		if self.mock:
 			return self._mock_request(url, query_params, body_params)
-		url = "%s/%s?key=%s" % (self._api_base_url_, url, KEY)
-		response = requests.get(url)
 
+		url = "%s/%s?key=%s" % (self._api_base_url_, url, KEY)
+		if query_params is not None:
+			for param in query_params:
+				url += "&%s=%s" % (param, query_params[param])
+
+		response = requests.get(url)
 		return self._get_body(response)
 
 	def _get_body(self, response):
@@ -630,6 +634,8 @@ from .networks import get_network
 from .networks import get_network_posts
 from .networks import get_network_events
 from .networks import get_network_users
+from .networks import get_network_user_count
+from .networks import get_network_post_count
 
 # We may consider adding a wrapper around these assignments
 # below to introduce more specific features for the client.
@@ -667,3 +673,5 @@ Client.get_network = get_network
 Client.get_network_posts = get_network_posts
 Client.get_network_events = get_network_events
 Client.get_network_users = get_network_users
+Client.get_network_user_count = get_network_user_count
+Client.get_network_post_count = get_network_post_count
