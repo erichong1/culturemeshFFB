@@ -59,7 +59,7 @@ def render_user_home_events():
 @flask_login.login_required
 def render_user_home_networks():
   user_id = current_user.get_id()
-  c = Client(mock=True)
+  c = Client(mock=False)
   user = c.get_user(user_id)
 
   if user is None:
@@ -67,26 +67,13 @@ def render_user_home_networks():
 
   # TODO: incorporate paging into the user networks call.
   user_networks = c.get_user_networks(user_id, count=5)
-  # TODO: construct network titles
 
-  networks = [] # TODO: make this a dedicated object.
+  networks = []
   for network in user_networks:
-    title_template = "From %s, %s, %s in %s, %s, %s, that speak %s."
-    location_cur = network['location_cur']
-    city = c.get_city(location_cur['city_id'])['name']
-    region = c.get_region(location_cur['region_id'])['name']
-    country = c.get_country(location_cur['country_id'])['name']
-
-    location_origin = network['location_origin']
-    city_orig = c.get_city(location_origin['city_id'])['name']
-    region_orig = c.get_region(location_origin['region_id'])['name']
-    country_orig = c.get_country(location_origin['country_id'])['name']
-
-    network_ = {'title':'', 'id': network['id']}
-
-    language = network['language_origin']['name']
-    network_['title'] = title_template % (city_orig.title(), region_orig.title(), country_orig.title(),
-                                    city.title(), region.title(), country.title(), language)
+    network_ = {'id': network['id']}
+    network_['title'] = get_network_title(network)
+    num_users = c.get_network_user_count(network['id'])['user_count']
+    network_['user_count'] = num_users
     networks.append(network_)
 
   return render_template('networks.html', user=user, networks=networks)
@@ -96,3 +83,20 @@ def render_user_home_networks():
 def ping():
   c = Client(mock=False)
   return c.ping_user()
+
+def get_network_title(network):
+  cur_country = network['country_cur']
+  cur_region = network['region_cur']
+  cur_city = network['city_cur']
+
+  if network['network_class'] == 0:
+    language = network['language_origin']
+    return "%s speakers in %s, %s, %s" \
+      % tuple([language, cur_city, cur_region, cur_country])
+  else:
+    orig_country = network['country_origin']
+    orig_region = network['region_origin']
+    orig_city = network['city_origin']
+    return 'From %s, %s, %s in %s, %s, %s' % tuple([orig_city,
+      orig_region, orig_country, cur_city, cur_region, cur_country])
+
