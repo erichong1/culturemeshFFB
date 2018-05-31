@@ -34,6 +34,7 @@ def network():
 
   for post in posts:
     post['username'] = c.get_user(post['id_user'])['username']
+    post['reply_count'] = c.get_post_reply_count(post['id'])['reply_count']
 
   # TODO: This assumes that the region ID and city ID are specified in the data.
   # This is not necessarily the case. This needs to be changed using the new information
@@ -153,6 +154,7 @@ def network_posts() :
 
   for post in posts:
     post['username'] = c.get_user(post['id_user'])['username']
+    post['reply_count'] = c.get_post_reply_count(post['id'])['reply_count']
 
   # TODO: Add better handling for when there's no events left.
 

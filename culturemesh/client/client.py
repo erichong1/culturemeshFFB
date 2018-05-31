@@ -615,6 +615,7 @@ from .locations import location_autocomplete
 from .posts import ping_post
 from .posts import get_post
 from .posts import get_post_replies
+from .posts import get_post_reply_count
 from .posts import create_post
 from .posts import create_post_reply
 from .accounts import verify_account
@@ -654,6 +655,7 @@ Client.location_autocomplete = location_autocomplete
 Client.ping_post = ping_post
 Client.get_post = get_post
 Client.get_post_replies = get_post_replies
+Client.get_post_reply_count = get_post_reply_count
 Client.create_post = create_post
 Client.create_post_reply = create_post_reply
 Client.verify_account = verify_account

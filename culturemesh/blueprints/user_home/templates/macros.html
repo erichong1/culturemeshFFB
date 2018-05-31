@@ -30,7 +30,7 @@
     <div class="container">
       <div class="row">
         <p class="cm-post-blurb-top-text">
-          By {{ post['username'] }} | x hours ago
+          By {{ post['username'] }} | y hours ago
         </p>
       </div>
       <div class="row">
@@ -44,7 +44,7 @@
         <a href="/post?id={{ post['id'] }}" class="hidden-link">
           <div class="cm-post-blurb-small-text">
             <i class="fas fa-comment fa-sm"></i>
-            x Replies
+            {{ post['reply_count']}} Replies
           </div>
         </a>
       </div>

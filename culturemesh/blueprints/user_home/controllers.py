@@ -12,7 +12,7 @@ user_home = Blueprint('user_home', __name__, template_folder='templates')
 @flask_login.login_required
 def render_user_home():
   user_id = current_user.get_id()
-  c = Client(mock=True)
+  c = Client(mock=False)
   user = c.get_user(user_id)
   events_hosting = c.get_user_events(user_id, "hosting", 5)
   if user is None:
@@ -27,7 +27,7 @@ def render_user_home():
 @flask_login.login_required
 def render_user_home_account():
   user_id = current_user.get_id()
-  c = Client(mock=True)
+  c = Client(mock=False)
   user = c.get_user(user_id)
 
   if user is None:
