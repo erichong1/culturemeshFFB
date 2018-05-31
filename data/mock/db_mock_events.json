@@ -1,6 +1,7 @@
 [
   {
-    "description": "Ad officia impedit necessitatibus. Explicabo consequuntur commodi.\nId id nostrum doloremque ab minus magnam. Ipsa placeat quasi dolores libero laboriosam.\nNam tenetur ullam eius officia. Asperiores maiores soluta.",
+    "description":
+      "Ad officia impedit necessitatibus. Explicabo consequuntur commodi.\nId id nostrum doloremque ab minus magnam. Ipsa placeat quasi dolores libero laboriosam.\nNam tenetur ullam eius officia. Asperiores maiores soluta.",
     "title": "Centralized motivating encoding",
     "network_id": 0,
     "date_created": "2017-10-13 01:49:21",
@@ -9,14 +10,11 @@
     "event_date": "2017-11-03 17:28:51",
     "host_id": 5,
     "id": 1,
-    "location": [
-      "Uzbekistan",
-      "Dunnmouth",
-      "Chavezbury"
-    ]
+    "location": ["Uzbekistan", "Dunnmouth", "Chavezbury"]
   },
   {
-    "description": "Laudantium sequi quisquam necessitatibus fugit eligendi. Rem blanditiis quibusdam molestias. Quis voluptate consequatur magnam nemo est magnam explicabo. A ipsam ipsum esse id quos.",
+    "description":
+      "Laudantium sequi quisquam necessitatibus fugit eligendi. Rem blanditiis quibusdam molestias. Quis voluptate consequatur magnam nemo est magnam explicabo. A ipsam ipsum esse id quos.",
     "title": "Reverse-engineered 6thgeneration neural-net",
     "network_id": 1,
     "date_created": "2017-09-09 17:12:57",
@@ -25,14 +23,11 @@
     "event_date": "2017-11-16 04:38:29",
     "host_id": 2,
     "id": 2,
-    "location": [
-      "Malaysia",
-      "New John",
-      "Kyliefort"
-    ]
+    "location": ["Malaysia", "New John", "Kyliefort"]
   },
   {
-    "description": "Doloremque natus cupiditate ratione sint eveniet. Vitae provident sapiente adipisci.\nEt inventore quis quos deleniti numquam. Voluptate ipsam totam quas. Ea minima consequuntur consequuntur quaerat facere.",
+    "description":
+      "Doloremque natus cupiditate ratione sint eveniet. Vitae provident sapiente adipisci.\nEt inventore quis quos deleniti numquam. Voluptate ipsam totam quas. Ea minima consequuntur consequuntur quaerat facere.",
     "title": "Adaptive fault-tolerant hardware",
     "network_id": 1,
     "date_created": "2017-10-11 01:13:33",
@@ -41,14 +36,11 @@
     "event_date": "2017-11-10 22:35:03",
     "host_id": 3,
     "id": 3,
-    "location": [
-      "Macao",
-      "South Jillian",
-      "New Jenniferfort"
-    ]
+    "location": ["Macao", "South Jillian", "New Jenniferfort"]
   },
   {
-    "description": "Expedita non nam minima aperiam explicabo. Dicta sunt incidunt optio quae. Quam quibusdam dolorum voluptate corrupti ullam sequi. Amet at repellat iusto fuga voluptates aliquam.",
+    "description":
+      "Expedita non nam minima aperiam explicabo. Dicta sunt incidunt optio quae. Quam quibusdam dolorum voluptate corrupti ullam sequi. Amet at repellat iusto fuga voluptates aliquam.",
     "title": "Quality-focused asynchronous Graphic Interface",
     "network_id": 0,
     "date_created": "2017-11-10 17:48:56",
@@ -57,10 +49,6 @@
     "event_date": "2017-11-04 21:46:16",
     "host_id": 5,
     "id": 4,
-    "location": [
-      "Norfolk Island",
-      "New Tara",
-      "Johnton"
-    ]
+    "location": ["Norfolk Island", "New Tara", "Johnton"]
   }
 ]
