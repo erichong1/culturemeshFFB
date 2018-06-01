@@ -4,6 +4,10 @@
 
 from culturemesh.constants import BLANK_PROFILE_IMG_URL
 from culturemesh.constants import USER_IMG_URL_FMT
+from culturemesh.client import Client
+
+from utils import parse_date
+from utils import get_month_abbr
 
 def get_network_title(network):
   """Returns the title of a network given a network
@@ -50,3 +54,21 @@ def get_user_image_url(user):
     return BLANK_PROFILE_IMG
   else:
     return USER_IMG_URL_FMT % user['img_link']
+
+def get_short_network_join_date(network):
+  """Returns a short version of the user's Join
+  date to a network:
+
+  Mon day, Year
+  """
+
+  if 'join_date' not in network:
+    return "unknown"
+  else:
+    date = parse_date(network['join_date'])
+    short_month = get_month_abbr(date)
+    year = date.year
+    day = date.day
+    return "%s %s, %s" % (str(short_month), str(day), str(year))
+
+

@@ -24,14 +24,17 @@ def get_weekday(date):
 def get_weekday_abbr(date):
   return calendar.day_abbr[date.weekday()]
 
-def enhance_event_date_info(event):
+def parse_date(str_):
   try:
     # First let's try this format
-    date = str2date(event['event_date'])
+    date = str2date(str_)
   except ValueError:
-
     # Otherwise best guess
-    date = parse(event['event_date'])
+    date = parse(str_)
+  return date
+
+def enhance_event_date_info(event):
+  date = parse_date(event['event_date'])
 
   event['month'] = get_month(date)
   event['month_abbr'] = get_month_abbr(date)
