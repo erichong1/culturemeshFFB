@@ -73,7 +73,7 @@ def render_user_home_networks():
     return page_not_found("")
 
   # TODO: incorporate paging into the user networks call.
-  user_networks = c.get_user_networks(user_id, count=5)
+  user_networks = c.get_user_networks(user_id, count=50)
 
   networks = []
   for network in user_networks:
