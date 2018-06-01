@@ -3,6 +3,7 @@ import utils
 
 from flask import Blueprint, render_template, request
 from culturemesh.client import Client
+from culturemesh.utils import get_network_title
 from culturemesh.constants import LANGUAGE_NETWORK
 
 networks = Blueprint('networks', __name__, template_folder='templates')
@@ -189,18 +190,3 @@ def ping():
     c = Client(mock=False)
     return c.ping_network()
 
-def get_network_title(network):
-  cur_country = network['country_cur']
-  cur_region = network['region_cur']
-  cur_city = network['city_cur']
-
-  if network['network_class'] == 0:
-    language = network['language_origin']
-    return "%s speakers in %s, %s, %s" \
-      % tuple([language, cur_city, cur_region, cur_country])
-  else:
-    orig_country = network['country_origin']
-    orig_region = network['region_origin']
-    orig_city = network['city_origin']
-    return 'From %s, %s, %s in %s, %s, %s' % tuple([orig_city,
-      orig_region, orig_country, cur_city, cur_region, cur_country])
