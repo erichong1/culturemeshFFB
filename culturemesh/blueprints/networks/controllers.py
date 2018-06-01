@@ -4,7 +4,6 @@ import utils
 from flask import Blueprint, render_template, request
 from culturemesh.client import Client
 from culturemesh.utils import get_network_title
-from culturemesh.constants import LANGUAGE_NETWORK
 
 networks = Blueprint('networks', __name__, template_folder='templates')
 

@@ -2,9 +2,12 @@
 # Contains utilities used by more than one blueprint
 #
 
+from culturemesh.constants import BLANK_PROFILE_IMG_URL
+from culturemesh.constants import USER_IMG_URL_FMT
+
 def get_network_title(network):
   """Returns the title of a network given a network
-  JSON dictionary"""
+  JSON as a dict"""
 
   cur_country = network['country_cur']
   cur_region = network['region_cur']
@@ -30,9 +33,20 @@ def get_network_title(network):
     or network['network_class'] == 'rc' \
     or network['network_class'] == 'co':
     # City network (cc), region network (rc), or
-    # country network (co)
+    # country network (co).
+    # Title-wise, we treat them all the same.
+
     return 'From %s in %s' % (orig_location, cur_location)
 
   else:
     return "Unknown"
 
+def get_user_image_url(user):
+  """Returns the URL of a user's profile image
+  given a user JSON as a dict
+  """
+
+  if user['img_link'] is None:
+    return BLANK_PROFILE_IMG
+  else:
+    return USER_IMG_URL_FMT % user['img_link']
