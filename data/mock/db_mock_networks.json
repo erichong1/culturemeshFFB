@@ -1,6 +1,6 @@
 [
     {
-      "id": 0,
+      "id": 1,
       "location_cur": {
         "country_id": 1,
         "region_id": 1,
@@ -23,7 +23,7 @@
     },
 
     {
-      "id": 1,
+      "id": 2,
       "location_cur": {
         "country_id": 2,
         "region_id": 4,

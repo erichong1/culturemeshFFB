@@ -37,6 +37,16 @@ def get_post_replies(client, postId, count, max_id=None):
 		query_params['max_id'] = max_id
 	return client._request(url, Request.GET, query_params=query_params)
 
+def get_post_reply_count(client, postId):
+	"""
+	:param client: the CultureMesh API client
+	:param postId: the id of the post to fetch reply count for
+
+	Returns a JSON with a single reply_count element.
+	"""
+	url = '/post/%s/reply_count' % str(postId)
+	return client._request(url, Request.GET)
+
 ####################### POST methods #######################
 
 def create_post(client, post):

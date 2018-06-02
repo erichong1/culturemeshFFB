@@ -4,7 +4,7 @@
       <div class="row">
         <div class="col-4 cm-event-blurb-col-l">
           <p class="pt-3 cm-blurb-date">
-            {{ event['month_abbr'] }} {{ event['day'] }}
+            {{ event['month_abbr'] }} {{ event['day'] }}, {{ event['year'] }}
           </p>
           <p class="cm-blurb-weekday">
             {{ event['weekday_abbr'] }}
@@ -30,7 +30,7 @@
     <div class="container">
       <div class="row">
         <p class="cm-post-blurb-top-text">
-          By {{ post['username'] }} | x hours ago
+          By {{ post['username'] }} | y hours ago
         </p>
       </div>
       <div class="row">
@@ -44,7 +44,7 @@
         <a href="/post?id={{ post['id'] }}" class="hidden-link">
           <div class="cm-post-blurb-small-text">
             <i class="fas fa-comment fa-sm"></i>
-            x Replies
+            {{ post['reply_count']}} Replies
           </div>
         </a>
       </div>
@@ -65,12 +65,12 @@
       <div class="row">
         <div class="col">
           <p class="cm-network-blurb-detail-l">
-            Joined Nov 2015
+            Joined {{ network.join_date }}
           </p>
         </div>
         <div class="col">
           <p class="cm-network-blurb-detail-r">
-            128 members
+            {{ network.user_count }} member(s)
           </p>
         </div>
       </div>

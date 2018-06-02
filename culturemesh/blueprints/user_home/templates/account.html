@@ -18,14 +18,21 @@
           <div class="cm-center-row">
             <form>
               First name:<br>
-              {{ input_field('firstname', value='Mickey', class='p-2') }}
+              <input value="{{ user['first_name'] }}"
+                     name="firstname"
+                     class="p-2">
               Last name:<br>
-              {{ input_field('lastname', value='Mouse', class='p-2') }}
+              <input value="{{ user['last_name'] }}"
+                     name="lastname"
+                     class="p-2">
               About me:<br>
-              {{ input_field('about', placeholder='About me', class='p-2') }}
+               <input value="{{ user['about_me'] }}"
+                     name="lastname"
+                     placeholder="About Me"
+                     class="p-2">
               <br><br>
               <input type="submit" value="Update" class="cm-submit-btn">
-            </form> 
+            </form>
           </div>
         </div>
 
@@ -38,7 +45,7 @@
               <input type="text" name="confirm-pass" placeholder="Confirm New Password" class="p-2">
               <br><br>
               <input type="submit" value="Change" class="cm-submit-btn">
-            </form> 
+            </form>
           </div>
         </div>
 

@@ -17,12 +17,12 @@ class User(UserMixin):
 		"""
  		 TODO: describe parameters.
 		"""
-		self.user_id = int(user_dict['user_id'])
+		self.user_id = int(user_dict['id'])
 		self.username = user_dict['username']
 		self.firstName = user_dict['firstName']
 		self.lastName = user_dict['lastName']
 		self.email = user_dict['email']
-		self.registerDate = datetime.datetime.strptime(user_dict['registerDate'], 
+		self.registerDate = datetime.datetime.strptime(user_dict['registerDate'],
 			config.DATETIME_FMT_STR)
 		self.role = int(user_dict['role'])
 		self.gender = user_dict['gender']
@@ -31,7 +31,7 @@ class User(UserMixin):
 		self.img_link = user_dict['img_link']
 		self.fp_code = user_dict['fp_code']
 		self.about_me = user_dict['about_me']
-		self.last_login = datetime.datetime.strptime(user_dict['last_login'], 
+		self.last_login = datetime.datetime.strptime(user_dict['last_login'],
 			config.DATETIME_FMT_STR)
 
 	def get_id(self):

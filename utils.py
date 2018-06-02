@@ -1,10 +1,11 @@
 #
-# This file contains utility functions. 
+# This file contains utility functions.
 #
 
 import config
 import calendar
 import datetime
+from dateutil.parser import parse
 
 ####### Date Utils #######
 
@@ -23,8 +24,18 @@ def get_weekday(date):
 def get_weekday_abbr(date):
   return calendar.day_abbr[date.weekday()]
 
+def parse_date(str_):
+  try:
+    # First let's try this format
+    date = str2date(str_)
+  except ValueError:
+    # Otherwise best guess
+    date = parse(str_)
+  return date
+
 def enhance_event_date_info(event):
-  date = str2date(event['event_date'])
+  date = parse_date(event['event_date'])
+
   event['month'] = get_month(date)
   event['month_abbr'] = get_month_abbr(date)
   event['weekday'] = get_weekday(date)
