@@ -4,6 +4,7 @@ import utils
 from flask import Blueprint, render_template, request
 from culturemesh.client import Client
 from culturemesh.utils import get_network_title
+from culturemesh.utils import get_time_ago
 
 networks = Blueprint('networks', __name__, template_folder='templates')
 
@@ -35,6 +36,7 @@ def network():
   for post in posts:
     post['username'] = c.get_user(post['id_user'])['username']
     post['reply_count'] = c.get_post_reply_count(post['id'])['reply_count']
+    post['time_ago'] = get_time_ago(post['post_date'])
 
   # TODO: This assumes that the region ID and city ID are specified in the data.
   # This is not necessarily the case. This needs to be changed using the new information
@@ -155,6 +157,7 @@ def network_posts() :
   for post in posts:
     post['username'] = c.get_user(post['id_user'])['username']
     post['reply_count'] = c.get_post_reply_count(post['id'])['reply_count']
+    post['time_ago'] = get_time_ago(post['post_date'])
 
   # TODO: Add better handling for when there's no events left.
 
