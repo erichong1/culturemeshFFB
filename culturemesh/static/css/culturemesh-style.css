@@ -23,6 +23,10 @@ body {
   color: white;
 }
 
+#cm-signinfb-button {
+  background-color: #3c3c3c;
+}
+
 #cm-top-logo {
   width:85%;
   max-width:300px;
@@ -59,6 +63,26 @@ body {
 #cm-button:active {
     color: #EF5330;
     border: 0px;
+}
+
+#cm-reply-header {
+  color:#EF5330;
+  font-size:1.4em;
+  text-align:center;
+}
+
+#cm-post-blurb {
+  color:#a3a3a3;
+  font-size: .8em;
+}
+
+#cm-leave-reply-text {
+  color:#EF5330;
+}
+
+#cm-reply-submit-button {
+  background-color:#EF5330;
+  color: white;
 }
 
 /* CultureMesh-specific class styling below */
@@ -105,6 +129,14 @@ body {
   justify-content: center;
 }
 
+.cm-replies-box {
+  background-color: #f7f7f7;
+}
+
+.cm-add-reply-div {
+  width:100%;
+}
+
 .cm-center-card {
   float: none;
   margin: 0 auto;
@@ -131,6 +163,17 @@ body {
   width: 100%;
   background-color: white;
 }
+
+.cm-post-blurb {
+  border-style: solid;
+  border-width: 1px;
+  border-color: #CBCBCB;
+  border-radius: 4px;
+  box-shadow: 1px 1px #ccc;
+  width: 100%;
+  background-color: white;
+}
+
 
 .cm-event-blurb-col-l {
   padding-right:10px;
@@ -161,14 +204,27 @@ body {
   font-size: .8em;
 }
 
-.cm-post-blurb {
+
+.cm-post-text {
   border-style: solid;
   border-width: 1px;
   border-color: #CBCBCB;
-  border-radius: 4px;
+  border-radius: 2px;
   box-shadow: 1px 1px #ccc;
   width: 100%;
   background-color: white;
+  font-size: .9em;
+}
+
+.cm-reply-text {
+  border-style: solid;
+  border-width: 1px;
+  border-color: #CBCBCB;
+  border-radius: 2px;
+  box-shadow: 1px 1px #ccc;
+  width: 100%;
+  background-color: white;
+  font-size: .9em;
 }
 
 .cm-post-blurb-text {
@@ -186,6 +242,10 @@ body {
   text-align: left;
   font-size: .75em;
   color: #4d4d4d;
+}
+
+.cm-replies-box {
+
 }
 
 .cm-network-blurb {
@@ -371,10 +431,6 @@ body {
   color: white;
   cursor: pointer;
   color: grey;
-}
-
-#cm-signinfb-button {
-  background-color: #3c3c3c;
 }
 
 .cm-form-style {
