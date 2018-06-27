@@ -6,47 +6,53 @@
   <div class="wrapper container-fluid">
 
     <div class="my-2 py-1 row">
-      <div class="p-3 cm-post-text">
-          {{ post['post_text'] }}
+      <div class="px-4 py-2 row">
+        <div id="cm-post-blurb">
+          Post in Network: <strong>{{ post['network_title'] }}</strong>
+        </div>
       </div>
-    </div>
-
-    <div class="py-1 row">
-      <div id="cm-post-blurb">
-        Posted by {{ post['username'] }} | {{ post['time_ago'] }} |  Network: {{ post['network_title'] }}
+      <div class="p-3 cm-post-text">
+        <div class="col">
+          <div class="row text-left">
+            <span class="cm-username">{{ post['username'] }}</span>
+            <span class="cm-time-ago">{{ post['time_ago'] }}</span>
+          </div>
+          <div class="row py-2">
+          {{ post['post_text'] }}
+          </div>
+        </div>
       </div>
     </div>
   </div>
 
   <!-- Post replies -->
   <div class="cm-replies-box py-1 row">
-
-    <div class="text-center" id="cm-reply-header">
-      Replies:
-    </div>
-
-    {% for i in range(num_replies) %}
-    <div class="p-2 text-left" id="cm-post-blurb">
-      {{ replies[i]['username'] }} {{ replies[i]["time_ago"] }}
-    </div>
-    <div class="p-2 cm-reply-text">
-      <div class="text-left">
-        {{ replies[i]["reply_text"] }} <br>
+    <div class="container">
+      <div class="text-center" id="cm-reply-header">
+        Replies:
       </div>
+
+      {% for i in range(num_replies) %}
+      <div class="text-left">
+        <span class="cm-username">{{ replies[i]['username'] }}</span>
+        <span class="cm-time-ago">{{ replies[i]["time_ago"] }}</span>
+      </div>
+      <div class="cm-reply-text">
+        <div class="text-left">
+          {{ replies[i]["reply_text"] }} <br>
+        </div>
+      </div>
+      {% endfor %}
+
     </div>
-    <div class="m-3"></div>
-    {% endfor %}
 
   </div>
   <div class="p-2 row">
-    <div class="cm-add-reply-div" form-group">
-      <label for="comment" id="cm-leave-reply-text">
-        Leave a reply:
-      </label>
+    <div class="cm-add-reply-div">
       <textarea class="my-1 form-control"
-                rows="4" id="cm-post-comment" placeholder="Add a comment"></textarea>
+                rows="4" id="cm-post-comment" placeholder="Leave a reply..."></textarea>
       <button type="button" class="my-2 btn btn-secondary btn-sm" id="cm-reply-submit-button">
-        Submit
+      Reply
       </button>
     </div>
 
