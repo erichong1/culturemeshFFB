@@ -26,36 +26,43 @@
   </div>
 
   <!-- Post replies -->
-  <div class="cm-replies-box py-1">
-    <div class="wrapper container-fluid p-2 pl-5">
-      <div class="text-left pb-3 pl-0" id="cm-reply-header">
-        Replies
-      </div>
-
-      {% for i in range(num_replies) %}
-      <div class="cm-post-text p-4">
-        <div class="row text-left">
-          <span class="cm-username">{{ replies[i]['username'] }}</span>
-          <span class="cm-time-ago">{{ replies[i]["time_ago"] }}</span>
+  {% if num_replies is defined and num_replies > 0 %}
+    <div class="cm-replies-box py-1">
+      <div class="wrapper container-fluid p-2 pl-5">
+        <div class="text-left pb-3 pl-0" id="cm-reply-header">
+          Replies
         </div>
-        <div class="row py-2">
-          {{ replies[i]["reply_text"] }}
-        </div>
-      </div>
-      {% endfor %}
 
+        {% for i in range(num_replies) %}
+        <div class="cm-post-text p-4">
+          <div class="row text-left">
+            <span class="cm-username">{{ replies[i]['username'] }}</span>
+            <span class="cm-time-ago">{{ replies[i]["time_ago"] }}</span>
+          </div>
+          <div class="row py-2">
+            {{ replies[i]["reply_text"] }}
+          </div>
+        </div>
+        {% endfor %}
+
+      </div>
     </div>
+  {% endif %}
 
-  </div>
-  <div class="p-2 row">
-    <div class="cm-add-reply-div">
+  <!-- Add reply box -->
+
+  <div class="wrapper container-fluid py-3">
+    <div class="cm-add-reply-div text-right">
       <textarea class="my-1 form-control"
                 rows="4" id="cm-post-comment" placeholder="Leave a reply..."></textarea>
-      <button type="button" class="my-2 btn btn-secondary btn-sm" id="cm-reply-submit-button">
-      Reply
-      </button>
     </div>
-
+    <div class="col">
+      <div class="row pr-3">
+          <button type="button" class="my-2 btn btn-secondary btn-sm pr-3" id="cm-reply-submit-button">
+          Reply
+          </button>
+      </div>
+    </div>
   </div>
 
 {% endblock %}
