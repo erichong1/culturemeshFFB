@@ -52,17 +52,19 @@
   <!-- Add reply box -->
 
   <div class="wrapper container-fluid py-3">
-    <div class="cm-add-reply-div text-right">
-      <textarea class="my-1 form-control"
-                rows="4" id="cm-post-comment" placeholder="Leave a reply..."></textarea>
-    </div>
-    <div class="col">
-      <div class="row pr-3">
-          <button type="button" class="my-2 btn btn-secondary btn-sm pr-3" id="cm-reply-submit-button">
-          Reply
-          </button>
+    <form>
+      <div class="cm-add-reply-div text-right">
+        <textarea class="my-1 form-control"
+                  rows="4" id="cm-post-comment" placeholder="Leave a reply..."></textarea>
       </div>
-    </div>
+      <div class="col">
+        <div class="row pr-3">
+            <button type="button" class="my-2 btn btn-secondary btn-sm pr-3" id="cm-reply-submit-button">
+              Reply
+            </button>
+        </div>
+      </div>
+    </form>
   </div>
 
 {% endblock %}
