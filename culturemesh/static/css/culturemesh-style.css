@@ -67,7 +67,7 @@ body {
 
 #cm-reply-header {
   color:#EF5330;
-  font-size:1.2em;
+  font-size:1em;
   text-align:center;
 }
 
@@ -263,10 +263,6 @@ body {
   text-align: left;
   font-size: .75em;
   color: #4d4d4d;
-}
-
-.cm-replies-box {
-
 }
 
 .cm-network-blurb {
