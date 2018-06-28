@@ -29,11 +29,10 @@
   <div class="p-2 cm-post-blurb">
     <div class="container">
       <div class="row">
-        <p class="cm-post-blurb-top-text">
-          By {{ post['username'] }} | {{ post['time_ago'] }}
-        </p>
+        <span class="cm-username-small">{{ post['username'] }}</span>
+        <span class="cm-time-ago-small">{{ post['time_ago'] }}</span>
       </div>
-      <div class="row">
+      <div class="row py-1">
         <a href="/post?id={{ post['id'] }}" class="hidden-link">
           <p class="cm-post-blurb-text">
             {{ post['post_text'] | truncate(128) }}
