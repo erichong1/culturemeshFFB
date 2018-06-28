@@ -5,6 +5,7 @@
 from culturemesh.constants import BLANK_PROFILE_IMG_URL
 from culturemesh.constants import USER_IMG_URL_FMT
 from culturemesh.client import Client
+from datetime import datetime, timezone
 
 from utils import parse_date
 from utils import get_month_abbr
@@ -71,4 +72,52 @@ def get_short_network_join_date(network):
     day = date.day
     return "%s %s, %s" % (str(short_month), str(day), str(year))
 
+def get_time_ago(past_time):
+  """Get a datetime object or a int() Epoch timestamp and return a
+  pretty string like 'an hour ago', 'Yesterday', '3 months ago',
+  'just now', etc
 
+  Thanks: Stack Overflow id 1551382
+  """
+
+  now = datetime.now(timezone.utc)
+  if type(past_time) is int:
+    diff = now - datetime.fromtimestamp(past_time)
+  elif isinstance(past_time, datetime):
+    diff = now - past_time
+  elif not past_time:
+    diff = now - now
+  elif isinstance(past_time, str):
+    past_time = parse_date(past_time)
+    diff = now - past_time
+  else:
+    return "unknown time ago"
+
+  second_diff = diff.seconds
+  day_diff = diff.days
+
+  if day_diff < 0:
+    return ''
+
+  if day_diff == 0:
+    if second_diff < 10:
+      return "just now"
+    if second_diff < 60:
+      return str(second_diff) + " seconds ago"
+    if second_diff < 120:
+      return "a minute ago"
+    if second_diff < 3600:
+      return str(round(second_diff / 60)) + " minutes ago"
+    if second_diff < 7200:
+      return "an hour ago"
+    if second_diff < 86400:
+      return str(round(second_diff / 3600)) + " hours ago"
+  if day_diff == 1:
+    return "Yesterday"
+  if day_diff < 7:
+    return str(day_diff) + " days ago"
+  if day_diff < 31:
+    return str(round(day_diff / 7)) + " weeks ago"
+  if day_diff < 365:
+    return str(round(day_diff /30)) + " months ago"
+  return str(round(day_diff / 365)) + " years ago"

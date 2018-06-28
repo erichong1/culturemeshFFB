@@ -1,43 +1,61 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="p-3 container-fluid">
-  <h4 class="text-center">{{ title }}</h4>
-    <div class="py-1 row">
-        <div class="text-center" style="color:#a3a3a3;">
-          Posted by: User {{ post['user_id'] }} | {{ post['post_date'] }} |  Network {{ post['network_id'] }}
-        </div>
-    </div>
+
+  <!-- Post text and blurb -->
+  <div class="wrapper container-fluid">
+
     <div class="my-2 py-1 row">
-      <div class="p-3 cm-event-blurb">
-        <div class="text-center">
-          {{ post['post_text'] }} <br>
+      <div class="px-4 py-2 row">
+        <div id="cm-post-blurb">
+          Post in Network: <strong>{{ post['network_title'] }}</strong>
+        </div>
+      </div>
+      <div class="p-3 cm-post-text">
+        <div class="col">
+          <div class="row text-left">
+            <span class="cm-username">{{ post['username'] }}</span>
+            <span class="cm-time-ago">{{ post['time_ago'] }}</span>
+          </div>
+          <div class="row py-2">
+          {{ post['post_text'] }}
+          </div>
         </div>
       </div>
     </div>
-    <div class="py-1 row">
-      <div class="text-center" style="color:#EF5330;font-size:24px;text-align:center;">
+  </div>
+
+  <!-- Post replies -->
+  <div class="cm-replies-box py-1 row">
+    <div class="container">
+      <div class="text-center" id="cm-reply-header">
         Replies:
       </div>
+
       {% for i in range(num_replies) %}
-      <div class="py-2 text-left" style="color:#a3a3a3;">
-        {{ reply_usernames[i] }} on {{ replies[i]["reply_date"] }}
+      <div class="text-left">
+        <span class="cm-username">{{ replies[i]['username'] }}</span>
+        <span class="cm-time-ago">{{ replies[i]["time_ago"] }}</span>
       </div>
-      <div class="p-2 cm-event-blurb">
+      <div class="cm-reply-text">
         <div class="text-left">
           {{ replies[i]["reply_text"] }} <br>
         </div>
       </div>
-      <div class="m-3"></div>
       {% endfor %}
+
     </div>
-    <div class="p-2 row">
-      <div class="form-group" style="width:100%;">
-        <label for="comment" style="color:#EF5330;">Share your thoughts:</label>
-        <textarea class="my-1 form-control" rows="4" id="cm-post-comment"></textarea>
-        <button type="button" class="my-2 btn btn-secondary btn-sm" style="background-color:#EF5330;color: white;">Submit</button>
-      </div>
-    </div>
+
   </div>
-</div>
+  <div class="p-2 row">
+    <div class="cm-add-reply-div">
+      <textarea class="my-1 form-control"
+                rows="4" id="cm-post-comment" placeholder="Leave a reply..."></textarea>
+      <button type="button" class="my-2 btn btn-secondary btn-sm" id="cm-reply-submit-button">
+      Reply
+      </button>
+    </div>
+
+  </div>
+
 {% endblock %}
