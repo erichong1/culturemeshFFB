@@ -44,7 +44,7 @@ class Request(IntEnum):
 class Client(object):
 	""" Talks directly to CultureMesh """
 
-	_api_base_url_ = "http://www.culturemesh.com/api-dev/v-afl"
+	_api_base_url_ = "https://www.culturemesh.com/api-dev/v-afl"
 
 	def __init__(self, key=None, client_id=None, client_secret=None,
 				 timeout=None, connect_timeout=None, read_timeout=None,
@@ -618,6 +618,7 @@ from .posts import get_post_replies
 from .posts import get_post_reply_count
 from .posts import create_post
 from .posts import create_post_reply
+from .posts import get_create_post_reply_url
 from .accounts import verify_account
 from .users import ping_user
 from .users import get_users
@@ -658,6 +659,7 @@ Client.get_post_replies = get_post_replies
 Client.get_post_reply_count = get_post_reply_count
 Client.create_post = create_post
 Client.create_post_reply = create_post_reply
+Client.get_create_post_reply_url = get_create_post_reply_url
 Client.verify_account = verify_account
 Client.ping_user = ping_user
 Client.get_users = get_users

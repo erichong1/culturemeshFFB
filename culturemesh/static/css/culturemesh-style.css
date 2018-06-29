@@ -71,6 +71,13 @@ body {
   text-align:center;
 }
 
+#cm-dummyframe {
+  width:0;
+  height:0;
+  border:0;
+  border:none;
+}
+
 #cm-post-blurb {
   color:#a3a3a3;
   font-size: .8em;
@@ -84,6 +91,12 @@ body {
   background-color:#EF5330;
   color: white;
 }
+
+#cm-reply-submit-button:active {
+  background-color:#d3492a;
+  color: white;
+}
+
 
 /* CultureMesh-specific class styling below */
 
@@ -143,6 +156,11 @@ body {
 .cm-username-small {
   font-size: .7em;
   margin-right: .6em;
+}
+
+.cm-small-note {
+  font-size: .7em;
+  color: #a3a3a3;
 }
 
 .cm-time-ago-small {
