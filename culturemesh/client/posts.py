@@ -3,6 +3,7 @@
 #
 
 from .client import Request
+from .client import KEY
 
 ####################### GET methods #######################
 
@@ -67,3 +68,15 @@ def create_post_reply(client, postId, reply):
 	Posts a reply to a post by ID.
 	"""
 	raise NotImplementedError
+
+def get_create_post_reply_url(client, postId):
+	"""
+	:param client: the CultureMesh API client
+	:param postId: the id of the post to reply to
+	:param reply: JSON of the reply to post
+
+	Returns the URL endpoint for creating a post reply.
+	"""
+	base = client._api_base_url_
+	reply_post_url = base + '/post/%s/reply?key=%s' % (str(postId), KEY)
+	return reply_post_url

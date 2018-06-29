@@ -1,4 +1,3 @@
-
 from flask import Blueprint, render_template, request
 from flask_login import current_user
 from culturemesh.client import Client
@@ -35,8 +34,13 @@ def render_post():
       reply['username'] = c.get_user(reply["id_user"])["username"]
       reply['time_ago'] = get_time_ago(reply['reply_date'])
 
-  return render_template('post.html', post=post,
-    replies=replies, num_replies=len(replies))
+  post_url = c.get_create_post_reply_url(current_post_id)
+
+  return render_template(
+    'post.html', post=post,
+    replies=replies, num_replies=len(replies), curr_user_id=user_id,
+    post_url=post_url
+  )
 
 @posts.route("/ping")
 @flask_login.login_required
