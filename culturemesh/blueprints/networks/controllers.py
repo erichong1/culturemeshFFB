@@ -2,6 +2,7 @@ import flask_login
 import utils
 
 from flask import Blueprint, render_template, request
+from flask_login import current_user
 from culturemesh.client import Client
 from culturemesh.utils import get_network_title
 from culturemesh.utils import get_time_ago
@@ -185,6 +186,25 @@ def network_posts() :
 
   network_info['network_title'] = get_network_title(network)
   return render_template('network_posts.html', network_info=network_info, post_index=post_index)
+
+@networks.route("/posts/new")
+@flask_login.login_required
+def create_new_post():
+    c = Client(mock=False)
+    id_network = request.args.get('id')
+    user_id = current_user.get_id()
+    create_post_url = c.get_create_post_url()
+
+    network = c.get_network(id_network)
+    network_title = get_network_title(network)
+
+    return render_template(
+      'network_create_post.html',
+      curr_user_id=user_id,
+      id_network=id_network,
+      network_title=network_title,
+      create_post_url=create_post_url
+    )
 
 @networks.route("/ping")
 @flask_login.login_required

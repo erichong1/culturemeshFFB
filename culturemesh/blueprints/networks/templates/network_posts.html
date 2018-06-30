@@ -7,6 +7,15 @@
     <h4>Posts</h4>
   </div>
 
+  <div class="pb-3 text-center">
+    <a class="btn btn-secondary"
+       type="button"
+       href="/network/posts/new?id={{ network_info['id'] }}"
+       id="cm-reply-submit-button">
+       + Create a Post
+    </a>
+  </div>
+
   {% for post in network_info['posts'] %}
   <div class="py-1 row">
     {{ postblurb(post) }}
@@ -15,7 +24,10 @@
 
   <div class="py-1 row">
     <div class="text-center">
-      <a id="cm-button" type="button" class="btn btn-secondary" href="/network/posts?id={{ network_info['id'] }}&index={{ post_index }}">
+      <a id="cm-button"
+         type="button"
+         class="btn btn-secondary"
+         href="/network/posts?id={{ network_info['id'] }}&index={{ post_index }}">
         View older posts
       </a>
     </div>
