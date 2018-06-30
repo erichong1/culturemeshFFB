@@ -97,6 +97,26 @@ body {
   color: white;
 }
 
+#cm-post-submit-button {
+  background-color:#EF5330;
+  color: white;
+}
+
+#cm-post-submit-button:active {
+  background-color:#d3492a;
+  color: white;
+}
+
+#cm-post-create-button {
+  background-color:#EF5330;
+  color: white;
+}
+
+#cm-post-create-button:active {
+  background-color:#d3492a;
+  color: white;
+}
+
 
 /* CultureMesh-specific class styling below */
 
@@ -173,6 +193,10 @@ body {
 }
 
 .cm-add-reply-div {
+  width:100%;
+}
+
+.cm-create-post-div {
   width:100%;
 }
 

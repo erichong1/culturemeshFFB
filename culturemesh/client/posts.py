@@ -59,6 +59,16 @@ def create_post(client, post):
 	"""
 	raise NotImplementedError
 
+def get_create_post_url(client):
+	"""
+	:param client: the CultureMesh API client
+
+	Returns the URL endpoint for creating a post.
+	"""
+	base = client._api_base_url_
+	post_url = base + '/post/new?key=%s' % KEY
+	return post_url
+
 def create_post_reply(client, postId, reply):
 	"""
 	:param client: the CultureMesh API client
