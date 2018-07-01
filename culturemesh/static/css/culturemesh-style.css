@@ -83,8 +83,34 @@ body {
   font-size: .8em;
 }
 
+#cm-event-blurb {
+  color:#a3a3a3;
+  font-size: .8em;
+}
+
+
 #cm-leave-reply-text {
   color:#EF5330;
+}
+
+#cm-create-event-button {
+  background-color:#EF5330;
+  color: white;
+}
+
+#cm-create-event-button:active {
+  background-color:#d3492a;
+  color: white;
+}
+
+#cm-create-post-button {
+  background-color:#EF5330;
+  color: white;
+}
+
+#cm-create-post-button:active {
+  background-color:#d3492a;
+  color: white;
 }
 
 #cm-reply-submit-button {
@@ -117,6 +143,10 @@ body {
   color: white;
 }
 
+#cm-event-description-title {
+  border-bottom: 1px solid #CBCBCB;
+}
+
 
 /* CultureMesh-specific class styling below */
 
@@ -136,6 +166,33 @@ body {
 
 .cm-about-img {
   width: 100%;
+}
+
+.cm-light-font-small {
+  color: #a3a3a3;
+  font-size: .8em;
+}
+
+.cm-regular-font-small {
+  font-size: .8em;
+}
+
+.cm-light-font-med {
+  color:#a3a3a3;
+  font-size: 1em;
+}
+
+.cm-regular-font-med {
+  font-size: 1em;
+}
+
+.cm-light-font-lg {
+  color:#a3a3a3;
+  font-size: 1.5em;
+}
+
+.cm-regular-font-lg {
+  font-size: 1.5em;
 }
 
 .cm-profile-dashboard {
