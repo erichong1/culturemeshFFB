@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+  <div class="wrapper container-fluid pt-3">
+    <div class="cm-blurb">
+      <div class="container-fluid">
+        <div class="pt-3 px-3 row">
+          <p>Create an <strong>event</strong> in network: </p>
+        </div>
+        <div class="row pb-3">
+          <div class="col-1">
+            <i id="cm-icon" class="fas fa-users"></i>
+          </div>
+          <div class="col">
+            <span class="cm-light-font-small">{{ network_title }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="wrapper container-fluid">
+    <iframe name="dummyframe" id="cm-dummyframe"></iframe>
+    <form action="{{ create_event_url }}"
+          method="POST"
+          target="dummyframe">
+
+      <input type="hidden" name="id_host" value="{{ curr_user_id }}">
+      <input type="hidden" name="id_network" value="{{ id_network }}">
+
+      <div class="cm-create-event-div text-left cm-regular-font-small">
+
+        <fieldset class="pt-3">
+          <label><strong>Event Name</strong></label>
+          <input placeholder="Add a short name for your event"
+                 name="title" type="text" tabindex="1"
+                 required autofocus class="p-2 form-control cm-text-input-field">
+        </fieldset>
+
+        <fieldset class="pt-3">
+          <label><strong>Country</strong></label>
+          <input placeholder="Add a country for your event"
+                 name="country" type="text" tabindex="2"
+                 required class="p-2 form-control cm-text-input-field">
+        </fieldset>
+
+        <fieldset class="pt-3">
+          <label><strong>Region/State</strong></label>
+          <input placeholder="Add a region or state"
+                 name="region" type="text" tabindex="2"
+                 class="p-2 form-control cm-text-input-field">
+        </fieldset>
+
+        <fieldset class="pt-3">
+          <label><strong>City</strong></label>
+          <input placeholder="Add a city"
+                 name="city" type="text" tabindex="2"
+                 class="p-2 form-control cm-text-input-field">
+        </fieldset>
+
+        <fieldset class="pt-3">
+          <label><strong>Address 1</strong></label>
+          <input placeholder="Add an address for your event"
+                 name="address_1" type="text" tabindex="2"
+                 required class="p-2 form-control cm-text-input-field">
+        </fieldset>
+
+        <fieldset class="pt-3">
+          <label><strong>Address 2</strong></label>
+          <input placeholder="Add a secondary address"
+                 name="address_2" type="text" tabindex="2"
+                 class="p-2 form-control cm-text-input-field">
+        </fieldset>
+
+        <fieldset class="pt-3">
+          <label><strong>Date/Time</strong></label>
+          <p class="cm-small-note">e.g. 2018-01-01 16:30</p>
+          <input placeholder="yyyy-mm-dd hh:mm"
+                 name="event_date" type="text" tabindex="2"
+                 required class="p-2 form-control cm-text-input-field">
+        </fieldset>
+
+        <fieldset class="pt-3">
+          <label><strong>Description</strong></label>
+          <textarea class="form-control cm-text-input-field"
+                    rows="4"
+                    name="description"
+                    placeholder="Tell others what this event is about"></textarea>
+        </div>
+      </div>
+
+      <div class="col">
+        <div class="row py-2">
+            <input type="submit"
+              class="my-2 btn btn-secondary btn-sm pr-3"
+              id="cm-event-create-button"
+              value="Create Event"/>
+        </div>
+        <div class="row text-right cm-small-note">
+            <p>* Go to the event page to see your event after pressing.</p>
+        </div>
+      </div>
+
+    </form>
+
+  </div>
+
+{% endblock %}

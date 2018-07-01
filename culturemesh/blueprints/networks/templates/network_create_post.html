@@ -3,12 +3,19 @@
 {% block content %}
 
   <!-- Post text and blurb -->
-  <div class="wrapper container-fluid">
-
-    <div class="my-2 py-1 row">
-      <div class="px-4 py-2 row">
-        <div id="cm-post-blurb">
-          Network: <strong>{{ network_title }}</strong>
+  <div class="wrapper container-fluid pt-3">
+    <div class="cm-blurb">
+      <div class="container-fluid">
+        <div class="pt-3 px-3 row">
+          <p>Create a <strong>post</strong> in network: </p>
+        </div>
+        <div class="row pb-3">
+          <div class="col-1">
+            <i id="cm-icon" class="fas fa-users"></i>
+          </div>
+          <div class="col">
+            <span class="cm-light-font-small">{{ network_title }}</span>
+          </div>
         </div>
       </div>
     </div>
@@ -25,19 +32,20 @@
       <input type="hidden" name="vid_link" value="">
       <input type="hidden" name="img_link" value="">
 
-      <div class="cm-create-post-div text-right">
-        <textarea class="my-1 form-control"
+      <div class="cm-create-post-div text-right cm-regular-font-small">
+        <textarea class="form-control cm-text-input-field"
                   rows="4"
-                  id="cm-post-comment"
                   name="post_text"
-                  placeholder="Create a post..."></textarea>
+                  required
+                  autofocus
+                  placeholder="Create a post"></textarea>
       </div>
       <div class="col">
-        <div class="row">
+        <div class="row py-2">
             <input type="submit"
               class="my-2 btn btn-secondary btn-sm pr-3"
               id="cm-post-submit-button"
-              value="Submit"/>
+              value="Create Post"/>
         </div>
         <div class="row text-right cm-small-note">
             <p>* Go to the network page to see your post after submitting.</p>

@@ -46,6 +46,23 @@ def get_network_title(network):
   else:
     return "Unknown"
 
+def get_event_location(event):
+  """Returns a string for where this event
+  is taking place (i.e. New York City, New York).
+
+  This does not return the address of an event, but
+  its location.
+  """
+  city = event['city']
+  region = event['region']
+  country = event['country']
+
+  location = ', '.join([l for l \
+    in [city, region, country] if l is not None])
+
+  return location
+
+
 def get_user_image_url(user):
   """Returns the URL of a user's profile image
   given a user JSON as a dict

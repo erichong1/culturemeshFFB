@@ -44,11 +44,11 @@ def enhance_event_date_info(event):
   event['day'] = date.day
 
   hr = date.hour
-  pod = "AM"
+  pod = " AM"
   if hr == 0:
     hr = 12
   elif hr >= 13:
-    pod = "PM"
+    pod = " PM"
     hr -= 12
 
   hr = str(hr)

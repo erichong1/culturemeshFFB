@@ -1,32 +1,68 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="p-3 container-fluid">
-  <h4 class="text-center">{{ event['title'] }}</h4>
-      <div class="py-1 row">
-          <div class="text-center" style="color:#a3a3a3;">
-            Posted by: User {{ event['host_id'] }} | {{ event['date_created'] }} |  Network {{ event['network_id'] }}
-          </div>
+
+  <div class="p-3 container-fluid">
+    <div class="row">
+      <h4>{{ event['title'] }}</h4>
+    </div>
+    <div class="py-1 row">
+      <div id="cm-event-blurb">
+        Hosted by <strong>{{ host['username'] }}</strong> | {{ event['location'] }}
       </div>
-      <div class="my-2 py-1 row">
-        <div class="p-3 cm-event-blurb">
-          <div class="text-center">
-            <strong>Date: </strong><br/>
-            {{ event['event_date'] }} <br/>
-            <strong>Address:</strong> <br/>
-            {{ event['address_1'] }} <br/>
-            {{ event['address_2'] }} <br/>
+    </div>
+    <div class="my-2 py-1 row">
+      <div class="cm-blurb">
+        <div class="container-fluid">
+
+          <div class="row py-3">
+            <div class="col-1">
+              <i id="cm-icon" class="fas fa-users"></i>
+            </div>
+            <div class="col">
+              <span class="cm-regular-font-med">Network</span> <br/>
+              <span class="cm-light-font-small">{{ event['network_title'] }}</span>
+            </div>
           </div>
+
+          <div class="row py-3">
+            <div class="col-1">
+              <i id="cm-icon" class="far fa-clock"></i>
+            </div>
+            <div class="col">
+              <span class="cm-regular-font-med">
+                {{ event['weekday'] }}, {{ event['month'] }} {{ event['day'] }}, {{ event['year'] }}
+              </span> <br/>
+              <span class="cm-light-font-small">{{ event['time'] }}</span>
+            </div>
+
+          </div>
+
+          <div class="row py-3">
+            <div class="col-1">
+              <i id="cm-icon" class="fas fa-map-marker-alt"></i>
+            </div>
+            <div class="col">
+              <span class="cm-regular-font-med">{{ event['address_1'] }}</span> <br/>
+              <span class="cm-light-font-small">{{ event['location'] }}</span>
+            </div>
+          </div>
+
         </div>
       </div>
-      <div class="my-2 py-1 row">
-        <div class="p-3 cm-event-blurb">
-          <div class="text-center">
+    </div>
+
+    <div class="my-2 py-1 row">
+      <div class="px-3 cm-event-blurb">
+        <div class="container-fluid">
+          <div id="cm-event-description-title" class="row py-3 text-left">
+            Description
+          </div>
+          <div class="row py-3 text-left cm-regular-font-small">
             {{ event['description'] }} <br>
           </div>
         </div>
       </div>
-
     </div>
   </div>
 {% endblock %}

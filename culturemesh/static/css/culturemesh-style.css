@@ -83,8 +83,34 @@ body {
   font-size: .8em;
 }
 
+#cm-event-blurb {
+  color:#a3a3a3;
+  font-size: .8em;
+}
+
+
 #cm-leave-reply-text {
   color:#EF5330;
+}
+
+#cm-create-event-button {
+  background-color:#EF5330;
+  color: white;
+}
+
+#cm-create-event-button:active {
+  background-color:#682414;
+  color: white;
+}
+
+#cm-create-post-button {
+  background-color:#EF5330;
+  color: white;
+}
+
+#cm-create-post-button:active {
+  background-color:#682414;
+  color: white;
 }
 
 #cm-reply-submit-button {
@@ -93,7 +119,17 @@ body {
 }
 
 #cm-reply-submit-button:active {
-  background-color:#d3492a;
+  background-color:#682414;
+  color: white;
+}
+
+#cm-event-create-button {
+  background-color:#EF5330;
+  color: white;
+}
+
+#cm-event-create-button:active {
+  background-color:#682414;
   color: white;
 }
 
@@ -103,7 +139,7 @@ body {
 }
 
 #cm-post-submit-button:active {
-  background-color:#d3492a;
+  background-color:#682414;
   color: white;
 }
 
@@ -113,8 +149,12 @@ body {
 }
 
 #cm-post-create-button:active {
-  background-color:#d3492a;
+  background-color:#682414;
   color: white;
+}
+
+#cm-event-description-title {
+  border-bottom: 1px solid #CBCBCB;
 }
 
 
@@ -136,6 +176,33 @@ body {
 
 .cm-about-img {
   width: 100%;
+}
+
+.cm-light-font-small {
+  color: #a3a3a3;
+  font-size: .8em;
+}
+
+.cm-regular-font-small {
+  font-size: .8em;
+}
+
+.cm-light-font-med {
+  color:#a3a3a3;
+  font-size: 1em;
+}
+
+.cm-regular-font-med {
+  font-size: 1em;
+}
+
+.cm-light-font-lg {
+  color:#a3a3a3;
+  font-size: 1.5em;
+}
+
+.cm-regular-font-lg {
+  font-size: 1.5em;
 }
 
 .cm-profile-dashboard {
@@ -200,6 +267,10 @@ body {
   width:100%;
 }
 
+.cm-create-event-div {
+  width:100%;
+}
+
 .cm-center-card {
   float: none;
   margin: 0 auto;
@@ -218,6 +289,16 @@ body {
 }
 
 .cm-event-blurb {
+  border-style: solid;
+  border-width: 1px;
+  border-color: #CBCBCB;
+  border-radius: 4px;
+  box-shadow: 1px 1px #ccc;
+  width: 100%;
+  background-color: white;
+}
+
+.cm-blurb {
   border-style: solid;
   border-width: 1px;
   border-color: #CBCBCB;
@@ -411,6 +492,10 @@ body {
   color: black;
   width: 100%;
   align-self: stretch;
+}
+
+.cm-text-input-field {
+  font-size: 1em;
 }
 
 .cm-box-button {
