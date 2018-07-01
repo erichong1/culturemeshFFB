@@ -206,6 +206,24 @@ def create_new_post():
       create_post_url=create_post_url
     )
 
+@networks.route("/events/new")
+@flask_login.login_required
+def create_new_event():
+    c = Client(mock=False)
+    id_network = request.args.get('id')
+    user_id = current_user.get_id()
+    create_event_url = c.get_create_event_url()
+    network = c.get_network(id_network)
+    network_title = get_network_title(network)
+
+    return render_template(
+      'network_create_event.html',
+      curr_user_id=user_id,
+      id_network=id_network,
+      network_title=network_title,
+      create_event_url=create_event_url
+    )
+
 @networks.route("/ping")
 @flask_login.login_required
 def ping():

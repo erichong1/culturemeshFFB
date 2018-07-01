@@ -3,6 +3,7 @@
 #
 
 from .client import Request
+from .client import KEY
 
 ####################### GET methods #######################
 
@@ -48,6 +49,17 @@ def create_event(client, event):
 	Creates a new event.
 	"""
 	raise NotImplementedError
+
+def get_create_event_url(client):
+	"""
+	:param client: the CultureMesh API client
+
+	Returns the URL endpoint for creating an event.
+	"""
+	base = client._api_base_url_
+	create_event_url = base + '/event/new?key=%s' % KEY
+	return create_event_url
+
 
 ####################### PUT methods #######################
 
