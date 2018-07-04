@@ -96,6 +96,11 @@ body {
   font-size: .8em;
 }
 
+#cm-text-blurb {
+  color:#a3a3a3;
+  font-size: .8em;
+}
+
 #cm-search-blurb {
   color:#a3a3a3;
   font-size: .8em;
@@ -103,6 +108,20 @@ body {
 
 #cm-leave-reply-text {
   color:#EF5330;
+}
+
+#cm-join-network-button {
+  background-color:#EF5330;
+  color: white;
+  -webkit-appearance: none;
+  width: 66%;
+}
+
+#cm-join-network-button:active {
+  background-color:#682414;
+  color: white;
+  -webkit-appearance: none;
+  width: 66%;
 }
 
 #cm-search-button {

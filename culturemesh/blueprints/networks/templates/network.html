@@ -28,6 +28,35 @@
   </div>
 
   {% block network_content %}
+
+  <div class="container-fluid p-3 text-center">
+    <div class="cm-blurb px-3 pt-3">
+      {% if network_info['user_is_member'] %}
+        <div class="row">
+          <p>
+            {{ network_info['greeting'] }}
+          </p>
+        </div>
+      {% else %}
+        <div class="row">
+          <p>
+            {{ network_info['greeting'] }}
+          </p>
+        </div>
+        <form action="join?id={{ network_info['id'] }}"
+              method="POST"
+              class="text-center">
+          {{ form.hidden_tag() }}
+          {{ form.submit(
+                id="cm-join-network-button",
+                class_="my-2 btn btn-secondary btn-sm pr-3"
+              )
+          }}
+        </form>
+      {% endif %}
+    </div>
+  </div>
+
   <div class="p-3 text-center">
     <h4>Recent Posts</h4>
   </div>

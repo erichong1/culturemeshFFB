@@ -5,7 +5,9 @@ from flask import Blueprint, render_template, request
 from flask_login import current_user
 from culturemesh.client import Client
 from culturemesh.utils import get_network_title
-from culturemesh.utils import get_time_ago
+
+from culturemesh.blueprints.networks.forms.network_forms import NetworkJoinForm
+from culturemesh.blueprints.networks.utils import gather_network_info
 
 networks = Blueprint('networks', __name__, template_folder='templates')
 
@@ -13,49 +15,38 @@ networks = Blueprint('networks', __name__, template_folder='templates')
 @flask_login.login_required
 def network():
   id_network = request.args.get('id')
-  if not id_network:
-    return render_template('404.html')
   c = Client(mock=False)
-  try:
-    id_network = int(id_network)
-  except ValueError:
-    return render_template('404.html')
+  id_user = current_user.get_id()
+  network_info = gather_network_info(id_network, id_user, c)
+  return render_template(
+    'network.html', network_info=network_info, form=NetworkJoinForm()
+  )
 
-  network = c.get_network(id_network)
+@networks.route("/join", methods=['POST'])
+@flask_login.login_required
+def join_network():
+  id_network = request.args.get('id')
+  id_user = current_user.get_id()
+  form = NetworkJoinForm(request.form)
+  c = Client(mock=False)
+  if form.validate():
+    c.add_user_to_network(id_user, id_network)
 
-  if not network:
-    return render_template('404.html')
+  network_info = gather_network_info(id_network, id_user, c, "join")
+  return render_template(
+    'network.html', network_info=network_info, form=NetworkJoinForm()
+  )
 
-  # TODO: Get user ID and work out if user is in network.
-  # Add join us button to page if they're not.
-
-  posts = c.get_network_posts(id_network, 3)
-  events = c.get_network_events(id_network, 3)
-  for event in events:
-    utils.enhance_event_date_info(event)
-
-  for post in posts:
-    post['username'] = c.get_user(post['id_user'])['username']
-    post['reply_count'] = c.get_post_reply_count(post['id'])['reply_count']
-    post['time_ago'] = get_time_ago(post['post_date'])
-
-  # TODO: This assumes that the region ID and city ID are specified in the data.
-  # This is not necessarily the case. This needs to be changed using the new information
-  # that Ian sent us about network classes.
-
-  network_info = {}
-  network_info['id'] = id_network
-  network_info['posts'] = posts
-  network_info['events'] = events
-  network_info['network_title'] = get_network_title(network)
-
-  num_users = c.get_network_user_count(id_network)['user_count']
-  num_posts = c.get_network_post_count(id_network)['post_count']
-
-  network_info['num_users'] = num_users
-  network_info['num_posts'] = num_posts
-
-  return render_template('network.html', network_info=network_info)
+@networks.route("/leave", methods=['POST'])
+@flask_login.login_required
+def leave_network():
+  id_network = request.args.get('id')
+  c = Client(mock=False)
+  id_user = current_user.get_id()
+  network_info = gather_network_info(id_network, id_user, c, "leave")
+  return render_template(
+    'network.html', network_info=network_info, form=NetworkJoinForm()
+  )
 
 @networks.route("/events")
 @flask_login.login_required
@@ -99,14 +90,19 @@ def network_events() :
   for event in events:
     utils.enhance_event_date_info(event)
 
-  # TODO: This assumes that the region ID and city ID are specified in the data.
-  # This is not necessarily the case. This needs to be changed using the new information
-  # that Ian sent us about network classes.
+  id_user = current_user.get_id()
+  user_networks = c.get_user_networks(id_user, count=100)
+  user_is_member = False
+  for network_ in user_networks:
+    if int(id_network) == int(network_['id']):
+      user_is_member = True
+      break
 
   network_info = {}
   network_info['id'] = id_network
   network_info['events'] = events
   network_info['network_title'] = get_network_title(network)
+  network_info['user_is_member'] = user_is_member
 
   num_users = c.get_network_user_count(id_network)['user_count']
   num_posts = c.get_network_post_count(id_network)['post_count']
@@ -166,13 +162,18 @@ def network_posts() :
   else :
     post_index = posts[-1]['id']
 
-  # TODO: This assumes that the region ID and city ID are specified in the data.
-  # This is not necessarily the case. This needs to be changed using the new information
-  # that Ian sent us about network classes.
+  id_user = current_user.get_id()
+  user_networks = c.get_user_networks(id_user, count=100)
+  user_is_member = False
+  for network_ in user_networks:
+    if int(id_network) == int(network_['id']):
+      user_is_member = True
+      break
 
   network_info = {}
   network_info['id'] = id_network
   network_info['posts'] = posts
+  network_info['user_is_member'] = user_is_member
 
   num_users = c.get_network_user_count(id_network)['user_count']
   num_posts = c.get_network_post_count(id_network)['post_count']
