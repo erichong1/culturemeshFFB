@@ -47,9 +47,6 @@ def network():
   network_info['id'] = id_network
   network_info['posts'] = posts
   network_info['events'] = events
-  cur_country = network['country_cur']
-  cur_region = network['region_cur']
-  cur_city = network['city_cur']
   network_info['network_title'] = get_network_title(network)
 
   num_users = c.get_network_user_count(id_network)['user_count']
@@ -109,9 +106,6 @@ def network_events() :
   network_info = {}
   network_info['id'] = id_network
   network_info['events'] = events
-  cur_country = network['country_cur']
-  cur_region = network['region_cur']
-  cur_city = network['city_cur']
   network_info['network_title'] = get_network_title(network)
 
   num_users = c.get_network_user_count(id_network)['user_count']
@@ -120,7 +114,12 @@ def network_events() :
   network_info['num_users'] = num_users
   network_info['num_posts'] = num_posts
 
-  return render_template('network_events.html', network_info=network_info, event_index=event_index)
+  referrer = request.headers.get("Referer")
+
+  return render_template(
+    'network_events.html', network_info=network_info,
+    event_index=event_index, referer_url=referrer
+  )
 
 @networks.route("/posts")
 @flask_login.login_required
@@ -174,9 +173,6 @@ def network_posts() :
   network_info = {}
   network_info['id'] = id_network
   network_info['posts'] = posts
-  cur_country = network['country_cur']
-  cur_region = network['region_cur']
-  cur_city = network['city_cur']
 
   num_users = c.get_network_user_count(id_network)['user_count']
   num_posts = c.get_network_post_count(id_network)['post_count']
