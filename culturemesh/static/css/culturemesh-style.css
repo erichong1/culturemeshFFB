@@ -23,6 +23,14 @@ body {
   color: white;
 }
 
+#cm-network-title {
+  color: white;
+}
+
+#cm-network-members-and-posts {
+  color: white;
+}
+
 #cm-signinfb-button {
   background-color: #3c3c3c;
 }
@@ -96,21 +104,25 @@ body {
 #cm-create-event-button {
   background-color:#EF5330;
   color: white;
+  -webkit-appearance: none;
 }
 
 #cm-create-event-button:active {
   background-color:#682414;
   color: white;
+  -webkit-appearance: none;
 }
 
 #cm-create-post-button {
   background-color:#EF5330;
   color: white;
+  -webkit-appearance: none;
 }
 
 #cm-create-post-button:active {
   background-color:#682414;
   color: white;
+  -webkit-appearance: none;
 }
 
 #cm-reply-submit-button {
@@ -157,6 +169,21 @@ body {
   border-bottom: 1px solid #CBCBCB;
 }
 
+#cm-generic-button {
+  background-color: #EF5330;
+  color: white;
+  text-decoration: none;
+  border: none;
+  -webkit-appearance: none;
+  padding: .75em .75em .75em .75em;
+  width: 100%;
+}
+
+#cm-generic-button:active {
+  background-color:#682414;
+}
+
+
 
 /* CultureMesh-specific class styling below */
 
@@ -172,6 +199,10 @@ body {
   height: 175px;
   object-fit: cover;
   background-color: white;
+}
+
+.cm-orange-text {
+  color: #EF5330;;
 }
 
 .cm-about-img {

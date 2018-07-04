@@ -22,13 +22,32 @@
   </div>
   {% endfor %}
 
-  <div class="py-1 row">
-    <div class="p-2">
-      <a type="button" class="btn btn-secondary" href="/network/events?id={{ network_info['id'] }}&index={{ event_index }}">
-        View older events
-      </a>
+  {% if network_info['events']|length == 0 %}
+    <p> No more events to see. </p>
+  {% else %}
+    <div class="py-3 row">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col text-right px-4">
+          </div>
+          <div class="col text-left px-4">
+            <a href="/network/events?id={{ network_info['id'] }}&index={{ event_index }}">
+              <i id="cm-icon" class="fas fa-chevron-right"></i>
+            </a>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col text-left cm-orange-text">
+          </div>
+          <div class="col text-right cm-orange-text">
+            <a class="cm-orange-text"
+             href="/network/events?id={{ network_info['id'] }}&index={{ event_index }}">
+            Next
+            </a>
+          </div>
+        </div>
+      </div>
     </div>
-  </div>
+  {% endif %}
 
 {% endblock %}
-</div>
