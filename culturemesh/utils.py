@@ -46,6 +46,21 @@ def get_network_title(network):
   else:
     return "Unknown"
 
+def get_upcoming_events(client, user_id, count):
+  import sys
+
+  upcoming_events = []
+  networks = client.get_user_networks(user_id, 200)
+  for network in networks:
+    events = client.get_network_events(network['id'], 10)
+    upcoming_events += events
+
+  upcoming_events = sorted(
+    upcoming_events, reverse=True, key=lambda x: parse_date(x['event_date'])
+  )
+
+  return upcoming_events[:min(len(upcoming_events), count)]
+
 def get_event_location(event):
   """Returns a string for where this event
   is taking place (i.e. New York City, New York).
