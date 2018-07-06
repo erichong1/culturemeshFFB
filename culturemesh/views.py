@@ -95,8 +95,9 @@ def make_session_permanent():
 
 @app.errorhandler(httplib.NOT_FOUND)
 def page_not_found(e):
-    return render_template('404.html'), httplib.NOT_FOUND
+    return render_template('404.html')
 
 @app.errorhandler(httplib.INTERNAL_SERVER_ERROR)
+@app.errorhandler(httplib.METHOD_NOT_ALLOWED)
 def internal_server_error(e):
-    return render_template('500.html'), httplib.INTERNAL_SERVER_ERROR
+    return render_template('error.html')

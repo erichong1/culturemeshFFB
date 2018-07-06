@@ -77,6 +77,7 @@ class Client(object):
 			response = requests.get(url)
 		elif request_method == Request.POST:
 			response = requests.post(url)
+
 		return self._get_body(response)
 
 	def _get_body(self, response):

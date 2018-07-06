@@ -51,6 +51,38 @@
   </div>
 {% endmacro %}
 
+{% macro postblurbwithnetwork(post) %}
+  <div class="p-2 cm-post-blurb">
+    <div class="container">
+      <div class="row">
+        <span class="cm-username-small">{{ post['username'] }}</span>
+        <span class="cm-time-ago-small">{{ post['time_ago'] }}</span>
+      </div>
+      <div class="row py-1">
+        <a href="/post?id={{ post['id'] }}" class="hidden-link">
+          <p class="cm-post-blurb-text">
+            {{ post['post_text'] | truncate(128) }}
+          </p>
+        </a>
+      </div>
+      <div class="row">
+        <a href="/post?id={{ post['id'] }}" class="hidden-link">
+          <div class="cm-post-blurb-small-text">
+            <i class="fas fa-comment fa-sm"></i>
+            {{ post['reply_count']}} replies
+          </div>
+        </a>
+      </div>
+      <div class="row">
+        <div class="cm-post-blurb-small-text">
+          <i id="cm-icon" class="fas fa-users"></i>
+          <span class="cm-light-font-small">{{ post['network_title'] }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endmacro %}
+
 {% macro networkblurb(network) %}
   <div class="p-2 cm-network-blurb">
     <div class="container">

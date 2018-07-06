@@ -8,7 +8,7 @@ from .client import KEY
 ####################### GET methods #######################
 
 def ping_post(client):
-    url = '/post/ping'
+    url = 'post/ping'
     return client._request(url, Request.GET)
 
 def get_post(client, postId):
@@ -19,7 +19,7 @@ def get_post(client, postId):
 	Returns the corresponding post JSON.
 	"""
 
-	url = '/post/%s' % str(postId)
+	url = 'post/%s' % str(postId)
 	return client._request(url, Request.GET)
 
 def get_post_replies(client, postId, count, max_id=None):
@@ -32,7 +32,7 @@ def get_post_replies(client, postId, count, max_id=None):
 	Returns a list of postReply JSONs, in reverse sorted order by
 	id.
 	"""
-	url = '/post/%s/replies' % str(postId)
+	url = 'post/%s/replies' % str(postId)
 	query_params = {'count': count}
 	if max_id is not None:
 		query_params['max_id'] = max_id
@@ -45,7 +45,7 @@ def get_post_reply_count(client, postId):
 
 	Returns a JSON with a single reply_count element.
 	"""
-	url = '/post/%s/reply_count' % str(postId)
+	url = 'post/%s/reply_count' % str(postId)
 	return client._request(url, Request.GET)
 
 ####################### POST methods #######################

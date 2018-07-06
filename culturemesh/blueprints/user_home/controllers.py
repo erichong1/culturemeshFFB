@@ -1,12 +1,15 @@
 import flask_login
 import utils
+import sys
 
 from flask import Blueprint, render_template
 from culturemesh.client import Client
 from culturemesh.utils import get_network_title
 from culturemesh.utils import get_user_image_url
 from culturemesh.utils import get_short_network_join_date
+from culturemesh.utils import get_time_ago
 from flask_login import current_user
+from werkzeug.exceptions import HTTPException
 
 user_home = Blueprint('user_home', __name__, template_folder='templates')
 
@@ -25,7 +28,27 @@ def render_user_home():
   for event in events_hosting:
     utils.enhance_event_date_info(event)
 
-  return render_template('dashboard.html', user=user, events_hosting=events_hosting)
+  latest_posts = c.get_user_posts(user_id, 3)
+
+  for post in latest_posts:
+    print(post)
+    post['username'] = c.get_user(post['id_user'])['username']
+    post['reply_count'] = c.get_post_reply_count(post['id'])['reply_count']
+    post['time_ago'] = get_time_ago(post['post_date'])
+
+    try:
+      post['network'] = c.get_network(post['id_network'])
+      post['network_title'] = get_network_title(post['network'])
+    except HTTPException as e:
+      post['network'] = None
+      post['network_title'] = "Unknown"
+
+  return render_template(
+    'dashboard.html',
+    user=user,
+    events_hosting=events_hosting,
+    latest_posts=latest_posts
+  )
 
 @user_home.route("/account")
 @flask_login.login_required
