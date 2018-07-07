@@ -3,7 +3,7 @@ import utils
 import datetime
 import pytz
 
-from flask import Blueprint, render_template
+from flask import Blueprint, render_template, request
 from culturemesh.client import Client
 from culturemesh.utils import get_network_title
 from culturemesh.utils import get_user_image_url
@@ -13,6 +13,8 @@ from culturemesh.utils import get_upcoming_events
 from flask_login import current_user
 from werkzeug.exceptions import HTTPException
 from utils import parse_date
+
+from culturemesh.blueprints.user_home.forms.home_forms import UserInfo
 
 user_home = Blueprint('user_home', __name__, template_folder='templates')
 utc=pytz.UTC
@@ -78,7 +80,47 @@ def render_user_home_account():
 
   if user is None:
     return page_not_found("")
-  return render_template('account.html', user=user)
+
+  user_info_form=UserInfo()
+  user_info_form.first_name.process_data(user['first_name'])
+  user_info_form.last_name.process_data(user['last_name'])
+  user_info_form.about_me.process_data(user['about_me'])
+  return render_template(
+    'account.html', user=user, user_info_form=user_info_form
+  )
+
+@user_home.route("/update_profile", methods=['POST'])
+@flask_login.login_required
+def update_profile_and_render_home():
+  user_id = current_user.get_id()
+  c = Client(mock=False)
+
+  data = request.form
+  form = UserInfo(request.form)
+  first_name = data['first_name']
+  last_name = data['last_name']
+  about_me = data['about_me']
+
+  user = {
+    'id': user_id, 'first_name': first_name,
+    'last_name': last_name, 'about_me': about_me
+  }
+
+  if form.validate():
+    c.update_user(user)
+
+  user = c.get_user(user_id)
+  if user is None:
+    return page_not_found("")
+  user['img_url'] = get_user_image_url(user)
+
+  user_info_form=UserInfo()
+  user_info_form.first_name.process_data(user['first_name'])
+  user_info_form.last_name.process_data(user['last_name'])
+  user_info_form.about_me.process_data(user['about_me'])
+  return render_template(
+    'account.html', user=user, user_info_form=user_info_form
+  )
 
 @user_home.route("/events")
 @flask_login.login_required
@@ -91,7 +133,6 @@ def render_user_home_events():
   if user is None:
     return page_not_found("")
 
-  # TODO: incorporate paging into the events hosting API call
   events_hosting = c.get_user_events(user_id, "hosting", 5)
   if events_hosting is None:
     return page_not_found("")

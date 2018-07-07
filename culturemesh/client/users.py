@@ -94,9 +94,8 @@ def create_user(client, user):
 
 	Creates a new user.
 	"""
-	params = {"user": user}
 	url = 'user'
-	return client._request(url, Request.POST, body_params=params)
+	return client._request(url, Request.POST, body_data=user)
 
 def add_user_to_event(client, userId, eventId):
 	"""
@@ -129,8 +128,5 @@ def update_user(client, user):
 
 	Updates the information of a user.
 	"""
-	params = {'user': user}
-
-	raise NotImplementedError
-	url = 'user'
-	return client._request(url, Request.PUT, body_params=params)
+	url = 'user/users'
+	return client._request(url, Request.PUT, body_data=user)
