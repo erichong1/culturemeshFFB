@@ -4,11 +4,22 @@
 
   <!-- Post text and blurb -->
   <div class="wrapper container-fluid">
-
     <div class="my-2 py-1 row">
-      <div class="px-4 py-2 row">
-        <div id="cm-post-blurb">
-          Post in Network: <strong>{{ post['network_title'] }}</strong>
+      <div class="px-2" id="cm-post-blurb">
+        Post in Network:
+      </div>
+      <div class="px-2 pt-2 pb-3 row">
+        <div class="col-1">
+          <a href="/network?id={{ post['id_network'] }}" class="hidden-link">
+            <i id="cm-icon" class="fas fa-users"></i>
+          </a>
+        </div>
+        <div class="col">
+          <div id="cm-post-blurb">
+            <a href="/network?id={{ post['id_network'] }}" class="hidden-link">
+              {{ post['network_title'] }}
+            </a>
+        </div>
         </div>
       </div>
       <div class="p-3 cm-post-text">
