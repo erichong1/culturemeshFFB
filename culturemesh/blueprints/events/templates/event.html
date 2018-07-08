@@ -20,8 +20,10 @@
               <i id="cm-icon" class="fas fa-users"></i>
             </div>
             <div class="col">
-              <span class="cm-regular-font-med">Network</span> <br/>
-              <span class="cm-light-font-small">{{ event['network_title'] }}</span>
+              <a href="/network?id={{ event['id_network'] }}" class="hidden-link">
+                <span class="cm-regular-font-med">Network</span> <br/>
+                <span class="cm-light-font-small">{{ event['network_title'] }}</span>
+              </a>
             </div>
           </div>
 

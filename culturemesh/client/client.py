@@ -58,7 +58,7 @@ class Client(object):
 		#	  not used yet.
 		self.session = requests.Session()
 
-	def _request(self, url, request_method, query_params=None, body_params=None,
+	def _request(self, url, request_method, query_params=None, body_data=None,
 				 post_json=None, body_extractor=None):
 		"""
 		Carries out HTTP requests.
@@ -66,14 +66,26 @@ class Client(object):
 		Returns body as JSON.
 		"""
 		if self.mock:
-			return self._mock_request(url, query_params, body_params)
+			return self._mock_request(url, query_params, body_data)
 
 		url = "%s/%s?key=%s" % (self._api_base_url_, url, KEY)
 		if query_params is not None:
 			for param in query_params:
 				url += "&%s=%s" % (param, query_params[param])
 
-		response = requests.get(url)
+		if request_method == Request.GET:
+			response = requests.get(url)
+		elif request_method == Request.POST:
+			if body_data:
+				response = requests.post(url, data=body_data)
+			else:
+				response = requests.post(url)
+		elif request_method == Request.PUT:
+			if body_data:
+				response = requests.put(url, data=body_data)
+			else:
+				response = requests.put(url)
+
 		return self._get_body(response)
 
 	def _get_body(self, response):

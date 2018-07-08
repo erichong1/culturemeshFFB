@@ -25,6 +25,41 @@
   </div>
 {% endmacro %}
 
+{% macro eventblurbwithnetwork(event) %}
+  <div class="p-2 cm-event-blurb">
+    <div class="container">
+      <div class="row">
+        <div class="col-4 cm-event-blurb-col-l">
+          <p class="pt-3 cm-blurb-date">
+            {{ event['month_abbr'] }} {{ event['day'] }}, {{ event['year'] }}
+          </p>
+          <p class="cm-blurb-weekday">
+            {{ event['weekday_abbr'] }}
+          </p>
+        </div>
+        <div class="col-8 cm-event-blurb-col-r py-3">
+          <a href="/event?id={{ event['id'] }}" class="hidden-link">
+            <p class="cm-blurb-title">
+              {{ event['title'] }}
+            </p>
+          </a>
+          <p class="cm-blurb-subtitle">
+            {{ event['time'] }}
+          </p>
+        </div>
+      </div>
+      <div class="row p-2">
+        <a href="/network?id={{ event['id_network'] }}" class="hidden-link">
+          <div class="cm-post-blurb-small-text">
+            <i id="cm-icon" class="fas fa-users"></i>
+            <span class="cm-light-font-small">{{ event['network_title'] }}</span>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+{% endmacro %}
+
 {% macro postblurb(post) %}
   <div class="p-2 cm-post-blurb">
     <div class="container">
@@ -44,6 +79,40 @@
           <div class="cm-post-blurb-small-text">
             <i class="fas fa-comment fa-sm"></i>
             {{ post['reply_count']}} replies
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+{% endmacro %}
+
+{% macro postblurbwithnetwork(post) %}
+  <div class="p-2 cm-post-blurb">
+    <div class="container">
+      <div class="row">
+        <span class="cm-username-small">{{ post['username'] }}</span>
+        <span class="cm-time-ago-small">{{ post['time_ago'] }}</span>
+      </div>
+      <div class="row py-1">
+        <a href="/post?id={{ post['id'] }}" class="hidden-link">
+          <p class="cm-post-blurb-text">
+            {{ post['post_text'] | truncate(128) }}
+          </p>
+        </a>
+      </div>
+      <div class="row">
+        <a href="/post?id={{ post['id'] }}" class="hidden-link">
+          <div class="cm-post-blurb-small-text">
+            <i class="fas fa-comment fa-sm"></i>
+            {{ post['reply_count']}} replies
+          </div>
+        </a>
+      </div>
+      <div class="row">
+        <a href="/network?id={{ post['id_network'] }}" class="hidden-link">
+          <div class="cm-post-blurb-small-text">
+            <i id="cm-icon" class="fas fa-users"></i>
+            <span class="cm-light-font-small">{{ post['network_title'] }}</span>
           </div>
         </a>
       </div>

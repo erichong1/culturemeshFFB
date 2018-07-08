@@ -7,7 +7,7 @@
 from .client import Request
 
 def ping_network(client):
-    url = '/network/ping'
+    url = 'network/ping'
     return client._request(url, Request.GET)
 
 def get_networks(client, count, max_id=None, filter_=None):
@@ -33,7 +33,7 @@ def get_network(client, networkId):
 
     Returns JSON of network.
     """
-    url = '/network/%s' % str(networkId)
+    url = 'network/%s' % str(networkId)
     return client._request(url, Request.GET)
 
 
@@ -44,7 +44,7 @@ def get_network_posts(client, networkId, count, max_id=None):
 
     Returns list of posts JSONs for posts in networkId
     """
-    url = '/network/%s/posts' % str(networkId)
+    url = 'network/%s/posts' % str(networkId)
     query_params = {'count': count}
     if max_id is not None:
         query_params['max_id'] = max_id
@@ -58,7 +58,7 @@ def get_network_events(client, networkId, count, max_id=None):
 
     Returns list of events JSONs for events in networkId
     """
-    url = '/network/%s/events' % str(networkId)
+    url = 'network/%s/events' % str(networkId)
     query_params = {'count': count}
     if max_id is not None:
         query_params['max_id'] = max_id
@@ -73,7 +73,7 @@ def get_network_users(client, networkId, count, max_id=None):
 
     Returns list of Network Registration JSONs for networkId
     """
-    url = '/network/%s/users' % str(networkId)
+    url = 'network/%s/users' % str(networkId)
     query_params = {'count': count}
     if max_id is not None:
         query_params['max_id'] = max_id
@@ -86,7 +86,7 @@ def get_network_user_count(client, networkId):
 
     Returns the number of users on this network.
     """
-    url = '/network/%s/user_count' % str(networkId)
+    url = 'network/%s/user_count' % str(networkId)
     return client._request(url, Request.GET)
 
 def get_network_post_count(client, networkId):
@@ -96,7 +96,7 @@ def get_network_post_count(client, networkId):
 
     Returns the number of posts on this network.
     """
-    url = '/network/%s/post_count' % str(networkId)
+    url = 'network/%s/post_count' % str(networkId)
     return client._request(url, Request.GET)
 
 ####################### POST methods #######################

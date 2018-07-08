@@ -7,7 +7,7 @@
 from .client import Request
 
 def ping_user(client):
-    url = '/user/ping'
+    url = 'user/ping'
     return client._request(url, Request.GET)
 
 def get_users(client, count, max_id=None, filter_=None):
@@ -24,7 +24,7 @@ def get_users(client, count, max_id=None, filter_=None):
 	query_params = {'count': count}
 	if max_id is not None:
 		query_params['max_id'] = max_id
-	url = '/users'
+	url = 'users'
 	return client._request(url, Request.GET, body_params=params,
 		query_params=query_params)
 
@@ -48,7 +48,7 @@ def get_user_networks(client, user_id, count, max_register_date=None):
 
 	Returns list of network JSONs to which USER_ID belongs.
 	"""
-	url = '/user/%s/networks' % str(user_id)
+	url = 'user/%s/networks' % str(user_id)
 	query_params = {'count': count}
 	if max_register_date is not None:
 		query_params['max_register_date'] = max_register_date
@@ -79,7 +79,7 @@ def get_user_events(client, user_id, role, count, max_id=None):
 	Returns list of events related to USER_ID, according to ROLE.
 	"""
 	query_params = {'role': role, 'count': count}
-	url = '/user/%s/events' % str(user_id)
+	url = 'user/%s/events' % str(user_id)
 	if max_id is not None:
 		query_params['max_id'] = max_id
 	return client._request(url, Request.GET, query_params=query_params)
@@ -94,9 +94,8 @@ def create_user(client, user):
 
 	Creates a new user.
 	"""
-	params = {"user": user}
-	url = '/user'
-	return client._request(url, Request.POST, body_params=params)
+	url = 'user'
+	return client._request(url, Request.POST, body_data=user)
 
 def add_user_to_event(client, userId, eventId):
 	"""
@@ -106,7 +105,7 @@ def add_user_to_event(client, userId, eventId):
 
 	Registers a user to a attend an event.
 	"""
-	url = '/user/%s/addToEvent/%s' % (str(userId), str(eventId))
+	url = 'user/%s/addToEvent/%s' % (str(userId), str(eventId))
 	return client._request(url, Request.POST)
 
 def add_user_to_network(client, userId, networkId):
@@ -117,7 +116,7 @@ def add_user_to_network(client, userId, networkId):
 
 	Adds a user to a network.
 	"""
-	url = '/user/%s/addToNetwork/%s' % (str(userId), str(networkId))
+	url = 'user/%s/addToNetwork/%s' % (str(userId), str(networkId))
 	return client._request(url, Request.POST)
 
 ####################### PUT methods #######################
@@ -129,8 +128,5 @@ def update_user(client, user):
 
 	Updates the information of a user.
 	"""
-	params = {'user': user}
-
-	raise NotImplementedError
-	url = '/user'
-	return client._request(url, Request.PUT, body_params=params)
+	url = 'user/users'
+	return client._request(url, Request.PUT, body_data=user)
