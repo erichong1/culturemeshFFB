@@ -5,6 +5,7 @@ from flask import Blueprint, render_template, request
 from flask_login import current_user
 from culturemesh.client import Client
 from culturemesh.utils import get_network_title
+from culturemesh.utils import get_time_ago
 
 from culturemesh.blueprints.networks.forms.network_forms import NetworkJoinForm
 from culturemesh.blueprints.networks.utils import gather_network_info
