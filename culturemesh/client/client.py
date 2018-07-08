@@ -630,9 +630,7 @@ from .posts import get_post
 from .posts import get_post_replies
 from .posts import get_post_reply_count
 from .posts import create_post
-from .posts import get_create_post_url
 from .posts import create_post_reply
-from .posts import get_create_post_reply_url
 from .accounts import verify_account
 from .users import ping_user
 from .users import get_users
@@ -673,9 +671,7 @@ Client.get_post = get_post
 Client.get_post_replies = get_post_replies
 Client.get_post_reply_count = get_post_reply_count
 Client.create_post = create_post
-Client.get_create_post_url = get_create_post_url
 Client.create_post_reply = create_post_reply
-Client.get_create_post_reply_url = get_create_post_reply_url
 Client.verify_account = verify_account
 Client.ping_user = ping_user
 Client.get_users = get_users

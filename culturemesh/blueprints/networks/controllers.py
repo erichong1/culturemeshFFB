@@ -1,13 +1,16 @@
 import flask_login
 import utils
 
-from flask import Blueprint, render_template, request
+from flask import Blueprint, render_template, request, redirect, url_for
 from flask_login import current_user
 from culturemesh.client import Client
 from culturemesh.utils import get_network_title
 from culturemesh.utils import get_time_ago
 
 from culturemesh.blueprints.networks.forms.network_forms import NetworkJoinForm
+from culturemesh.blueprints.networks.forms.network_forms import CreatePostForm
+from culturemesh.blueprints.networks.forms.network_forms import CreateEventForm
+
 from culturemesh.blueprints.networks.utils import gather_network_info
 
 networks = Blueprint('networks', __name__, template_folder='templates')
@@ -185,23 +188,44 @@ def network_posts() :
   network_info['network_title'] = get_network_title(network)
   return render_template('network_posts.html', network_info=network_info, post_index=post_index)
 
-@networks.route("/posts/new")
+@networks.route("/posts/new", methods=['GET', 'POST'])
 @flask_login.login_required
 def create_new_post():
     c = Client(mock=False)
     id_network = request.args.get('id')
     user_id = current_user.get_id()
-    create_post_url = c.get_create_post_url()
-
     network = c.get_network(id_network)
     network_title = get_network_title(network)
+
+    if request.method == 'GET':
+      pass
+    else:
+      data = request.form
+      form_submitted = CreatePostForm(request.form)
+      if form_submitted.validate():
+        post_text = data['post_content']
+
+        post = {
+          'id_user': user_id,
+          'id_network': id_network,
+          'post_text': post_text,
+          'vid_link': "",
+          'img_link': ""
+        }
+
+        c.create_post(post)
+        return redirect(
+          url_for('networks.network_posts') + "?id=%s" % str(id_network)
+        )
+
+    new_form = CreatePostForm()
 
     return render_template(
       'network_create_post.html',
       curr_user_id=user_id,
       id_network=id_network,
       network_title=network_title,
-      create_post_url=create_post_url
+      form=new_form
     )
 
 @networks.route("/events/new")
