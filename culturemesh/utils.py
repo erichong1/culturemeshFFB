@@ -22,11 +22,13 @@ def get_network_title(network):
   orig_region = network['region_origin']
   orig_city = network['city_origin']
 
-  cur_location = ', '.join([l for l \
-    in [cur_city, cur_region, cur_country] if l is not None])
+  cur_location = ', '.join(
+    [l for l in [cur_city, cur_region, cur_country] if l is not None]
+  )
 
-  orig_location = ', '.join([l for l \
-    in [orig_city, orig_region, orig_country] if l is not None])
+  orig_location = ', '.join(
+    [l for l in [orig_city, orig_region, orig_country] if l is not None]
+  )
 
   if network['network_class'] == '_l':
 
@@ -47,7 +49,9 @@ def get_network_title(network):
     return "Unknown"
 
 def get_upcoming_events(client, user_id, count):
-  import sys
+  """Return up to 'count' events that are in the user's
+  networks and which are upcoming, sorted by how close they
+  are to today"""
 
   upcoming_events = []
   networks = client.get_user_networks(user_id, 200)
