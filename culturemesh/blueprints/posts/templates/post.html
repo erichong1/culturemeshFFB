@@ -63,31 +63,28 @@
   <!-- Add reply box -->
 
   <div class="wrapper container-fluid py-3">
-    <iframe name="dummyframe" id="cm-dummyframe"></iframe>
-    <form action="{{ post_url }}"
-          method="POST"
-          target="dummyframe">
+    <form action="" method="POST">
 
-      <input type="hidden" name="id_parent" value="{{ post['id'] }}">
-      <input type="hidden" name="id_user" value="{{ curr_user_id }}">
-      <input type="hidden" name="id_network" value="{{ post['id_network'] }}">
+      {{ form.hidden_tag() }}
 
       <div class="cm-add-reply-div text-right">
-        <textarea class="my-1 form-control"
-                  rows="4"
-                  id="cm-post-comment"
-                  name="reply_text"
-                  placeholder="Leave a reply..."></textarea>
+        {{ form.post_reply_content(
+              size=150,
+              cols="35",
+              rows="4",
+              id="cm-post-comment",
+              placeholder="Leave a reply...",
+              class_="my-1 form-control"
+            )
+        }}
       </div>
       <div class="col">
         <div class="row">
-            <input type="submit"
-              class="my-2 btn btn-secondary btn-sm pr-3"
-              id="cm-reply-submit-button"
-              value="Reply"/>
-        </div>
-        <div class="row text-right cm-small-note">
-            <p>* Refresh the page after pressing the reply button.</p>
+          {{ form.submit(
+              id="cm-reply-submit-button",
+              class_="my-2 btn btn-secondary btn-sm pr-3"
+             )
+          }}
         </div>
       </div>
     </form>

@@ -68,4 +68,5 @@ def create_post_reply(client, postId, reply):
 
 	Posts a reply to a post by ID.
 	"""
-	raise NotImplementedError
+	url = 'post/%s/reply' % str(postId)
+	return client._request(url, Request.POST, body_data=reply)
