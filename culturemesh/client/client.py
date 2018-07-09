@@ -617,7 +617,6 @@ from .events import ping_event
 from .events import get_event
 from .events import get_event_registration_list
 from .events import create_event
-from .events import get_create_event_url
 from .events import update_event
 from .languages import get_language
 from .languages import language_autocomplete
@@ -658,7 +657,6 @@ Client.ping_event = ping_event
 Client.get_event = get_event
 Client.get_event_registration_list = get_event_registration_list
 Client.create_event = create_event
-Client.get_create_event_url = get_create_event_url
 Client.update_event = update_event
 Client.get_language = get_language
 Client.language_autocomplete = language_autocomplete

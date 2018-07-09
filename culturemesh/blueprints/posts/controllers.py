@@ -29,6 +29,8 @@ def render_post():
   # NOTE: this will not show more than the latest 100 replies
   replies = c.get_post_replies(post["id"], NUM_REPLIES_TO_SHOW)
 
+  error_msg = None
+
   for reply in replies:
       reply['username'] = c.get_user(reply["id_user"])["username"]
       reply['time_ago'] = get_time_ago(reply['reply_date'])
@@ -52,6 +54,10 @@ def render_post():
       return redirect(
         url_for('posts.render_post') + "?id=%s" % str(current_post_id)
       )
+    else:
+      error_msg = "Oops. An error occurred. Did you forget to type a reply \
+        before submitting?"
+
 
   new_form = CreatePostReplyForm()
 
@@ -61,7 +67,8 @@ def render_post():
     replies=replies,
     num_replies=len(replies),
     curr_user_id=user_id,
-    form=new_form
+    form=new_form,
+    error_msg=error_msg
   )
 
 @posts.route("/ping")

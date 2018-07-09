@@ -23,11 +23,11 @@ def get_network_title(network):
   orig_city = network['city_origin']
 
   cur_location = ', '.join(
-    [l for l in [cur_city, cur_region, cur_country] if l is not None]
+    [l for l in [cur_city, cur_region, cur_country] if l]
   )
 
   orig_location = ', '.join(
-    [l for l in [orig_city, orig_region, orig_country] if l is not None]
+    [l for l in [orig_city, orig_region, orig_country] if l]
   )
 
   if network['network_class'] == '_l':
@@ -77,7 +77,7 @@ def get_event_location(event):
   country = event['country']
 
   location = ', '.join([l for l \
-    in [city, region, country] if l is not None])
+    in [city, region, country] if l])
 
   return location
 

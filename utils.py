@@ -47,9 +47,11 @@ def enhance_event_date_info(event):
   pod = " AM"
   if hr == 0:
     hr = 12
-  elif hr >= 13:
+  elif hr >= 12:
     pod = " PM"
     hr -= 12
+    if hr == 0:
+      hr = 12
 
   hr = str(hr)
   minute = date.minute

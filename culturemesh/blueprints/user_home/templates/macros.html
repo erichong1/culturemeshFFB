@@ -1,3 +1,20 @@
+{% macro error_blurb(msg) %}
+  <div class="py-3">
+    <div class="cm-blurb py-2">
+      <div class="container-fluid">
+        <div class="row py-2">
+          <div class="col-1">
+            <i id="cm-icon" class="fas fa-exclamation-circle"></i>
+          </div>
+          <div class="col">
+            <span class="cm-regular-font-small">{{ msg }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endmacro %}
+
 {% macro eventblurb(event) %}
   <div class="p-2 cm-event-blurb">
     <div class="container">
@@ -61,7 +78,7 @@
 {% endmacro %}
 
 {% macro postblurb(post) %}
-  <div class="p-2 cm-post-blurb">
+  <div class="p-3 cm-post-blurb">
     <div class="container">
       <div class="row">
         <span class="cm-username-small">{{ post['username'] }}</span>
@@ -87,7 +104,7 @@
 {% endmacro %}
 
 {% macro postblurbwithnetwork(post) %}
-  <div class="p-2 cm-post-blurb">
+  <div class="p-3 cm-post-blurb">
     <div class="container">
       <div class="row">
         <span class="cm-username-small">{{ post['username'] }}</span>

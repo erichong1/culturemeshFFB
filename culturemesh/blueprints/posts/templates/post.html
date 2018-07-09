@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-
+{% from "macros.html" import error_blurb %}
 {% block content %}
 
   <!-- Post text and blurb -->
@@ -34,6 +34,11 @@
         </div>
       </div>
     </div>
+
+    {% if error_msg %}
+      {{ error_blurb(error_msg) }}
+    {% endif %}
+
   </div>
 
   <!-- Post replies -->

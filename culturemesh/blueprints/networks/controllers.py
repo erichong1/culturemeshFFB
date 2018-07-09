@@ -196,6 +196,7 @@ def create_new_post():
     user_id = current_user.get_id()
     network = c.get_network(id_network)
     network_title = get_network_title(network)
+    error_msg = None
 
     if request.method == 'GET':
       pass
@@ -217,6 +218,9 @@ def create_new_post():
         return redirect(
           url_for('networks.network_posts') + "?id=%s" % str(id_network)
         )
+      else:
+        error_msg = "Oops. An error ocurred. Did you forget to add text to your \
+          post before submitting?"
 
     new_form = CreatePostForm()
 
@@ -225,25 +229,64 @@ def create_new_post():
       curr_user_id=user_id,
       id_network=id_network,
       network_title=network_title,
-      form=new_form
+      form=new_form,
+      error_msg=error_msg
     )
 
-@networks.route("/events/new")
+@networks.route("/events/new", methods=['GET', 'POST'])
 @flask_login.login_required
 def create_new_event():
     c = Client(mock=False)
     id_network = request.args.get('id')
     user_id = current_user.get_id()
-    create_event_url = c.get_create_event_url()
     network = c.get_network(id_network)
     network_title = get_network_title(network)
+    error_msg = None
 
+    if request.method == 'GET':
+      pass
+    else:
+      data = request.form
+      form_submitted = CreateEventForm(request.form)
+      if form_submitted.validate():
+        event_date = data['event_date']
+        title = data['title']
+        address_1 = data['address_1']
+        address_2 = data.get('address_2', None)
+        country = data['country']
+        region = data.get('region', None)
+        city = data.get('city', None)
+        description = data['description']
+
+        event = {
+          "id_network": id_network,
+          "id_host": user_id,
+          "event_date": event_date,
+          "title": title,
+          "address_1": address_1,
+          "address_2": address_2,
+          "country": country,
+          "region": region,
+          "city": city,
+          "description": description
+        }
+
+        c.create_event(event)
+        return redirect(
+          url_for('networks.network_events') + "?id=%s" % str(id_network)
+        )
+      else:
+        error_msg = "Oops. An error occurred.  Did you enter all \
+            of the form fields correctly?"
+
+    new_form = CreateEventForm()
     return render_template(
       'network_create_event.html',
       curr_user_id=user_id,
       id_network=id_network,
       network_title=network_title,
-      create_event_url=create_event_url
+      form=new_form,
+      error_msg=error_msg
     )
 
 @networks.route("/ping")
