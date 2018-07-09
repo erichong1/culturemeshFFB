@@ -46,6 +46,9 @@
             </div>
             <div class="col">
               <span class="cm-regular-font-med">{{ event['address_1'] }}</span> <br/>
+              {% if event['address_2'] %}
+                <span class="cm-regular-font-small">{{ event['address_2'] }}</span> <br/>
+              {% endif %}
               <span class="cm-light-font-small">{{ event['location'] }}</span>
             </div>
           </div>

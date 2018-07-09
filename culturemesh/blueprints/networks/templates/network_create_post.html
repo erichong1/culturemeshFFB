@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-
+{% from "macros.html" import error_blurb %}
 {% block content %}
 
   <!-- Post text and blurb -->
@@ -11,44 +11,47 @@
         </div>
         <div class="row pb-3">
           <div class="col-1">
-            <i id="cm-icon" class="fas fa-users"></i>
+            <a href="/network?id={{ id_network }}" class="hidden-link">
+              <i id="cm-icon" class="fas fa-users"></i>
+            </a>
           </div>
           <div class="col">
-            <span class="cm-light-font-small">{{ network_title }}</span>
+            <a href="/network?id={{ id_network }}" class="hidden-link">
+              <span class="cm-light-font-small">{{ network_title }}</span>
+            </a>
           </div>
         </div>
       </div>
     </div>
+
+    {% if error_msg %}
+      {{ error_blurb(error_msg) }}
+    {% endif %}
+
   </div>
 
-  <div class="wrapper container-fluid">
-    <iframe name="dummyframe" id="cm-dummyframe"></iframe>
-    <form action="{{ create_post_url }}"
-          method="POST"
-          target="dummyframe">
+  <div class="wrapper container-fluid py-3">
+    <form action=""
+          method="POST">
 
-      <input type="hidden" name="id_user" value="{{ curr_user_id }}">
-      <input type="hidden" name="id_network" value="{{ id_network }}">
-      <input type="hidden" name="vid_link" value="">
-      <input type="hidden" name="img_link" value="">
+      {{ form.hidden_tag() }}
 
       <div class="cm-create-post-div text-right cm-regular-font-small">
-        <textarea class="form-control cm-text-input-field"
-                  rows="4"
-                  name="post_text"
-                  required
-                  autofocus
-                  placeholder="Create a post"></textarea>
+        {{ form.post_content(
+              size=150,
+              cols="35", rows="4",
+              placeholder="Create a post",
+              class_="p-2 form-control cm-text-input-field"
+            )
+        }}
       </div>
       <div class="col">
         <div class="row py-2">
-            <input type="submit"
-              class="my-2 btn btn-secondary btn-sm pr-3"
-              id="cm-post-submit-button"
-              value="Create Post"/>
-        </div>
-        <div class="row text-right cm-small-note">
-            <p>* Go to the network page to see your post after submitting.</p>
+          {{ form.submit(
+              id="cm-post-submit-button",
+              class_="my-2 btn btn-secondary btn-sm pr-3"
+             )
+          }}
         </div>
       </div>
     </form>

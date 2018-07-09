@@ -9,8 +9,17 @@
     <div class="p-3 text-center">
       <h3 id="cm-network-title">{{ network_info['network_title']}}</h3>
       <p id="cm-network-members-and-posts">
-        {{ network_info['num_users']}} members  &middot;
-        {{ network_info['num_posts']}} post(s)
+        {% if network_info['num_users'] == 1 %}
+          {{ network_info['num_users'] }} member
+        {% else %}
+          {{ network_info['num_users'] }} members
+        {% endif %}
+        &middot;
+        {% if network_info['num_posts'] == 1 %}
+          {{ network_info['num_posts'] }} post
+        {% else %}
+          {{ network_info['num_posts'] }} posts
+        {% endif %}
       </p>
     </div>
   </div>
@@ -61,39 +70,48 @@
     <h4>Recent Posts</h4>
   </div>
 
-  {% for post in network_info['posts'] %}
-  <div class="py-1 row">
-    {{ postblurb(post) }}
-  </div>
-  {% endfor %}
+  {% if network_info['posts'] | length == 0 %}
+    <p class="text-center">No posts. Make one!</p>
+  {% else %}
+    {% for post in network_info['posts'] %}
+    <div class="py-1 row">
+      {{ postblurb(post) }}
+    </div>
+    {% endfor %}
 
-  <div class="py-3 row">
-    <a id="cm-generic-button"
-      type="button"
-      class="btn btn-secondary"
-      href="/network/posts?id={{ network_info['id'] }}">
-      View more posts
-    </a>
-  </div>
+    <div class="py-3 row">
+      <a id="cm-generic-button"
+        type="button"
+        class="btn btn-secondary"
+        href="/network/posts?id={{ network_info['id'] }}">
+        View more posts
+      </a>
+    </div>
+  {% endif %}
+
 
   <div class="p-3 text-center">
     <h4>Recent Events</h4>
   </div>
 
-  {% for event in network_info['events'] %}
-  <div class="py-1 row">
-    {{ eventblurb(event) }}
-  </div>
-  {% endfor %}
+  {% if network_info['events'] | length == 0 %}
+    <p class="text-center">No events. Create one!</p>
+  {% else %}
+    {% for event in network_info['events'] %}
+    <div class="py-1 row">
+      {{ eventblurb(event) }}
+    </div>
+    {% endfor %}
 
-  <div class="py-3 row">
-    <a id="cm-generic-button"
-      type="button"
-      class="btn btn-secondary"
-      href="/network/events?id={{ network_info['id'] }}">
-      View more events
-    </a>
-</div>
+    <div class="py-3 row">
+      <a id="cm-generic-button"
+        type="button"
+        class="btn btn-secondary"
+        href="/network/events?id={{ network_info['id'] }}">
+        View more events
+      </a>
+    </div>
+  {% endif %}
 
 {% endblock %}
 </div>

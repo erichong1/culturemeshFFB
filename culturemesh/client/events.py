@@ -48,18 +48,8 @@ def create_event(client, event):
 
 	Creates a new event.
 	"""
-	raise NotImplementedError
-
-def get_create_event_url(client):
-	"""
-	:param client: the CultureMesh API client
-
-	Returns the URL endpoint for creating an event.
-	"""
-	base = client._api_base_url_
-	create_event_url = base + '/event/new?key=%s' % KEY
-	return create_event_url
-
+	url = 'event/new'
+	return client._request(url, Request.POST, body_data=event)
 
 ####################### PUT methods #######################
 
@@ -70,4 +60,5 @@ def update_event(client, event):
 
 	Updates an event.
 	"""
-	raise NotImplementedError
+	url = 'event/new'
+	return client._request(url, Request.PUT, body_data=event)

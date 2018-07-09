@@ -3,6 +3,7 @@ import requests
 import config
 import flask_login
 
+from flask_wtf.csrf import CSRFError
 from flask import render_template, request, redirect, session
 from culturemesh import app, login_manager
 from culturemesh.client import Client
@@ -97,6 +98,7 @@ def make_session_permanent():
 def page_not_found(e):
     return render_template('404.html')
 
+@app.errorhandler(CSRFError)
 @app.errorhandler(httplib.INTERNAL_SERVER_ERROR)
 @app.errorhandler(httplib.METHOD_NOT_ALLOWED)
 def internal_server_error(e):

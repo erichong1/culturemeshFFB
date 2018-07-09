@@ -1,13 +1,16 @@
 import flask_login
 import utils
 
-from flask import Blueprint, render_template, request
+from flask import Blueprint, render_template, request, redirect, url_for
 from flask_login import current_user
 from culturemesh.client import Client
 from culturemesh.utils import get_network_title
 from culturemesh.utils import get_time_ago
 
 from culturemesh.blueprints.networks.forms.network_forms import NetworkJoinForm
+from culturemesh.blueprints.networks.forms.network_forms import CreatePostForm
+from culturemesh.blueprints.networks.forms.network_forms import CreateEventForm
+
 from culturemesh.blueprints.networks.utils import gather_network_info
 
 networks = Blueprint('networks', __name__, template_folder='templates')
@@ -185,41 +188,105 @@ def network_posts() :
   network_info['network_title'] = get_network_title(network)
   return render_template('network_posts.html', network_info=network_info, post_index=post_index)
 
-@networks.route("/posts/new")
+@networks.route("/posts/new", methods=['GET', 'POST'])
 @flask_login.login_required
 def create_new_post():
     c = Client(mock=False)
     id_network = request.args.get('id')
     user_id = current_user.get_id()
-    create_post_url = c.get_create_post_url()
-
     network = c.get_network(id_network)
     network_title = get_network_title(network)
+    error_msg = None
+
+    if request.method == 'GET':
+      pass
+    else:
+      data = request.form
+      form_submitted = CreatePostForm(request.form)
+      if form_submitted.validate():
+        post_text = data['post_content']
+
+        post = {
+          'id_user': user_id,
+          'id_network': id_network,
+          'post_text': post_text,
+          'vid_link': "",
+          'img_link': ""
+        }
+
+        c.create_post(post)
+        return redirect(
+          url_for('networks.network_posts') + "?id=%s" % str(id_network)
+        )
+      else:
+        error_msg = "Oops. An error ocurred. Did you forget to add text to your \
+          post before submitting?"
+
+    new_form = CreatePostForm()
 
     return render_template(
       'network_create_post.html',
       curr_user_id=user_id,
       id_network=id_network,
       network_title=network_title,
-      create_post_url=create_post_url
+      form=new_form,
+      error_msg=error_msg
     )
 
-@networks.route("/events/new")
+@networks.route("/events/new", methods=['GET', 'POST'])
 @flask_login.login_required
 def create_new_event():
     c = Client(mock=False)
     id_network = request.args.get('id')
     user_id = current_user.get_id()
-    create_event_url = c.get_create_event_url()
     network = c.get_network(id_network)
     network_title = get_network_title(network)
+    error_msg = None
 
+    if request.method == 'GET':
+      pass
+    else:
+      data = request.form
+      form_submitted = CreateEventForm(request.form)
+      if form_submitted.validate():
+        event_date = data['event_date']
+        title = data['title']
+        address_1 = data['address_1']
+        address_2 = data.get('address_2', None)
+        country = data['country']
+        region = data.get('region', None)
+        city = data.get('city', None)
+        description = data['description']
+
+        event = {
+          "id_network": id_network,
+          "id_host": user_id,
+          "event_date": event_date,
+          "title": title,
+          "address_1": address_1,
+          "address_2": address_2,
+          "country": country,
+          "region": region,
+          "city": city,
+          "description": description
+        }
+
+        c.create_event(event)
+        return redirect(
+          url_for('networks.network_events') + "?id=%s" % str(id_network)
+        )
+      else:
+        error_msg = "Oops. An error occurred.  Did you enter all \
+            of the form fields correctly?"
+
+    new_form = CreateEventForm()
     return render_template(
       'network_create_event.html',
       curr_user_id=user_id,
       id_network=id_network,
       network_title=network_title,
-      create_event_url=create_event_url
+      form=new_form,
+      error_msg=error_msg
     )
 
 @networks.route("/ping")

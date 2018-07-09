@@ -126,77 +126,91 @@ body {
 
 #cm-search-button {
   background-color:#EF5330;
+  padding: .65em;
   color: white;
   -webkit-appearance: none;
 }
 
 #cm-search-button:active {
   background-color:#682414;
+  padding: .65em;
   color: white;
   -webkit-appearance: none;
 }
 
 #cm-create-event-button {
   background-color:#EF5330;
+  padding: .65em;
   color: white;
   -webkit-appearance: none;
 }
 
 #cm-create-event-button:active {
   background-color:#682414;
+  padding: .65em;
   color: white;
   -webkit-appearance: none;
 }
 
 #cm-create-post-button {
   background-color:#EF5330;
+  padding: .65em;
   color: white;
   -webkit-appearance: none;
 }
 
 #cm-create-post-button:active {
   background-color:#682414;
+  padding: .65em;
   color: white;
   -webkit-appearance: none;
 }
 
 #cm-reply-submit-button {
   background-color:#EF5330;
+  padding: .65em;
   color: white;
 }
 
 #cm-reply-submit-button:active {
   background-color:#682414;
+  padding: .65em;
   color: white;
 }
 
 #cm-event-create-button {
   background-color:#EF5330;
+  padding: .65em;
   color: white;
 }
 
 #cm-event-create-button:active {
   background-color:#682414;
+  padding: .65em;
   color: white;
 }
 
 #cm-post-submit-button {
   background-color:#EF5330;
+  padding: .65em;
   color: white;
 }
 
 #cm-post-submit-button:active {
   background-color:#682414;
+  padding: .65em;
   color: white;
 }
 
 #cm-post-create-button {
   background-color:#EF5330;
+  padding: .65em;
   color: white;
 }
 
 #cm-post-create-button:active {
   background-color:#682414;
+  padding: .65em;
   color: white;
 }
 
