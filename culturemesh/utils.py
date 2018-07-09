@@ -2,6 +2,8 @@
 # Contains utilities used by more than one blueprint
 #
 
+import pytz
+
 from culturemesh.constants import BLANK_PROFILE_IMG_URL
 from culturemesh.constants import USER_IMG_URL_FMT
 from culturemesh.client import Client
@@ -9,6 +11,8 @@ from datetime import datetime, timezone
 
 from utils import parse_date
 from utils import get_month_abbr
+
+utc=pytz.UTC
 
 def get_network_title(network):
   """Returns the title of a network given a network
@@ -48,7 +52,7 @@ def get_network_title(network):
   else:
     return "Unknown"
 
-def get_upcoming_events(client, user_id, count):
+def get_upcoming_events_by_user(client, user_id, count):
   """Return up to 'count' events that are in the user's
   networks and which are upcoming, sorted by how close they
   are to today"""
@@ -59,11 +63,35 @@ def get_upcoming_events(client, user_id, count):
     events = client.get_network_events(network['id'], 10)
     upcoming_events += events
 
+  upcoming_events = [
+    e for e in upcoming_events \
+      if parse_date(e['event_date']) \
+        >= utc.localize(datetime.now())
+  ]
+
   upcoming_events = sorted(
-    upcoming_events, reverse=True, key=lambda x: parse_date(x['event_date'])
+    upcoming_events, key=lambda x: parse_date(x['event_date'])
   )
 
   return upcoming_events[:min(len(upcoming_events), count)]
+
+def get_upcoming_events_by_network(client, network_id, count):
+  """Return up to 'count' events that are in a
+  network and which are upcoming, sorted by how close they
+  are to today"""
+
+  upcoming_events = client.get_network_events(network_id, 200)
+  upcoming_events = [
+    e for e in upcoming_events \
+      if parse_date(e['event_date']) \
+        >= utc.localize(datetime.now())
+  ]
+  upcoming_events = sorted(
+    upcoming_events, key=lambda x: parse_date(x['event_date'])
+  )
+
+  return upcoming_events[:min(len(upcoming_events), count)]
+
 
 def get_event_location(event):
   """Returns a string for where this event
@@ -139,21 +167,21 @@ def get_time_ago(past_time):
     if second_diff < 10:
       return "just now"
     if second_diff < 60:
-      return str(second_diff) + " seconds ago"
+      return str(second_diff) + " second(s) ago"
     if second_diff < 120:
       return "a minute ago"
     if second_diff < 3600:
-      return str(round(second_diff / 60)) + " minutes ago"
+      return str(round(second_diff / 60)) + " minute(s) ago"
     if second_diff < 7200:
       return "an hour ago"
     if second_diff < 86400:
-      return str(round(second_diff / 3600)) + " hours ago"
+      return str(round(second_diff / 3600)) + " hour(s) ago"
   if day_diff == 1:
     return "Yesterday"
   if day_diff < 7:
-    return str(day_diff) + " days ago"
+    return str(day_diff) + " day(s) ago"
   if day_diff < 31:
-    return str(round(day_diff / 7)) + " weeks ago"
+    return str(round(day_diff / 7)) + " week(s) ago"
   if day_diff < 365:
-    return str(round(day_diff /30)) + " months ago"
-  return str(round(day_diff / 365)) + " years ago"
+    return str(round(day_diff /30)) + " month(s) ago"
+  return str(round(day_diff / 365)) + " year(s) ago"

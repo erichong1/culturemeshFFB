@@ -1,7 +1,6 @@
 import flask_login
 import utils
 import datetime
-import pytz
 
 from flask import Blueprint, render_template, request
 from culturemesh.client import Client
@@ -9,7 +8,7 @@ from culturemesh.utils import get_network_title
 from culturemesh.utils import get_user_image_url
 from culturemesh.utils import get_short_network_join_date
 from culturemesh.utils import get_time_ago
-from culturemesh.utils import get_upcoming_events
+from culturemesh.utils import get_upcoming_events_by_user
 from flask_login import current_user
 from werkzeug.exceptions import HTTPException
 from utils import parse_date
@@ -17,7 +16,6 @@ from utils import parse_date
 from culturemesh.blueprints.user_home.forms.home_forms import UserInfo
 
 user_home = Blueprint('user_home', __name__, template_folder='templates')
-utc=pytz.UTC
 
 @user_home.route("/")
 @user_home.route("/dashboard")
@@ -28,6 +26,7 @@ def render_user_home():
   user = c.get_user(user_id)
   user['img_url'] = get_user_image_url(user)
   events_hosting = c.get_user_events(user_id, "hosting", 5)
+
   if user is None:
     return page_not_found("")
 
@@ -49,18 +48,12 @@ def render_user_home():
       post['network'] = None
       post['network_title'] = "Unknown"
 
-  upcoming_events = get_upcoming_events(c, user['id'], 3)
+  upcoming_events = get_upcoming_events_by_user(c, user['id'], 3)
   for event in upcoming_events:
     utils.enhance_event_date_info(event)
     event['network_title'] = get_network_title(
       c.get_network(event['id_network'])
     )
-
-  upcoming_events = [
-    e for e in upcoming_events \
-      if parse_date(e['event_date']) \
-        >= utc.localize(datetime.datetime.now())
-  ]
 
   return render_template(
     'dashboard.html',
