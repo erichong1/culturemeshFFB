@@ -9,8 +9,17 @@
     <div class="p-3 text-center">
       <h3 id="cm-network-title">{{ network_info['network_title']}}</h3>
       <p id="cm-network-members-and-posts">
-        {{ network_info['num_users']}} members  &middot;
-        {{ network_info['num_posts']}} post(s)
+        {% if network_info['num_users'] == 1 %}
+          {{ network_info['num_users'] }} member
+        {% else %}
+          {{ network_info['num_users'] }} members
+        {% endif %}
+        &middot;
+        {% if network_info['num_posts'] == 1 %}
+          {{ network_info['num_posts'] }} post
+        {% else %}
+          {{ network_info['num_posts'] }} posts
+        {% endif %}
       </p>
     </div>
   </div>

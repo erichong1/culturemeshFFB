@@ -95,7 +95,11 @@
         <a href="/post?id={{ post['id'] }}" class="hidden-link">
           <div class="cm-post-blurb-small-text">
             <i class="fas fa-comment fa-sm"></i>
-            {{ post['reply_count']}} replies
+            {% if post['reply_count'] == 1 %}
+              {{ post['reply_count']}} reply
+            {% else %}
+              {{ post['reply_count']}} replies
+            {% endif %}
           </div>
         </a>
       </div>
@@ -121,7 +125,11 @@
         <a href="/post?id={{ post['id'] }}" class="hidden-link">
           <div class="cm-post-blurb-small-text">
             <i class="fas fa-comment fa-sm"></i>
-            {{ post['reply_count']}} replies
+            {% if post['reply_count'] == 1 %}
+              {{ post['reply_count']}} reply
+            {% else %}
+              {{ post['reply_count']}} replies
+            {% endif %}
           </div>
         </a>
       </div>
@@ -155,7 +163,11 @@
         </div>
         <div class="col">
           <p class="cm-network-blurb-detail-r">
-            {{ network.user_count }} member(s)
+            {% if network.user_count == 1 %}
+              {{ network.user_count }} member
+            {% else %}
+              {{ network.user_count }} members
+            {% endif %}
           </p>
         </div>
       </div>
