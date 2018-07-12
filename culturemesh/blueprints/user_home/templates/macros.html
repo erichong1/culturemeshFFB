@@ -147,13 +147,20 @@
 
 {% macro networkblurb(network) %}
   <div class="p-2 cm-network-blurb">
-    <div class="container">
+    <div class="pt-1 container">
       <div class="row">
-        <a href="/network?id={{network.id}}" class="hidden-link">
-          <p class="cm-network-blurb-title">
-            {{ network.title }}
-          </p>
-        </a>
+        <div class="col-1">
+          <a href="/network?id={{network.id}}" class="hidden-link">
+            <i id="cm-icon" class="fas fa-users"></i>
+          </a>
+        </div>
+        <div class="col">
+          <a href="/network?id={{network.id}}" class="hidden-link">
+            <p class="cm-network-blurb-title">
+              {{ network.title }}
+            </p>
+          </a>
+        </div>
       </div>
       <div class="row">
         <div class="col">
