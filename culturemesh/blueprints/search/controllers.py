@@ -10,7 +10,7 @@ from culturemesh.blueprints.search.utils import prepare_location_for_search
 
 search = Blueprint('search', __name__, template_folder='templates')
 
-MAX_SUGGESTIONS = 5
+MAX_SUGGESTIONS = 10
 CURR_LOC_PREFIX = "curr_loc:"
 LANG_PREFIX = "lang:"
 FROM_LOC_PREFIX = "from_LOC:"
