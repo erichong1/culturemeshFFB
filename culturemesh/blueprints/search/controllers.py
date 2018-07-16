@@ -1,13 +1,19 @@
 from flask import Blueprint, render_template, request
+from flask_wtf.csrf import CSRFError
 from culturemesh.client import Client
 from culturemesh.blueprints.search.forms.search_forms import SearchForm
+from culturemesh.blueprints.search.forms.search_forms import GoToNetworkForm
 from culturemesh.utils import populate_network_with_location_names
 
 from culturemesh.blueprints.search.utils import get_no_search_results_msg
+from culturemesh.blueprints.search.utils import prepare_location_for_search
 
 search = Blueprint('search', __name__, template_folder='templates')
 
 MAX_SUGGESTIONS = 5
+CURR_LOC_PREFIX = "curr_loc:"
+LANG_PREFIX = "lang:"
+FROM_LOC_PREFIX = "from_LOC:"
 
 @search.route("/", methods=['GET', 'POST'])
 def render_search_page():
@@ -66,17 +72,30 @@ def render_search_page():
     )]
 
     if search_type == "location":
+        for s in network_type_suggestions:
+            prepare_location_for_search(c, s)
+
+    for s in current_location_suggestions:
+        prepare_location_for_search(c, s)
+
+    if search_type == "location":
 
         return render_template(
             'location_suggestions.html',
             location_suggestions=network_type_suggestions,
-            current_location_suggestions=current_location_suggestions
+            current_location_suggestions=current_location_suggestions,
+            from_loc_prefix=FROM_LOC_PREFIX,
+            curr_loc_prefix=CURR_LOC_PREFIX,
+            form=GoToNetworkForm()
         )
     elif search_type == "language":
         return render_template(
             'language_suggestions.html',
             language_suggestions=network_type_suggestions,
-            current_location_suggestions=current_location_suggestions
+            current_location_suggestions=current_location_suggestions,
+            lang_prefix=LANG_PREFIX,
+            curr_loc_prefix=CURR_LOC_PREFIX,
+            form=GoToNetworkForm()
         )
     else:
         raise Exception("Invalid Search Type %s" % search_type)
@@ -84,6 +103,10 @@ def render_search_page():
 
 @search.route("/gotonetwork", methods=['POST'])
 def go_to_network():
-    print("HERE")
-    return "hi"
-    return str(request.form)
+
+    return "Coming soon."
+    form = GoToNetworkForm(request.form)
+    if form.validate():
+        return str(request.form)
+
+    raise CSRFError()

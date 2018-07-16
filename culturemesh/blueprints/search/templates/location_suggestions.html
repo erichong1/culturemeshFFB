@@ -1,6 +1,7 @@
 {% extends "base.html" %} {% block content %}
 <div class="p-3 container-fluid">
     <form action="/search/gotonetwork" method="post">
+        {{ form.hidden_tag() }}
         <div class="row">
             <h4>Choose a network</h4>
         </div>
@@ -19,10 +20,16 @@
                     </div>
                     {% for l in location_suggestions %}
                     <div class="p-3 row text-left">
-                        {% if loop.index == 1 %}
-                        <input type="radio" id="{{ l }}" name="from_location" checked/> {% else %}
-                        <input type="radio" id="{{ l }}" name="from_location" /> {% endif %}
-                        <label for="{{ l }}">{{ l }}</label>
+                        <div class="col-2">
+                            {% if loop.index == 1 %}
+                                <input type="radio" name="{{ from_loc_prefix }}{{ l['query'] }}" checked/>
+                            {% else %}
+                                <input type="radio" name="{{ from_loc_prefix }}{{ l['query'] }}" />
+                            {% endif %}
+                        </div>
+                        <div class="col">
+                            <label for="{{ l }}">{{ l['name'] }}</label>
+                        </div>
                     </div>
                     {% endfor %}
                 </div>
@@ -36,10 +43,16 @@
                     </div>
                     {% for l in current_location_suggestions %}
                     <div class="p-3 row text-left">
-                        {% if loop.index == 1 %}
-                        <input type="radio" id="{{ l }}" name="curr_location" checked/> {% else %}
-                        <input type="radio" id="{{ l }}" name="curr_location" /> {% endif %}
-                        <label for="{{ l }}">{{ l }}</label>
+                        <div class="col-2">
+                            {% if loop.index == 1 %}
+                                <input type="radio" name="{{ curr_loc_prefix }}{{ l['query'] }}" checked/>
+                            {% else %}
+                                <input type="radio" name="{{ curr_loc_prefix }}{{ l['query'] }}" />
+                            {% endif %}
+                        </div>
+                        <div class="col">
+                            <label for="{{ l }}">{{ l['name'] }}</label>
+                        </div>
                     </div>
                     {% endfor %}
                 </div>

@@ -14,3 +14,7 @@ class SearchForm(FlaskForm):
         'current_location', validators=[DataRequired()]
     )
     submit = SubmitField('Search')
+
+# Keep this form here so we can do CSRF protection.
+class GoToNetworkForm(FlaskForm):
+    pass
