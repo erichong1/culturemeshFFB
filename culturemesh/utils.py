@@ -179,21 +179,49 @@ def get_time_ago(past_time):
     if second_diff < 10:
       return "just now"
     if second_diff < 60:
-      return str(second_diff) + " second(s) ago"
+      if int(second_diff) == 1:
+        return str(second_diff) + " second ago"
+      else:
+        return str(second_diff) + " seconds ago"
     if second_diff < 120:
       return "a minute ago"
     if second_diff < 3600:
-      return str(round(second_diff / 60)) + " minute(s) ago"
+      minutes = round(second_diff / 60)
+      if int(minutes) == 1:
+        return str(minutes) + " minute ago"
+      else:
+        return str(minutes) + " minutes ago"
     if second_diff < 7200:
       return "an hour ago"
     if second_diff < 86400:
-      return str(round(second_diff / 3600)) + " hour(s) ago"
+      hours = round(second_diff / 3600)
+      if int(hours) == 1:
+        return str(hours) + " hour ago"
+      else:
+        return str(hours) + " hours ago"
   if day_diff == 1:
     return "Yesterday"
   if day_diff < 7:
-    return str(day_diff) + " day(s) ago"
+    if int(day_diff) == 1:
+      return str(day_diff) + " day ago"
+    else:
+      return str(day_diff) + " days ago"
   if day_diff < 31:
-    return str(round(day_diff / 7)) + " week(s) ago"
+    weeks = round(day_diff / 7)
+    if int(weeks) == 1:
+      return str(weeks) + " week ago"
+    else:
+      return str(weeks) + " weeks ago"
+
   if day_diff < 365:
-    return str(round(day_diff /30)) + " month(s) ago"
-  return str(round(day_diff / 365)) + " year(s) ago"
+    months = round(day_diff /30)
+    if int(months) == 1:
+      return str(round(day_diff /30)) + " month ago"
+    else:
+      return str(round(day_diff /30)) + " months ago"
+
+  years = round(day_diff / 365)
+  if int(years) == 1:
+    return str(years) + " year ago"
+  else:
+    return str(years) + " years ago"

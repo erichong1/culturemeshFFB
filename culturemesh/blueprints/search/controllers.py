@@ -7,6 +7,8 @@ from culturemesh.blueprints.search.utils import get_no_search_results_msg
 
 search = Blueprint('search', __name__, template_folder='templates')
 
+MAX_SUGGESTIONS = 5
+
 @search.route("/", methods=['GET', 'POST'])
 def render_search_page():
 
@@ -55,8 +57,16 @@ def render_search_page():
             'search.html', form=SearchForm(), msg=msg
         )
 
+    network_type_suggestions = network_type_suggestions[:min(
+            MAX_SUGGESTIONS, len(network_type_suggestions)
+    )]
+
+    current_location_suggestions = current_location_suggestions[:min(
+            MAX_SUGGESTIONS, len(current_location_suggestions)
+    )]
 
     if search_type == "location":
+
         return render_template(
             'location_suggestions.html',
             location_suggestions=network_type_suggestions,
@@ -71,3 +81,9 @@ def render_search_page():
     else:
         raise Exception("Invalid Search Type %s" % search_type)
 
+
+@search.route("/gotonetwork", methods=['POST'])
+def go_to_network():
+    print("HERE")
+    return "hi"
+    return str(request.form)
