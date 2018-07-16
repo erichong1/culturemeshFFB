@@ -52,6 +52,18 @@ def get_network_title(network):
   else:
     return "Unknown"
 
+def populate_network_with_location_names(client, network):
+  for location in ['location_origin', 'location_cur']:
+    network[location]['city_name'] = client.get_city(
+        network[location]['city_id']
+    )['name']
+    network[location]['country_name'] = client.get_country(
+        network[location]['country_id']
+    )['name']
+    network[location]['region_name'] = client.get_region(
+        network[location]['region_id']
+    )['name']
+
 def get_upcoming_events_by_user(client, user_id, count):
   """Return up to 'count' events that are in the user's
   networks and which are upcoming, sorted by how close they

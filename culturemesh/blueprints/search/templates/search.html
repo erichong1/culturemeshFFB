@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% from "macros.html" import sad_blurb %}
 
 {% block content %}
 <div class="p-3 container-fluid">
@@ -11,6 +12,11 @@
                 Find people who speak a language or are from a certain place.
             </div>
         </div>
+
+        {% if msg is defined %}
+            {{ sad_blurb(msg) }}
+        {% endif %}
+
         <div class="my-2 py-1 row">
             <div class="cm-blurb">
                 <div class="container-fluid p-3">
@@ -18,10 +24,7 @@
                         Find people who
                     </div>
                     <div class="row p-3">
-                        <select class="cm-select" name="search_type">
-                            <option value="location">are from</option>
-                            <option value="language">speak</option>
-                        </select>
+                        {{ form.search_type() }}
                     </div>
 
                     {{ form.hidden_tag() }}

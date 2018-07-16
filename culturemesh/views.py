@@ -10,13 +10,7 @@ from culturemesh.client import Client
 from flask_login import current_user
 from culturemesh.forms import LoginForm
 from culturemesh.models import User
-
-LOGIN_FAILED_MSG = "Login failed, try again"
-LOGIN_MSG = "Sign in, please"
-
-@app.route("/coming-soon")
-def coming_soon():
-	return "<h1> Coming soon :) </h1>"
+from culturemesh.constants import LOGIN_MSG, LOGIN_FAILED_MSG
 
 @app.route("/")
 @app.route("/index")
@@ -53,6 +47,8 @@ def render_login_page():
       password = request.form['password']
       c = Client(mock=True)
       user_id = c.verify_account(email_or_username, password)
+
+      # TODO: this form needs to be verified.
       if user_id == -1:
         return render_template('login.html', msg=LOGIN_FAILED_MSG, form=LoginForm())
       user_dict = c.get_user(int(user_id))
