@@ -2,7 +2,25 @@
 Contains utility routines for the search page.
 """
 
+def get_location_population(location):
+    city, region, country = location['full']
+    if city:
+        return city['population']
+    if region:
+        return region['population']
+    if country:
+        return country['population']
+    return -1
+
 def prepare_location_for_search(client, location):
+    """
+    Takes a location as returned by a call to location autocomplete,
+    and populates it with its name, its query parameter for future API
+    calls, and adds to it the full data structure from the API.
+
+    :param client: A culturemesh API client instance.
+    :param location: The dictionary to be populated for search.
+    """
     city_id = location['city_id']
     region_id = location['region_id']
     country_id = location['country_id']
@@ -11,30 +29,37 @@ def prepare_location_for_search(client, location):
     region = None
     country = None
 
-    if city_id:
-        city = client.get_city(city_id)['name']
+    city_name = None
+    region_name = None
+    country_name = None
+
+    if city_id and city_id != 'null':
+        city = client.get_city(city_id)
+        city_name = city['name']
     else:
         city_id = 'null'
 
-    if region_id:
-        region = client.get_region(region_id)['name']
+    if region_id and region_id != 'null':
+        region = client.get_region(region_id)
+        region_name = region['name']
     else:
         region_id = 'null'
 
-    if country_id:
-        country = client.get_country(country_id)['name']
+    if country_id and country_id != 'null':
+        country = client.get_country(country_id)
+        country_name = country['name']
     else:
         country_id = 'null'
 
-
     name = ', '.join(
-        [l for l in [city, region, country] if l]
+        [l for l in [city_name, region_name, country_name] if l]
     )
 
     query = ','.join([str(i) for i in [city_id, region_id, country_id]])
 
     location['name'] = name
     location['query'] = query
+    location['full'] = [city, region, country]
 
 def get_no_search_results_msg(search_type,
                               network_type_suggestions,

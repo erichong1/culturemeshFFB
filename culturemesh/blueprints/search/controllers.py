@@ -7,6 +7,7 @@ from culturemesh.utils import populate_network_with_location_names
 
 from culturemesh.blueprints.search.utils import get_no_search_results_msg
 from culturemesh.blueprints.search.utils import prepare_location_for_search
+from culturemesh.blueprints.search.utils import get_location_population
 
 search = Blueprint('search', __name__, template_folder='templates')
 
@@ -64,19 +65,31 @@ def render_search_page():
         )
 
     network_type_suggestions = network_type_suggestions[:min(
-            MAX_SUGGESTIONS, len(network_type_suggestions)
+        MAX_SUGGESTIONS, len(network_type_suggestions)
     )]
 
     current_location_suggestions = current_location_suggestions[:min(
-            MAX_SUGGESTIONS, len(current_location_suggestions)
+        MAX_SUGGESTIONS, len(current_location_suggestions)
     )]
 
     if search_type == "location":
         for s in network_type_suggestions:
             prepare_location_for_search(c, s)
 
+        network_type_suggestions = sorted(
+            network_type_suggestions,
+            key=lambda x: get_location_population(x),
+            reverse=True
+        )
+
     for s in current_location_suggestions:
         prepare_location_for_search(c, s)
+
+    current_location_suggestions = sorted(
+        current_location_suggestions,
+        key=lambda x: get_location_population(x),
+        reverse=True
+    )
 
     if search_type == "location":
 
