@@ -1,9 +1,11 @@
-from flask import Blueprint, render_template, request
+from flask import Blueprint, render_template, request, url_for, redirect
 from flask_wtf.csrf import CSRFError
 from culturemesh.client import Client
 from culturemesh.blueprints.search.forms.search_forms import SearchForm
 from culturemesh.blueprints.search.forms.search_forms import GoToNetworkForm
 from culturemesh.utils import populate_network_with_location_names
+
+from http import HTTPStatus
 
 from culturemesh.blueprints.search.utils import get_no_search_results_msg
 from culturemesh.blueprints.search.utils import prepare_location_for_search
@@ -12,9 +14,6 @@ from culturemesh.blueprints.search.utils import get_location_population
 search = Blueprint('search', __name__, template_folder='templates')
 
 MAX_SUGGESTIONS = 10
-CURR_LOC_PREFIX = "curr_loc:"
-LANG_PREFIX = "lang:"
-FROM_LOC_PREFIX = "from_LOC:"
 
 @search.route("/", methods=['GET', 'POST'])
 def render_search_page():
@@ -97,8 +96,6 @@ def render_search_page():
             'location_suggestions.html',
             location_suggestions=network_type_suggestions,
             current_location_suggestions=current_location_suggestions,
-            from_loc_prefix=FROM_LOC_PREFIX,
-            curr_loc_prefix=CURR_LOC_PREFIX,
             form=GoToNetworkForm()
         )
     elif search_type == "language":
@@ -106,8 +103,6 @@ def render_search_page():
             'language_suggestions.html',
             language_suggestions=network_type_suggestions,
             current_location_suggestions=current_location_suggestions,
-            lang_prefix=LANG_PREFIX,
-            curr_loc_prefix=CURR_LOC_PREFIX,
             form=GoToNetworkForm()
         )
     else:
@@ -117,9 +112,25 @@ def render_search_page():
 @search.route("/gotonetwork", methods=['POST'])
 def go_to_network():
 
-    return "Coming soon."
+    c = Client(mock=False)
     form = GoToNetworkForm(request.form)
-    if form.validate():
-        return str(request.form)
+    if not form.validate():
+        raise CSRFError()
 
-    raise CSRFError()
+    curr_loc_query = request.form['curr_loc']
+
+    if request.form.get('language', None):
+        networks = c.get_networks(
+            1, near_location=curr_loc_query, language=request.form['language']
+        )
+    elif request.form.get('from_loc', None):
+        networks = c.get_networks(
+            1, near_location=curr_loc_query, from_location=request.form['from_loc']
+        )
+    else:
+        abort(HTTPStatus.BAD_REQUEST)
+
+    if len(networks) != 1:
+        abort(HTTPStatus.INTERNAL_SERVER_ERROR)
+
+    return redirect(url_for('networks.network', id=str(networks[0]['id'])))

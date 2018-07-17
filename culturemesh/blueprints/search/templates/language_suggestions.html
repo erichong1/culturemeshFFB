@@ -22,13 +22,13 @@
                     <div class="p-3 row text-left">
                         <div class="col-2">
                             {% if loop.index == 1 %}
-                                <input type="radio" name="{{ lang_prefix }}{{ l['name'] }}" checked/>
+                                <input type="radio" name="language" value="{{ l['name'] }}" id="{{ l['name'] }}" checked/>
                             {% else %}
-                                <input type="radio" name="{{ lang_prefix }}{{ l['name'] }}" />
+                                <input type="radio" name="language" value="{{ l['name'] }}" id="{{ l['name'] }}" />
                             {% endif %}
                         </div>
                         <div class="col">
-                            <label for="{{ l }}">{{ l['name'] }}</label>
+                            <label for="{{ l['name'] }}">{{ l['name'] }}</label>
                         </div>
                     </div>
                     {% endfor %}
@@ -45,13 +45,13 @@
                     <div class="p-3 row text-left">
                         <div class="col-2">
                             {% if loop.index == 1 %}
-                                <input type="radio" name="{{ curr_loc_prefix }}{{ l['query'] }}" checked/>
+                                <input type="radio" name="curr_loc" value="{{ l['query'] }}" id="{{ l['query'] }}" checked/>
                             {% else %}
-                                <input type="radio" name="{{ curr_loc_prefix }}{{ l['query'] }}" />
+                                <input type="radio" name="curr_loc" value="{{ l['query'] }}" id="{{ l['query'] }}" />
                             {% endif %}
                         </div>
                         <div class="col">
-                            <label for="{{ l }}">{{ l['name'] }}</label>
+                            <label for="{{ l['query'] }}">{{ l['name'] }}</label>
                         </div>
                     </div>
                     {% endfor %}

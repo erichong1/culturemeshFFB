@@ -3,8 +3,8 @@ from culturemesh import app
 import config
 
 #
-# This is the (dev) entry point of the application. 
-# Nothing else should be in this file. 
+# This is the (dev) entry point of the application.
+# Nothing else should be in this file.
 #
 
 if __name__ == "__main__":

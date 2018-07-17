@@ -26,7 +26,6 @@ def get_networks(client,
 
     Returns a list of networks filtered by FILTER.
     """
-    params = {'filter': filter_}
     query_params = {'count': count}
     if max_id:
         query_params['max_id'] = max_id
@@ -40,7 +39,7 @@ def get_networks(client,
     if language:
         query_params['language'] = language
 
-    url = '/networks'
+    url = 'network/networks'
     return client._request(url, Request.GET, query_params=query_params)
 
 

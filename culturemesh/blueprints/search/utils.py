@@ -55,7 +55,7 @@ def prepare_location_for_search(client, location):
         [l for l in [city_name, region_name, country_name] if l]
     )
 
-    query = ','.join([str(i) for i in [city_id, region_id, country_id]])
+    query = ','.join([str(i) for i in [country_id, region_id, city_id]])
 
     location['name'] = name
     location['query'] = query
