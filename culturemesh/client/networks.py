@@ -31,9 +31,11 @@ def get_networks(client,
         query_params['max_id'] = max_id
 
     if near_location:
+        near_location = near_location.replace('null', '-1')
         query_params['near_location'] = near_location
 
     if from_location:
+        from_location = from_location.replace('null', '-1')
         query_params['from_location'] = from_location
 
     if language:

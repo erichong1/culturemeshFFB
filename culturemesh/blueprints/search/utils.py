@@ -37,19 +37,19 @@ def prepare_location_for_search(client, location):
         city = client.get_city(city_id)
         city_name = city['name']
     else:
-        city_id = 'null'
+        city_id = '-1'
 
     if region_id and region_id != 'null':
         region = client.get_region(region_id)
         region_name = region['name']
     else:
-        region_id = 'null'
+        region_id = '-1'
 
     if country_id and country_id != 'null':
         country = client.get_country(country_id)
         country_name = country['name']
     else:
-        country_id = 'null'
+        country_id = '-1'
 
     name = ', '.join(
         [l for l in [city_name, region_name, country_name] if l]

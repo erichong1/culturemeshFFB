@@ -10,6 +10,10 @@ from http import HTTPStatus
 from culturemesh.blueprints.search.utils import get_no_search_results_msg
 from culturemesh.blueprints.search.utils import prepare_location_for_search
 from culturemesh.blueprints.search.utils import get_location_population
+from culturemesh.blueprints.search.constants import GO_TO_NETWORK_MAX_RETRIES
+from culturemesh.blueprints.search.constants import GO_TO_NETWORK_WAIT_SECS
+
+import time
 
 search = Blueprint('search', __name__, template_folder='templates')
 
@@ -110,7 +114,7 @@ def render_search_page():
 
 
 @search.route("/gotonetwork", methods=['POST'])
-def go_to_network():
+def go_to_network(tries=0):
 
     c = Client(mock=False)
     form = GoToNetworkForm(request.form)
@@ -119,16 +123,24 @@ def go_to_network():
 
     curr_loc_query = request.form['curr_loc']
 
-    if request.form.get('language', None):
-        networks = c.get_networks(
-            1, near_location=curr_loc_query, language=request.form['language']
-        )
-    elif request.form.get('from_loc', None):
-        networks = c.get_networks(
-            1, near_location=curr_loc_query, from_location=request.form['from_loc']
-        )
-    else:
-        abort(HTTPStatus.BAD_REQUEST)
+    try:
+        if request.form.get('language', None):
+            networks = c.get_networks(
+                1, near_location=curr_loc_query, language=request.form['language']
+            )
+        elif request.form.get('from_loc', None):
+            networks = c.get_networks(
+                1, near_location=curr_loc_query, from_location=request.form['from_loc']
+            )
+        else:
+            abort(HTTPStatus.BAD_REQUEST)
+    except requests.exceptions.ConnectionError as e:
+
+        # Let's keep trying, but less agressively.
+        if tries >= GO_TO_NETWORK_MAX_RETRIES:
+            raise e
+        time.sleep(GO_TO_NETWORK_WAIT_SECS)
+        go_to_network(tries + 1)
 
     if len(networks) != 1:
         abort(HTTPStatus.INTERNAL_SERVER_ERROR)
