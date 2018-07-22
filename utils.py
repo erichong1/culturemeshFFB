@@ -5,6 +5,7 @@
 import config
 import calendar
 import datetime
+import pytz
 from dateutil.parser import parse
 
 ####### Date Utils #######
@@ -24,13 +25,19 @@ def get_weekday(date):
 def get_weekday_abbr(date):
   return calendar.day_abbr[date.weekday()]
 
+ERROR_DATE = "1970-01-01 00:00:00"
 def parse_date(str_):
   try:
     # First let's try this format
     date = str2date(str_)
   except ValueError:
     # Otherwise best guess
-    date = parse(str_)
+    try:
+      date = parse(str_)
+    except:
+      # Give up, and return the first date.
+      data_err = parse_date(ERROR_DATE)
+      return pytz.UTC.localize(data_err)
   return date
 
 def enhance_event_date_info(event):

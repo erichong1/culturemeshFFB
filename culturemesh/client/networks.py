@@ -10,20 +10,39 @@ def ping_network(client):
     url = 'network/ping'
     return client._request(url, Request.GET)
 
-def get_networks(client, count, max_id=None, filter_=None):
+def get_networks(client,
+                 count,
+                 max_id=None,
+                 near_location=None,
+                 from_location=None,
+                 language=None):
     """
     :param client: the CultureMesh API client
-    :param filter: A json with which to filter a site-wide network query.
+    :param near_location: A comma-separated list of country_id,
+                          region_id, and city_id, in that order.
+    :param from_location: A comma-separated list of country_id,
+                          region_id, and city_id, in that order.
+    :param language: Name of language.
 
     Returns a list of networks filtered by FILTER.
     """
-    params = {'filter': filter_}
     query_params = {'count': count}
-    if max_id is not None:
+    if max_id:
         query_params['max_id'] = max_id
-    url = '/networks'
-    return client._request(url, Request.GET, body_params=params,
-                           query_params=query_params)
+
+    if near_location:
+        near_location = near_location.replace('null', '-1')
+        query_params['near_location'] = near_location
+
+    if from_location:
+        from_location = from_location.replace('null', '-1')
+        query_params['from_location'] = from_location
+
+    if language:
+        query_params['language'] = language
+
+    url = 'network/networks'
+    return client._request(url, Request.GET, query_params=query_params)
 
 
 def get_network(client, networkId):

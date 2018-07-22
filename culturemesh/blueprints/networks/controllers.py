@@ -1,11 +1,15 @@
 import flask_login
+import datetime
 import utils
+import pytz
 
 from flask import Blueprint, render_template, request, redirect, url_for
 from flask_login import current_user
 from culturemesh.client import Client
 from culturemesh.utils import get_network_title
+from culturemesh.utils import get_upcoming_events_by_network
 from culturemesh.utils import get_time_ago
+from utils import parse_date
 
 from culturemesh.blueprints.networks.forms.network_forms import NetworkJoinForm
 from culturemesh.blueprints.networks.forms.network_forms import CreatePostForm
@@ -14,6 +18,7 @@ from culturemesh.blueprints.networks.forms.network_forms import CreateEventForm
 from culturemesh.blueprints.networks.utils import gather_network_info
 
 networks = Blueprint('networks', __name__, template_folder='templates')
+utc=pytz.UTC
 
 @networks.route("/")
 @flask_login.login_required
@@ -22,8 +27,19 @@ def network():
   c = Client(mock=False)
   id_user = current_user.get_id()
   network_info = gather_network_info(id_network, id_user, c)
+
+  upcoming_events = get_upcoming_events_by_network(c, id_network, 3)
+  for event in upcoming_events:
+    utils.enhance_event_date_info(event)
+    event['network_title'] = get_network_title(
+      c.get_network(event['id_network'])
+    )
+
   return render_template(
-    'network.html', network_info=network_info, form=NetworkJoinForm()
+    'network.html',
+    network_info=network_info,
+    form=NetworkJoinForm(),
+    upcoming_events=upcoming_events
   )
 
 @networks.route("/join", methods=['POST'])

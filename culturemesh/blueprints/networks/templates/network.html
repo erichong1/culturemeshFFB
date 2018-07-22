@@ -91,13 +91,13 @@
 
 
   <div class="p-3 text-center">
-    <h4>Recent Events</h4>
+    <h4>Upcoming Events</h4>
   </div>
 
-  {% if network_info['events'] | length == 0 %}
-    <p class="text-center">No events. Create one!</p>
+  {% if upcoming_events | length == 0 %}
+    <p class="text-center">No upcoming events. Create one!</p>
   {% else %}
-    {% for event in network_info['events'] %}
+    {% for event in upcoming_events %}
     <div class="py-1 row">
       {{ eventblurb(event) }}
     </div>
