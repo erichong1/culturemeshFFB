@@ -562,11 +562,26 @@ body {
   flex: 1;
 }
 
+
+.cm-register-section {
+  margin: 0px 30px 0px 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: stretch;
+  flex: 1;
+}
+
 .cm-signin-prompt {
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
+  color: grey;
+}
+
+.cm-register-prompt {
+  justify-content: center;
   color: grey;
 }
 

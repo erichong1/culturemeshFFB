@@ -8,9 +8,13 @@ from flask import render_template, request, redirect, session
 from culturemesh import app, login_manager
 from culturemesh.client import Client
 from flask_login import current_user
-from culturemesh.forms import LoginForm
+from culturemesh.forms import LoginForm, RegisterForm
 from culturemesh.models import User
-from culturemesh.constants import LOGIN_MSG, LOGIN_FAILED_MSG
+from culturemesh.constants import LOGIN_MSG, LOGIN_FAILED_MSG, LOGIN_ERROR
+from culturemesh.constants import REGISTER_MSG, \
+  REGISTER_PASSWORDS_DONT_MATCH_MSG, REGISTER_ERROR_MSG, \
+  REGISTER_USERNAME_TAKEN_MSG, REGISTER_EMAIL_TAKEN_MSG
+
 
 @app.route("/")
 @app.route("/index")
@@ -21,34 +25,48 @@ def home():
 def about():
 	return render_template('about.html')
 
-#TODO: this needs to be fleshed out.
 @app.route("/register", methods=['GET', 'POST'])
 def register():
-	if current_user and current_user.is_authenticated:
-		return page_not_found("")
+  if current_user and current_user.is_authenticated:
+    return page_not_found("")
 
-	if request.method == 'POST':
-		return coming_soon()
-		name = request.form["name"]
-		email = request.form["email"]
-		password = request.form["password"]
-		confirm_password = request.form["confirm-password"]
-		user_string = "Name: " + name + " Email: " + email + " Password: " + " Confirm Password: " + confirm_password
-		return render_template('dashboard.html', user=user_string)
-	else:
-		return render_template('register.html', form=LoginForm())
+  if request.method == 'POST':
+    if not RegisterForm(request.form).validate():
+      return render_template(
+        'register.html', msg=REGISTER_ERROR_MSG, form=RegisterForm()
+      )
 
-# TODO: needs to actually use a login form object
-#       for security.
+    username = request.form["username"]
+    email = request.form["email"]
+    password = request.form["password"]
+    confirm_password = request.form["confirm_password"]
+
+    if password != confirm_password:
+      return render_template(
+        'register.html',
+        msg=REGISTER_PASSWORDS_DONT_MATCH_MSG,
+        form=RegisterForm()
+      )
+
+    user_string = "Name: " + username + " Email: " + email + " Password: " + password + " Confirm Password: " + confirm_password
+    return "<html>%s</html>" % user_string
+  else:
+    return render_template(
+      'register.html', msg=REGISTER_MSG, form=RegisterForm()
+    )
+
 @app.route("/login", methods=['GET', 'POST'])
 def render_login_page():
     if request.method == 'POST':
+      if not LoginForm(request.form).validate():
+        return render_template('login.html', msg=LOGIN_ERROR, form=LoginForm())
+
       email_or_username = request.form['email_or_username']
       password = request.form['password']
       c = Client(mock=True)
       user_id = c.verify_account(email_or_username, password)
 
-      # TODO: this form needs to be verified.
+      # TODO: need to actually log the user in.
       if user_id == -1:
         return render_template('login.html', msg=LOGIN_FAILED_MSG, form=LoginForm())
       user_dict = c.get_user(int(user_id))
