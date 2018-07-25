@@ -15,6 +15,7 @@ from culturemesh.constants import REGISTER_MSG, \
   REGISTER_PASSWORDS_DONT_MATCH_MSG, REGISTER_ERROR_MSG, \
   REGISTER_USERNAME_TAKEN_MSG, REGISTER_EMAIL_TAKEN_MSG
 
+from culturemesh.utils import email_registered, username_taken
 
 @app.route("/")
 @app.route("/index")
@@ -36,6 +37,8 @@ def register():
         'register.html', msg=REGISTER_ERROR_MSG, form=RegisterForm()
       )
 
+    c = Client(mock=False)
+
     username = request.form["username"]
     email = request.form["email"]
     password = request.form["password"]
@@ -48,6 +51,17 @@ def register():
         form=RegisterForm()
       )
 
+    if username_taken(c, username):
+      return render_template(
+        'register.html', msg=REGISTER_USERNAME_TAKEN_MSG, form=RegisterForm()
+      )
+
+    if email_registered(c, email):
+      return render_template(
+        'register.html', msg=REGISTER_EMAIL_TAKEN_MSG, form=RegisterForm()
+      )
+
+    # TODO:
     user_string = "Name: " + username + " Email: " + email + " Password: " + password + " Confirm Password: " + confirm_password
     return "<html>%s</html>" % user_string
   else:

@@ -14,6 +14,16 @@ from utils import get_month_abbr
 
 utc=pytz.UTC
 
+def username_taken(username):
+  """True if the username is already taken
+  """
+  return False
+
+def email_registered(email):
+  """True if email is registered with an account already.
+  """
+  return False
+
 def get_network_title(network):
   """Returns the title of a network given a network
   JSON as a dict"""
