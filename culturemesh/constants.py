@@ -1,13 +1,14 @@
-#
-# Contains useful constants
-#
+"""
+Constants needed at the top-level site or by more than
+one blueprint.
+"""
 
 BLANK_PROFILE_IMG_URL = "https://www.culturemesh.com/images/cm_logo_blank_profile_lrg.png#"
 USER_IMG_URL_FMT = "https://www.culturemesh.com/user_images/%s"
 
-# Messages
+#### Messages ####
 LOGIN_FAILED_MSG = "Login failed, try again"
-LOGIN_MSG = "Sign in to find your networks"
+LOGIN_MSG = "Sign in to find your diaspora"
 LOGIN_ERROR = "You must input a password and a username"
 
 REGISTER_MSG = "Register for a CultureMesh account"

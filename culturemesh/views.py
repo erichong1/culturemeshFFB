@@ -1,3 +1,10 @@
+"""
+Contains the views and templates for the top-level site. This includes:
+  - The home page
+  - The about page
+  - The registration page
+  - The login page
+"""
 import http.client as httplib
 import requests
 import config
@@ -82,14 +89,18 @@ def render_login_page():
 
       # TODO: need to actually log the user in.
       if user_id == -1:
-        return render_template('login.html', msg=LOGIN_FAILED_MSG, form=LoginForm())
+        return render_template(
+          'login.html', msg=LOGIN_FAILED_MSG, form=LoginForm()
+        )
       user_dict = c.get_user(int(user_id))
       if user_dict is not None:
         user = User(user_dict)
         flask_login.login_user(user)
         return redirect('/home')
       else:
-        return render_template('login.html', msg=LOGIN_FAILED_MSG, form=LoginForm())
+        return render_template(
+          'login.html', msg=LOGIN_FAILED_MSG, form=LoginForm()
+        )
     else:
         return render_template('login.html', msg=LOGIN_MSG, form=LoginForm())
 

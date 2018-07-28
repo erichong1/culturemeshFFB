@@ -1,46 +1,33 @@
-<!DOCTYPE html>
-<html>
+{% extends "login_register_base.html" %}
 
-<head>
-    <title>CultureMesh</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/bootstrap.css') }}">
-    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/culturemesh-style.css') }}">
-</head>
-
-<body>
-    <div class="wrapper container-fluid cm-login-body">
-        <div class="cm-logo-section">
-            <img src="https://www.culturemesh.com/images/logo_header.png" />
-        </div>
-        <div class="cm-register-section">
-        	<div class="cm-register-prompt">
-                <p class="p-3">{{ msg }}</p>
-            </div>
-            <div>
-	            <form action="" method="post">
-	                {{ form.hidden_tag() }}
-	                <input type="text" class="cm-input-field" name="username" placeholder="Username"></input>
-	                <br>
-	                <input type="email" class="cm-input-field" name="email" placeholder="Email"></input>
-	                <br>
-	                <input type="password" class="cm-input-field" name="password" placeholder="Password"></input>
-	                <br>
-	                <input type="password" class="cm-input-field" name="confirm_password" placeholder="Confirm Password"></input>
-	                <br>
-	                <br>
-	                <input type="submit" class="cm-box-button" id="register-button" value="Register"></input>
-	            </form>
-	        </div>
-        </div>
-        <div class="cm-signup-section">
-            <div class="cm-account-prompt p-2">
-                Already have an account?
-            </div>
-            <a href="/login">Login</a>
-        </div>
+{% block form_body %}
+<div class="cm-logo-section">
+    <img src="https://www.culturemesh.com/images/logo_header.png" />
+</div>
+<div class="cm-register-section">
+	<div class="cm-register-prompt">
+        <p class="p-3">{{ msg }}</p>
     </div>
-</body>
-
-</html>
+    <div>
+        <form action="" method="post">
+            {{ form.hidden_tag() }}
+            <input type="text" class="cm-input-field" name="username" placeholder="Username"></input>
+            <br>
+            <input type="email" class="cm-input-field" name="email" placeholder="Email"></input>
+            <br>
+            <input type="password" class="cm-input-field" name="password" placeholder="Password"></input>
+            <br>
+            <input type="password" class="cm-input-field" name="confirm_password" placeholder="Confirm Password"></input>
+            <br>
+            <br>
+            <input type="submit" class="cm-box-button" id="register-button" value="Register"></input>
+        </form>
+    </div>
+</div>
+<div class="cm-signup-section">
+    <div class="cm-account-prompt p-2">
+        Already have an account?
+    </div>
+    <a href="/login">Login</a>
+</div>
+{% endblock %}

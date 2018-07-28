@@ -22,6 +22,7 @@ user_home = Blueprint('user_home', __name__, template_folder='templates')
 @flask_login.login_required
 def render_user_home():
   user_id = current_user.get_id()
+ # print(dir(current_user))
   c = Client(mock=False)
   user = c.get_user(user_id)
   user['img_url'] = get_user_image_url(user)
