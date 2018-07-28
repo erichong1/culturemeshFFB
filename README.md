@@ -1,5 +1,5 @@
 
-# CultureMesh for Facebook Free Basics 
+# CultureMesh for Facebook Free Basics
 
 This is a WIP adaptation of CultureMesh for Facebook's Free Basics platform.
 
@@ -7,8 +7,7 @@ This is a WIP adaptation of CultureMesh for Facebook's Free Basics platform.
 > to give access to basic internet services to people around the world.
 > You can find more information about Facebook Free Basics here: https://developers.facebook.com/docs/internet-org
 
-This project is currently owned by Stanford University's student-run Code the Change chapter in 
-collaboration with CultureMesh. 
+CultureMeshFFB is a [Stanford Code the Change](https://codethechange.stanford.edu/) project.
 
 ## Contributing
 
@@ -29,7 +28,7 @@ Read this over if you want to better understand the structure of the project: ht
 
 **!! Important !!**
 
-We are currently using Python 3.6.1 to run the app. 
+We are currently using Python 3.6.1 to run the app.
 
 Because Facebook Free Basics strives to provide services to a very wide range of phones
 and data plans, the mobile website needs to function properly without:
@@ -39,4 +38,4 @@ and data plans, the mobile website needs to function properly without:
 	3. Video and large images
 	4. Flash and Java applets
 
-You can find more technical details here: https://developers.facebook.com/docs/internet-org/platform-technical-guidelines. 
+You can find more technical details here: https://developers.facebook.com/docs/internet-org/platform-technical-guidelines.
