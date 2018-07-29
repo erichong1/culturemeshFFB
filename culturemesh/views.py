@@ -9,6 +9,7 @@ import http.client as httplib
 import requests
 import config
 import flask_login
+import werkzeug
 
 from flask_wtf.csrf import CSRFError
 from flask import render_template, request, redirect, session
@@ -20,7 +21,7 @@ from culturemesh.models import User
 from culturemesh.constants import LOGIN_MSG, LOGIN_FAILED_MSG, LOGIN_ERROR
 from culturemesh.constants import REGISTER_MSG, \
   REGISTER_PASSWORDS_DONT_MATCH_MSG, REGISTER_ERROR_MSG, \
-  REGISTER_USERNAME_TAKEN_MSG, REGISTER_EMAIL_TAKEN_MSG
+  REGISTER_USERNAME_TAKEN_MSG, REGISTER_EMAIL_TAKEN_MSG, PRIVACY_MSG
 
 from culturemesh.utils import email_registered, username_taken
 
@@ -39,68 +40,99 @@ def register():
     return page_not_found("")
 
   if request.method == 'POST':
-    if not RegisterForm(request.form).validate():
+    form = RegisterForm(request.form)
+
+    firstname = request.form['firstname'].strip()
+    lastname = request.form['lastname'].strip()
+    username = request.form["username"].strip()
+    email = request.form["email"].strip()
+    password = request.form["password"].strip()
+    confirm_password = request.form["confirm_password"].strip()
+
+    data = {
+      'firstname': firstname,
+      'lastname': lastname,
+      'username': username,
+      'email': email,
+      'password': '',
+      'confirm_password': ''
+    }
+
+    if not form.validate():
       return render_template(
-        'register.html', msg=REGISTER_ERROR_MSG, form=RegisterForm()
+        'register.html',
+        msg=REGISTER_ERROR_MSG,
+        privacy_msg=PRIVACY_MSG,
+        form=RegisterForm(data=data)
       )
 
     c = Client(mock=False)
-
-    username = request.form["username"]
-    email = request.form["email"]
-    password = request.form["password"]
-    confirm_password = request.form["confirm_password"]
 
     if password != confirm_password:
       return render_template(
         'register.html',
         msg=REGISTER_PASSWORDS_DONT_MATCH_MSG,
-        form=RegisterForm()
+        privacy_msg=PRIVACY_MSG,
+        form=RegisterForm(data=data)
       )
 
     if username_taken(c, username):
       return render_template(
-        'register.html', msg=REGISTER_USERNAME_TAKEN_MSG, form=RegisterForm()
+        'register.html',
+        msg=REGISTER_USERNAME_TAKEN_MSG,
+        privacy_msg=PRIVACY_MSG,
+        form=RegisterForm(data=data)
       )
 
     if email_registered(c, email):
       return render_template(
-        'register.html', msg=REGISTER_EMAIL_TAKEN_MSG, form=RegisterForm()
+        'register.html',
+        msg=REGISTER_EMAIL_TAKEN_MSG,
+        privacy_msg=PRIVACY_MSG,
+        form=RegisterForm(data=data)
       )
 
     # TODO:
-    user_string = "Name: " + username + " Email: " + email + " Password: " + password + " Confirm Password: " + confirm_password
+    user_string = "Name: " + username + " Email: " \
+      + email + " Password: " + password + " Confirm Password: " + confirm_password \
+      + "firstname: " + firstname + " lastname: " + lastname
     return "<html>%s</html>" % user_string
   else:
     return render_template(
-      'register.html', msg=REGISTER_MSG, form=RegisterForm()
+      'register.html',
+      msg=REGISTER_MSG,
+      privacy_msg=PRIVACY_MSG,
+      form=RegisterForm()
     )
 
 @app.route("/login", methods=['GET', 'POST'])
 def render_login_page():
     if request.method == 'POST':
       if not LoginForm(request.form).validate():
-        return render_template('login.html', msg=LOGIN_ERROR, form=LoginForm())
+        return render_template(
+          'login.html', msg=LOGIN_ERROR, form=LoginForm()
+        )
 
       email_or_username = request.form['email_or_username']
       password = request.form['password']
-      c = Client(mock=True)
-      user_id = c.verify_account(email_or_username, password)
+      c = Client(mock=False)
+      try:
+        token = c.get_token(email_or_username, password)
+      except werkzeug.exceptions.Unauthorized as ex:
+        # Unathorized.
+        return render_template(
+          'login.html', msg=LOGIN_FAILED_MSG, form=LoginForm()
+        )
 
-      # TODO: need to actually log the user in.
-      if user_id == -1:
-        return render_template(
-          'login.html', msg=LOGIN_FAILED_MSG, form=LoginForm()
-        )
+      # TODO: get the user_id from the token
+      # TODO: install the token and the expiration date in the
+      #       user object.
+      user_id = 1
       user_dict = c.get_user(int(user_id))
-      if user_dict is not None:
-        user = User(user_dict)
-        flask_login.login_user(user)
-        return redirect('/home')
-      else:
-        return render_template(
-          'login.html', msg=LOGIN_FAILED_MSG, form=LoginForm()
-        )
+      print(user_dict)
+      user = User(user_dict, api_token=token['token'])
+      flask_login.login_user(user)
+      return redirect('/home')
     else:
         return render_template('login.html', msg=LOGIN_MSG, form=LoginForm())
 
@@ -120,7 +152,7 @@ def unauthorized_callback():
 
 @login_manager.user_loader
 def load_user(user_id):
-	c = Client(mock=True)
+	c = Client(mock=False)
 	user = c.get_user(user_id)
 	if user is None:
 		return None

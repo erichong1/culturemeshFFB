@@ -16,12 +16,12 @@ from utils import get_month_abbr
 
 utc=pytz.UTC
 
-def username_taken(username):
+def username_taken(client, username):
   """True if the username is already taken
   """
   return False
 
-def email_registered(email):
+def email_registered(client, email):
   """True if email is registered with an account already.
   """
   return False

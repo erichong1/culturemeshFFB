@@ -15,6 +15,7 @@ REGISTER_MSG = "Register for a CultureMesh account"
 REGISTER_PASSWORDS_DONT_MATCH_MSG = "The passwords you entered do not match.  Try again"
 REGISTER_ERROR_MSG = "There was an error processing your form.  Did you leave a field blank by accident?"
 REGISTER_USERNAME_TAKEN_MSG = "Oops!  That username is already taken.  Try another one."
+PRIVACY_MSG = "* Only your first name and your username will be publicly visible."
 
 # TODO: implement password resets.
 REGISTER_EMAIL_TAKEN_MSG = "Oops!  Looks that email already belongs to an account."

@@ -1,30 +1,54 @@
 {% extends "login_register_base.html" %}
 
 {% block form_body %}
-<div class="cm-logo-section">
+<div class="cm-logo-section pt-5 pb-3">
     <img src="https://www.culturemesh.com/images/logo_header.png" />
 </div>
-<div class="cm-register-section">
+<div class="cm-register-section px-4">
 	<div class="cm-register-prompt">
         <p class="p-3">{{ msg }}</p>
     </div>
     <div>
         <form action="" method="post">
             {{ form.hidden_tag() }}
-            <input type="text" class="cm-input-field" name="username" placeholder="Username"></input>
-            <br>
-            <input type="email" class="cm-input-field" name="email" placeholder="Email"></input>
-            <br>
-            <input type="password" class="cm-input-field" name="password" placeholder="Password"></input>
-            <br>
-            <input type="password" class="cm-input-field" name="confirm_password" placeholder="Confirm Password"></input>
-            <br>
-            <br>
-            <input type="submit" class="cm-box-button" id="register-button" value="Register"></input>
+            {{ form.firstname(
+                size=32, type="text", class_="cm-input-field", placeholder="* First Name"
+               )
+            }}<br>
+            {{ form.lastname(
+                size=32, type="text", class_="cm-input-field", placeholder="Last Name"
+               )
+            }}<br><br>
+            {{ form.username(
+                size=32, type="text", class_="cm-input-field", placeholder="* Username"
+               )
+            }}<br>
+            {{ form.email(
+                size=32, type="text", class_="cm-input-field", placeholder="Email"
+               )
+            }}<br>
+            {{ form.password(
+                size=32, type="password", class_="cm-input-field", placeholder="Password"
+               )
+            }}<br>
+            {{ form.confirm_password(
+                size=32, type="password", class_="cm-input-field", placeholder="Confirm Password"
+               )
+            }}<br><br>
+            <div class="cm-register-prompt">
+                <p class="p-3">{{ privacy_msg }}</p>
+            </div>
+            {{ form.submit(
+                 id="cm-search-button",
+                 type="submit",
+                 class_="cm-box-button",
+                 value="Register"
+               )
+            }}
         </form>
     </div>
 </div>
-<div class="cm-signup-section">
+<div class="cm-signup-section py-4">
     <div class="cm-account-prompt p-2">
         Already have an account?
     </div>
