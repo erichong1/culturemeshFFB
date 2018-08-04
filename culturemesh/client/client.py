@@ -42,8 +42,8 @@ class Request(IntEnum):
 	PUT = 3
 
 class Client(object):
-	""" Talks directly to CultureMesh """
-
+	"""Talks directly to the CultureMesh API.
+	"""
 	_api_base_url_ = "https://www.culturemesh.com/api-dev/v-afl"
 
 	def __init__(self, key=None, client_id=None, client_secret=None,
@@ -53,7 +53,6 @@ class Client(object):
 
 
 		self.mock = mock
-
 		# See: http://docs.python-requests.org/en/master/user/advanced/
 		#	  not used yet.
 		self.session = requests.Session()
@@ -74,6 +73,7 @@ class Client(object):
 		if self.mock:
 			return self._mock_request(url, query_params, body_data)
 
+		# This is always controlled by us, not by the user.
 		url = "%s/%s?key=%s" % (self._api_base_url_, url, KEY)
 		if query_params is not None:
 			for param in query_params:

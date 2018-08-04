@@ -124,18 +124,18 @@ def render_login_page():
           'login.html', msg=LOGIN_FAILED_MSG, form=LoginForm()
         )
 
-      # TODO: get the user_id from the token
-      # TODO: install the token and the expiration date in the
-      #       user object.
-      user_id = 1
-      user_dict = c.get_user(int(user_id))
-      print(user_dict)
-      user = User(user_dict, api_token=token['token'])
+      user_id = = c.get_user(token['user_id'])
+      user = User(
+        user_dict,
+        api_token=token['token'],
+        api_token_expiration_epoch=token['token_expiration_epoch']
+      )
       flask_login.login_user(user)
       return redirect('/home')
     else:
         return render_template('login.html', msg=LOGIN_MSG, form=LoginForm())
 
+@app.errorhandler(httplib.UNAUTHORIZED)
 @app.route("/logout")
 @flask_login.login_required
 def logout():
@@ -174,3 +174,4 @@ def page_not_found(e):
 @app.errorhandler(httplib.METHOD_NOT_ALLOWED)
 def internal_server_error(e):
     return render_template('error.html')
+
