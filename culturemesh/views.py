@@ -124,7 +124,7 @@ def render_login_page():
           'login.html', msg=LOGIN_FAILED_MSG, form=LoginForm()
         )
 
-      user_id = = c.get_user(token['user_id'])
+      user_id = c.get_user(token['id'])
       user = User(
         user_dict,
         api_token=token['token'],
