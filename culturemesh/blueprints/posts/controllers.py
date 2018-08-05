@@ -18,7 +18,7 @@ NUM_REPLIES_TO_SHOW = 100
 def render_post():
 
   current_post_id = request.args.get('id')
-  user_id = current_user.get_id()
+  user_id = current_user.id
   c = Client(mock=False)
   post = c.get_post(current_post_id)
 

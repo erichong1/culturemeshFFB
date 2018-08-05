@@ -535,8 +535,6 @@ body {
 .cm-login-body {
   background-color: #3c3c3c;
   margin: 0px 0px;
-  display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: stretch;
   height: 100%;
@@ -544,29 +542,30 @@ body {
   font-family: sans-serif;
   font-size: 14px;
   max-width: 600px;
+  overflow: scroll;
 }
 
 .cm-logo-section {
-  flex: 1;
-  display: flex;
   justify-content: center;
   align-items: center;
 }
 
 .cm-signin-section {
-  margin: 0px 30px 0px 30px;
-  display: flex;
-  flex-direction: column;
   justify-content: space-around;
-  align-items: stretch;
-  flex: 1;
+}
+
+
+.cm-register-section {
+  justify-content: space-around;
 }
 
 .cm-signin-prompt {
-  display: flex;
-  flex-direction: row;
   justify-content: center;
-  align-items: center;
+  color: grey;
+}
+
+.cm-register-prompt {
+  justify-content: center;
   color: grey;
 }
 
@@ -594,9 +593,6 @@ body {
 }
 
 .cm-signup-section {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
 }
@@ -621,8 +617,6 @@ body {
 .cm-register-body {
   background-color: #3c3c3c;
   margin: 0px 0px;
-  display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: stretch;
   height: 100%;

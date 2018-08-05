@@ -1,6 +1,8 @@
-#
-# Contains utilities used by more than one blueprint
-#
+"""
+Contains utilities used by more than one blueprint.
+Otherwise, utilities are found in a dedicated utils file within
+that blueprint.
+"""
 
 import pytz
 
@@ -14,9 +16,20 @@ from utils import get_month_abbr
 
 utc=pytz.UTC
 
+def username_taken(client, username):
+  """True if the username is already taken
+  """
+  return False
+
+def email_registered(client, email):
+  """True if email is registered with an account already.
+  """
+  return False
+
 def get_network_title(network):
   """Returns the title of a network given a network
-  JSON as a dict"""
+  JSON as a dict
+  """
 
   cur_country = network['country_cur']
   cur_region = network['region_cur']
@@ -43,6 +56,7 @@ def get_network_title(network):
   elif network['network_class'] == 'cc' \
     or network['network_class'] == 'rc' \
     or network['network_class'] == 'co':
+
     # City network (cc), region network (rc), or
     # country network (co).
     # Title-wise, we treat them all the same.
@@ -67,7 +81,8 @@ def populate_network_with_location_names(client, network):
 def get_upcoming_events_by_user(client, user_id, count):
   """Return up to 'count' events that are in the user's
   networks and which are upcoming, sorted by how close they
-  are to today"""
+  are to today
+  """
 
   upcoming_events = []
   networks = client.get_user_networks(user_id, 200)
@@ -124,13 +139,13 @@ def get_event_location(event):
 
 def get_user_image_url(user):
   """Returns the URL of a user's profile image
-  given a user JSON as a dict
+  given a User object.
   """
 
-  if user['img_link'] is None:
-    return BLANK_PROFILE_IMG
+  if not user.img_link or user.img_link == "None":
+    return BLANK_PROFILE_IMG_URL
   else:
-    return USER_IMG_URL_FMT % user['img_link']
+    return USER_IMG_URL_FMT % user.img_link
 
 def get_short_network_join_date(network):
   """Returns a short version of the user's Join

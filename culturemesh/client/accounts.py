@@ -5,18 +5,16 @@
 from .client import Request
 ####################### GET methods #######################
 
-	# TODO
-
-####################### POST methods #######################
-
-def verify_account(client, email_or_username, password):
+def get_token(client, email_or_username, password):
 	"""
-	:param client: the CultureMesh API client
-	:param email_or_usename: The email or username entered at login
-	:param password: The password entered at login
+	Returns an authentication token for this user/email and password
+	combination. This token is meant to live as long as the user's session,
+	and available in login-required views.
 
-	Returns: if email/username and password match an existing user's
-	 data return the id of the corresponding user otherwise return None
+	:param client: the CultureMesh API Client
+	:param email_or_username: The email or username of the user
+	:param password: The password of the user
 	"""
-	url = '/verify_account/%s/%s' % (str(email_or_username), str(password))
-	return client._request(url, Request.GET)
+	url = 'account/token'
+	basic_auth = (email_or_username, password)
+	return client._request(url, Request.GET, basic_auth=basic_auth)

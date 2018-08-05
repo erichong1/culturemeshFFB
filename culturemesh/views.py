@@ -1,16 +1,31 @@
+"""
+Contains the views and templates for the top-level site. This includes:
+  - The home page
+  - The about page
+  - The registration page
+  - The login page
+"""
 import http.client as httplib
 import requests
 import config
 import flask_login
+import werkzeug
+import json
 
 from flask_wtf.csrf import CSRFError
 from flask import render_template, request, redirect, session
 from culturemesh import app, login_manager
 from culturemesh.client import Client
 from flask_login import current_user
-from culturemesh.forms import LoginForm
+from culturemesh.forms import LoginForm, RegisterForm
 from culturemesh.models import User
-from culturemesh.constants import LOGIN_MSG, LOGIN_FAILED_MSG
+from culturemesh.constants import LOGIN_MSG, LOGIN_FAILED_MSG, LOGIN_ERROR
+from culturemesh.constants import REGISTER_MSG, \
+  REGISTER_PASSWORDS_DONT_MATCH_MSG, REGISTER_ERROR_MSG, \
+  REGISTER_USERNAME_TAKEN_MSG, REGISTER_EMAIL_TAKEN_MSG, PRIVACY_MSG, \
+  REGISTER_UPSTREAM_ERROR_MSG
+
+from culturemesh.utils import email_registered, username_taken
 
 @app.route("/")
 @app.route("/index")
@@ -21,46 +36,81 @@ def home():
 def about():
 	return render_template('about.html')
 
-#TODO: this needs to be fleshed out.
 @app.route("/register", methods=['GET', 'POST'])
 def register():
-	if current_user and current_user.is_authenticated:
-		return page_not_found("")
+  if current_user and current_user.is_authenticated:
+    return redirect(url_for('home'))
 
-	if request.method == 'POST':
-		return coming_soon()
-		name = request.form["name"]
-		email = request.form["email"]
-		password = request.form["password"]
-		confirm_password = request.form["confirm-password"]
-		user_string = "Name: " + name + " Email: " + email + " Password: " + " Confirm Password: " + confirm_password
-		return render_template('dashboard.html', user=user_string)
-	else:
-		return render_template('register.html', form=LoginForm())
+  def make_register_page_tmpl(message, data_=None):
+      return render_template(
+        'register.html',
+        msg=message,
+        privacy_msg=PRIVACY_MSG,
+        form=RegisterForm(data=data_)
+      )
 
-# TODO: needs to actually use a login form object
-#       for security.
+  if request.method == 'POST':
+    form = RegisterForm(request.form)
+
+    firstname = request.form['firstname'].strip()
+    lastname = request.form['lastname'].strip()
+    username = request.form["username"].strip()
+    email = request.form["email"].strip()
+    password = request.form["password"].strip()
+    confirm_password = request.form["confirm_password"].strip()
+
+    data = {
+      'firstname': firstname,
+      'lastname': lastname,
+      'username': username,
+      'email': email,
+      'password': '',
+      'confirm_password': ''
+    }
+
+    if not form.validate():
+      return make_register_page_tmpl(REGISTER_ERROR_MSG, data)
+
+    c = Client(mock=False)
+
+    if password != confirm_password:
+      return make_register_page_tmpl(REGISTER_PASSWORDS_DONT_MATCH_MSG, data)
+
+    user = {
+      'username': username,
+      'password': password,
+      'first_name': firstname,
+      'last_name': lastname,
+      'email': email,
+      'role': '0',
+      'act_code': 'NULL' # TODO: what to do here?
+    }
+
+    try:
+      c.create_user(user)
+    except werkzeug.exceptions.BadRequest:
+      return make_register_page_tmpl(REGISTER_UPSTREAM_ERROR_MSG, data)
+
+    return attempt_login(c, username, password)
+
+  else:
+    return make_register_page_tmpl(REGISTER_MSG)
+
 @app.route("/login", methods=['GET', 'POST'])
 def render_login_page():
     if request.method == 'POST':
+      if not LoginForm(request.form).validate():
+        return render_template(
+          'login.html', msg=LOGIN_ERROR, form=LoginForm()
+        )
+
       email_or_username = request.form['email_or_username']
       password = request.form['password']
-      c = Client(mock=True)
-      user_id = c.verify_account(email_or_username, password)
-
-      # TODO: this form needs to be verified.
-      if user_id == -1:
-        return render_template('login.html', msg=LOGIN_FAILED_MSG, form=LoginForm())
-      user_dict = c.get_user(int(user_id))
-      if user_dict is not None:
-        user = User(user_dict)
-        flask_login.login_user(user)
-        return redirect('/home')
-      else:
-        return render_template('login.html', msg=LOGIN_FAILED_MSG, form=LoginForm())
+      return attempt_login(Client(mock=False), email_or_username, password)
     else:
         return render_template('login.html', msg=LOGIN_MSG, form=LoginForm())
 
+@app.errorhandler(httplib.UNAUTHORIZED)
 @app.route("/logout")
 @flask_login.login_required
 def logout():
@@ -75,13 +125,31 @@ def unauthorized_callback():
 
 ##################### Other functions #########################
 
+def attempt_login(c, email_or_username, password):
+  """Attempts to login a user from an email/username and password combo.
+
+  If successful: initiates a user session and redirects to home.
+  If unsucessful: Returns the login page with the 'unauthorized' message.
+  """
+  try:
+    token = c.get_token(email_or_username, password)
+  except werkzeug.exceptions.Unauthorized as ex:
+    # Unauthorized.
+    return render_template(
+      'login.html', msg=LOGIN_FAILED_MSG, form=LoginForm()
+    )
+
+  user_dict = c.get_user(token['id'])
+  user = User(user_dict, api_token=token)
+  flask_login.login_user(user)
+  return redirect('/home')
+
 @login_manager.user_loader
-def load_user(user_id):
-	c = Client(mock=True)
-	user = c.get_user(user_id)
-	if user is None:
-		return None
-	return User(user)
+def load_user(user_json_str):
+  try:
+    return User(json.loads(user_json_str))
+  except Exception:
+    abort(httplib.INTERNAL_SERVER_ERROR)
 
 @app.before_request
 def make_session_permanent():
@@ -99,3 +167,4 @@ def page_not_found(e):
 @app.errorhandler(httplib.METHOD_NOT_ALLOWED)
 def internal_server_error(e):
     return render_template('error.html')
+

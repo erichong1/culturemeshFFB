@@ -42,8 +42,8 @@ class Request(IntEnum):
 	PUT = 3
 
 class Client(object):
-	""" Talks directly to CultureMesh """
-
+	"""Talks directly to the CultureMesh API.
+	"""
 	_api_base_url_ = "https://www.culturemesh.com/api-dev/v-afl"
 
 	def __init__(self, key=None, client_id=None, client_secret=None,
@@ -53,13 +53,18 @@ class Client(object):
 
 
 		self.mock = mock
-
 		# See: http://docs.python-requests.org/en/master/user/advanced/
 		#	  not used yet.
 		self.session = requests.Session()
 
-	def _request(self, url, request_method, query_params=None, body_data=None,
-				 post_json=None, body_extractor=None):
+	def _request(self,
+				 url,
+				 request_method,
+				 query_params=None,
+				 body_data=None,
+				 json=None,
+				 body_extractor=None,
+				 basic_auth=None):
 		"""
 		Carries out HTTP requests.
 
@@ -68,23 +73,22 @@ class Client(object):
 		if self.mock:
 			return self._mock_request(url, query_params, body_data)
 
+		# This is always controlled by us, not by the user.
 		url = "%s/%s?key=%s" % (self._api_base_url_, url, KEY)
 		if query_params is not None:
 			for param in query_params:
 				url += "&%s=%s" % (param, query_params[param])
 
 		if request_method == Request.GET:
-			response = requests.get(url)
+			response = requests.get(url, auth=basic_auth)
 		elif request_method == Request.POST:
-			if body_data:
-				response = requests.post(url, data=body_data)
-			else:
-				response = requests.post(url)
+			response = requests.post(
+				url, json=json, data=body_data, auth=basic_auth
+			)
 		elif request_method == Request.PUT:
-			if body_data:
-				response = requests.put(url, data=body_data)
-			else:
-				response = requests.put(url)
+			response = requests.put(
+				url, json=json, data=body_data, auth=basic_auth
+			)
 
 		return self._get_body(response)
 
@@ -200,8 +204,6 @@ class Client(object):
 
 				elif path[3] == "events":
 					return self._mock_get_network_events(int(path[2]), query_params)
-			elif path[1] == "verify_account":
-				return self._mock_verify_account(path[2], path[3])
 			else:
 				pass
 		elif len(path) == 5:
@@ -219,14 +221,6 @@ class Client(object):
 		count = int(query_params['count'])
 		if count < 1 or count > 100:
 			raise AttributeError("Invalid count field.")
-
-	def _mock_verify_account(self, email_or_username, password):
-		with open(USER_DATA_LOC) as users:
-			users = json.load(users)
-			for u in users:
-				if (u['email'] == email_or_username or u['username'] == email_or_username) and u['password'] == password:
-					return u['id']
-		return -1
 
 	def _mock_get_users(self, query_params):
 		self._mock_ensure_count(query_params)
@@ -613,6 +607,7 @@ class Client(object):
 
 
 """ Register the client with the API functions. """
+from .accounts import get_token
 from .events import ping_event
 from .events import get_event
 from .events import get_event_registration_list
@@ -630,7 +625,6 @@ from .posts import get_post_replies
 from .posts import get_post_reply_count
 from .posts import create_post
 from .posts import create_post_reply
-from .accounts import verify_account
 from .users import ping_user
 from .users import get_users
 from .users import get_user
@@ -653,6 +647,7 @@ from .networks import get_network_post_count
 # We may consider adding a wrapper around these assignments
 # below to introduce more specific features for the client.
 
+Client.get_token = get_token
 Client.ping_event = ping_event
 Client.get_event = get_event
 Client.get_event_registration_list = get_event_registration_list
@@ -670,7 +665,6 @@ Client.get_post_replies = get_post_replies
 Client.get_post_reply_count = get_post_reply_count
 Client.create_post = create_post
 Client.create_post_reply = create_post_reply
-Client.verify_account = verify_account
 Client.ping_user = ping_user
 Client.get_users = get_users
 Client.get_user = get_user

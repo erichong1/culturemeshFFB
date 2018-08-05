@@ -25,7 +25,7 @@ utc=pytz.UTC
 def network():
   id_network = request.args.get('id')
   c = Client(mock=False)
-  id_user = current_user.get_id()
+  id_user = current_user.id
   network_info = gather_network_info(id_network, id_user, c)
 
   upcoming_events = get_upcoming_events_by_network(c, id_network, 3)
@@ -46,7 +46,7 @@ def network():
 @flask_login.login_required
 def join_network():
   id_network = request.args.get('id')
-  id_user = current_user.get_id()
+  id_user = current_user.id
   form = NetworkJoinForm(request.form)
   c = Client(mock=False)
   if form.validate():
@@ -62,7 +62,7 @@ def join_network():
 def leave_network():
   id_network = request.args.get('id')
   c = Client(mock=False)
-  id_user = current_user.get_id()
+  id_user = current_user.id
   network_info = gather_network_info(id_network, id_user, c, "leave")
   return render_template(
     'network.html', network_info=network_info, form=NetworkJoinForm()
@@ -84,9 +84,6 @@ def network_events() :
   network = c.get_network(id_network)
   if not network:
     return render_template('404.html')
-
-  # TODO: Get user ID and work out if user is in network.
-  # Add join us button to page if they're not.
 
   events = None
 
@@ -110,7 +107,7 @@ def network_events() :
   for event in events:
     utils.enhance_event_date_info(event)
 
-  id_user = current_user.get_id()
+  id_user = current_user.id
   user_networks = c.get_user_networks(id_user, count=100)
   user_is_member = False
   for network_ in user_networks:
@@ -182,7 +179,7 @@ def network_posts() :
   else :
     post_index = posts[-1]['id']
 
-  id_user = current_user.get_id()
+  id_user = current_user.id
   user_networks = c.get_user_networks(id_user, count=100)
   user_is_member = False
   for network_ in user_networks:
@@ -209,7 +206,7 @@ def network_posts() :
 def create_new_post():
     c = Client(mock=False)
     id_network = request.args.get('id')
-    user_id = current_user.get_id()
+    user_id = current_user.id
     network = c.get_network(id_network)
     network_title = get_network_title(network)
     error_msg = None
@@ -254,7 +251,7 @@ def create_new_post():
 def create_new_event():
     c = Client(mock=False)
     id_network = request.args.get('id')
-    user_id = current_user.get_id()
+    user_id = current_user.id
     network = c.get_network(id_network)
     network_title = get_network_title(network)
     error_msg = None

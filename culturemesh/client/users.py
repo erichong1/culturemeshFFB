@@ -94,8 +94,8 @@ def create_user(client, user):
 
 	Creates a new user.
 	"""
-	url = 'user'
-	return client._request(url, Request.POST, body_data=user)
+	url = 'user/users'
+	return client._request(url, Request.POST, json=user)
 
 def add_user_to_event(client, userId, eventId):
 	"""
@@ -129,4 +129,4 @@ def update_user(client, user):
 	Updates the information of a user.
 	"""
 	url = 'user/users'
-	return client._request(url, Request.PUT, body_data=user)
+	return client._request(url, Request.PUT, json=user)

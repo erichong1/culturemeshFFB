@@ -1,4 +1,5 @@
 from culturemesh import app
+from flask_sslify import SSLify
 
 import config
 
@@ -8,4 +9,5 @@ import config
 #
 
 if __name__ == "__main__":
+  sslify = SSLify(app)
   app.run(host=config.DEBUG_ADDR, port=config.DEBUG_PORT, debug=True)

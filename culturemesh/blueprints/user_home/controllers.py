@@ -1,19 +1,25 @@
+import copy
 import flask_login
 import utils
 import datetime
 
 from flask import Blueprint, render_template, request
+from flask_login import current_user
+from werkzeug.exceptions import HTTPException
+from utils import parse_date
+
 from culturemesh.client import Client
 from culturemesh.utils import get_network_title
 from culturemesh.utils import get_user_image_url
 from culturemesh.utils import get_short_network_join_date
 from culturemesh.utils import get_time_ago
 from culturemesh.utils import get_upcoming_events_by_user
-from flask_login import current_user
-from werkzeug.exceptions import HTTPException
-from utils import parse_date
 
 from culturemesh.blueprints.user_home.forms.home_forms import UserInfo
+from culturemesh.blueprints.user_home.config import NUM_LATEST_POSTS_TO_DISPLAY
+from culturemesh.blueprints.user_home.config import NUM_UPCOMING_EVENTS_TO_DISPLAY
+from culturemesh.blueprints.user_home.config import NUM_EVENT_HOSTING_TO_DISPLAY
+from culturemesh.blueprints.user_home.config import MAX_NETWORKS_TO_LOAD
 
 user_home = Blueprint('user_home', __name__, template_folder='templates')
 
@@ -21,19 +27,18 @@ user_home = Blueprint('user_home', __name__, template_folder='templates')
 @user_home.route("/dashboard")
 @flask_login.login_required
 def render_user_home():
-  user_id = current_user.get_id()
-  c = Client(mock=False)
-  user = c.get_user(user_id)
-  user['img_url'] = get_user_image_url(user)
-  events_hosting = c.get_user_events(user_id, "hosting", 5)
+  user = copy.deepcopy(current_user)
 
-  if user is None:
-    return page_not_found("")
+  c = Client(mock=False)
+  user.img_url = get_user_image_url(user)
+  events_hosting = c.get_user_events(
+    user.id, "hosting", NUM_EVENT_HOSTING_TO_DISPLAY
+  )
 
   for event in events_hosting:
     utils.enhance_event_date_info(event)
 
-  latest_posts = c.get_user_posts(user_id, 3)
+  latest_posts = c.get_user_posts(user.id, NUM_LATEST_POSTS_TO_DISPLAY)
 
   for post in latest_posts:
 
@@ -48,7 +53,9 @@ def render_user_home():
       post['network'] = None
       post['network_title'] = "Unknown"
 
-  upcoming_events = get_upcoming_events_by_user(c, user['id'], 3)
+  upcoming_events = get_upcoming_events_by_user(
+    c, user.id, NUM_UPCOMING_EVENTS_TO_DISPLAY
+  )
   for event in upcoming_events:
     utils.enhance_event_date_info(event)
     event['network_title'] = get_network_title(
@@ -57,7 +64,7 @@ def render_user_home():
 
   return render_template(
     'dashboard.html',
-    user=user,
+    user=user.as_dict,
     events_hosting=events_hosting,
     latest_posts=latest_posts,
     upcoming_events_in_networks=upcoming_events
@@ -66,26 +73,26 @@ def render_user_home():
 @user_home.route("/account")
 @flask_login.login_required
 def render_user_home_account():
-  user_id = current_user.get_id()
+  user = copy.deepcopy(current_user)
   c = Client(mock=False)
-  user = c.get_user(user_id)
-  user['img_url'] = get_user_image_url(user)
+  user.img_url = get_user_image_url(user)
 
   if user is None:
     return page_not_found("")
 
   user_info_form=UserInfo()
-  user_info_form.first_name.process_data(user['first_name'])
-  user_info_form.last_name.process_data(user['last_name'])
-  user_info_form.about_me.process_data(user['about_me'])
+  user_info_form.first_name.process_data(user.first_name)
+  user_info_form.last_name.process_data(user.last_name)
+  user.about_me = user.about_me if user.about_me and user.about_me != "None" else ""
+  user_info_form.about_me.process_data(user.about_me)
   return render_template(
-    'account.html', user=user, user_info_form=user_info_form
+    'account.html', user=user.as_dict, user_info_form=user_info_form
   )
 
 @user_home.route("/update_profile", methods=['POST'])
 @flask_login.login_required
 def update_profile_and_render_home():
-  user_id = current_user.get_id()
+  user_id = current_user.id
   c = Client(mock=False)
 
   data = request.form
@@ -93,6 +100,8 @@ def update_profile_and_render_home():
   first_name = data['first_name']
   last_name = data['last_name']
   about_me = data['about_me']
+  if not about_me:
+    about_me = ""
 
   user = {
     'id': user_id, 'first_name': first_name,
@@ -105,7 +114,8 @@ def update_profile_and_render_home():
   user = c.get_user(user_id)
   if user is None:
     return page_not_found("")
-  user['img_url'] = get_user_image_url(user)
+
+  user['img_url'] = get_user_image_url(current_user)
 
   user_info_form=UserInfo()
   user_info_form.first_name.process_data(user['first_name'])
@@ -118,37 +128,40 @@ def update_profile_and_render_home():
 @user_home.route("/events")
 @flask_login.login_required
 def render_user_home_events():
-  user_id = current_user.get_id()
   c = Client(mock=False)
-  user = c.get_user(user_id)
-  user['img_url'] = get_user_image_url(user)
+  user = copy.deepcopy(current_user)
+  user_id = user.id
+  user.img_url = get_user_image_url(user)
 
   if user is None:
     return page_not_found("")
 
-  events_hosting = c.get_user_events(user_id, "hosting", 5)
+  events_hosting = c.get_user_events(
+    user_id, "hosting", NUM_EVENT_HOSTING_TO_DISPLAY
+  )
   if events_hosting is None:
     return page_not_found("")
 
   for event in events_hosting:
     utils.enhance_event_date_info(event)
 
-  return render_template('events.html', user=user,
+  return render_template('events.html', user=user.as_dict,
     events_hosting=events_hosting)
 
 @user_home.route("/networks")
 @flask_login.login_required
 def render_user_home_networks():
-  user_id = current_user.get_id()
   c = Client(mock=False)
-  user = c.get_user(user_id)
-  user['img_url'] = get_user_image_url(user)
+  user = copy.deepcopy(current_user)
+  user_id = user.id
+  user.img_url = get_user_image_url(user)
 
   if user is None:
     return page_not_found("")
 
-  # TODO: incorporate paging into the user networks call.
-  user_networks = c.get_user_networks(user_id, count=50)
+  user_networks = c.get_user_networks(
+    user_id, count=MAX_NETWORKS_TO_LOAD
+  )
 
   networks = []
   for network in user_networks:
@@ -159,7 +172,7 @@ def render_user_home_networks():
     network_['user_count'] = num_users
     networks.append(network_)
 
-  return render_template('networks.html', user=user, networks=networks)
+  return render_template('networks.html', user=user.as_dict, networks=networks)
 
 @user_home.route("/ping")
 @flask_login.login_required
