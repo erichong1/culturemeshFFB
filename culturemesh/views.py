@@ -59,52 +59,40 @@ def register():
       'confirm_password': ''
     }
 
+    make_register_page_tmpl = lambda message: render_template(
+      'register.html',
+      msg=message,
+      privacy_msg=PRIVACY_MSG,
+      form=RegisterForm(data=data)
+    )
+
     if not form.validate():
-      return render_template(
-        'register.html',
-        msg=REGISTER_ERROR_MSG,
-        privacy_msg=PRIVACY_MSG,
-        form=RegisterForm(data=data)
-      )
+      return make_register_page_tmpl(REGISTER_ERROR_MSG)
 
     c = Client(mock=False)
 
     if password != confirm_password:
-      return render_template(
-        'register.html',
-        msg=REGISTER_PASSWORDS_DONT_MATCH_MSG,
-        privacy_msg=PRIVACY_MSG,
-        form=RegisterForm(data=data)
-      )
+      return make_register_page_tmpl(REGISTER_PASSWORDS_DONT_MATCH_MSG)
 
-    if username_taken(c, username):
-      return render_template(
-        'register.html',
-        msg=REGISTER_USERNAME_TAKEN_MSG,
-        privacy_msg=PRIVACY_MSG,
-        form=RegisterForm(data=data)
-      )
+    user = {
+      "username": username,
+      "password": password,
+      "first_name": firstname,
+      "last_name": lastname,
+      "email": email,
+      "role": 0,
+      "act_code": None # TODO: what to do here?
+    }
 
-    if email_registered(c, email):
-      return render_template(
-        'register.html',
-        msg=REGISTER_EMAIL_TAKEN_MSG,
-        privacy_msg=PRIVACY_MSG,
-        form=RegisterForm(data=data)
-      )
+    try:
+      c.create_user(user)
+    except werkzeug.exceptions.BadRequest:
+      return make_register_page_tmpl(REGISTER_UPSTREAM_ERROR_MSG)
 
-    # TODO:
-    user_string = "Name: " + username + " Email: " \
-      + email + " Password: " + password + " Confirm Password: " + confirm_password \
-      + "firstname: " + firstname + " lastname: " + lastname
-    return "<html>%s</html>" % user_string
+    attempt_login(c, username, password)
+
   else:
-    return render_template(
-      'register.html',
-      msg=REGISTER_MSG,
-      privacy_msg=PRIVACY_MSG,
-      form=RegisterForm()
-    )
+    return make_register_page_tmpl(REGISTER_MSG)
 
 @app.route("/login", methods=['GET', 'POST'])
 def render_login_page():
@@ -116,19 +104,7 @@ def render_login_page():
 
       email_or_username = request.form['email_or_username']
       password = request.form['password']
-      c = Client(mock=False)
-      try:
-        token = c.get_token(email_or_username, password)
-      except werkzeug.exceptions.Unauthorized as ex:
-        # Unathorized.
-        return render_template(
-          'login.html', msg=LOGIN_FAILED_MSG, form=LoginForm()
-        )
-
-      user_dict = c.get_user(token['id'])
-      user = User(user_dict, api_token=token)
-      flask_login.login_user(user)
-      return redirect('/home')
+      attempt_login(c, email_or_username, password)
     else:
         return render_template('login.html', msg=LOGIN_MSG, form=LoginForm())
 
@@ -146,6 +122,25 @@ def unauthorized_callback():
 
 
 ##################### Other functions #########################
+
+def attempt_login(c, email_or_username, password):
+  """Attempts to login a user from an email/username and password combo.
+
+  If successful: initiates a user session and redirects to home.
+  If unsucessful: Returns the login page with the 'unauthorized' message.
+  """
+  try:
+    token = c.get_token(email_or_username, password)
+  except werkzeug.exceptions.Unauthorized as ex:
+    # Unauthorized.
+    return render_template(
+      'login.html', msg=LOGIN_FAILED_MSG, form=LoginForm()
+    )
+
+  user_dict = c.get_user(token['id'])
+  user = User(user_dict, api_token=token)
+  flask_login.login_user(user)
+  return redirect('/home')
 
 @login_manager.user_loader
 def load_user(user_json_str):

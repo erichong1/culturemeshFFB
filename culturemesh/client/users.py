@@ -94,7 +94,7 @@ def create_user(client, user):
 
 	Creates a new user.
 	"""
-	url = 'user'
+	url = 'user/users'
 	return client._request(url, Request.POST, body_data=user)
 
 def add_user_to_event(client, userId, eventId):
