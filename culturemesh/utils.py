@@ -139,13 +139,13 @@ def get_event_location(event):
 
 def get_user_image_url(user):
   """Returns the URL of a user's profile image
-  given a user JSON as a dict
+  given a User object.
   """
 
-  if user['img_link'] is None:
+  if not user.img_link:
     return BLANK_PROFILE_IMG
   else:
-    return USER_IMG_URL_FMT % user['img_link']
+    return USER_IMG_URL_FMT % user.img_link
 
 def get_short_network_join_date(network):
   """Returns a short version of the user's Join

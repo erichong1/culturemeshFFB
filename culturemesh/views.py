@@ -10,6 +10,7 @@ import requests
 import config
 import flask_login
 import werkzeug
+import json
 
 from flask_wtf.csrf import CSRFError
 from flask import render_template, request, redirect, session
@@ -37,7 +38,7 @@ def about():
 @app.route("/register", methods=['GET', 'POST'])
 def register():
   if current_user and current_user.is_authenticated:
-    return page_not_found("")
+    return redirect(url_for('home'))
 
   if request.method == 'POST':
     form = RegisterForm(request.form)
@@ -124,12 +125,8 @@ def render_login_page():
           'login.html', msg=LOGIN_FAILED_MSG, form=LoginForm()
         )
 
-      user_id = c.get_user(token['id'])
-      user = User(
-        user_dict,
-        api_token=token['token'],
-        api_token_expiration_epoch=token['token_expiration_epoch']
-      )
+      user_dict = c.get_user(token['id'])
+      user = User(user_dict, api_token=token)
       flask_login.login_user(user)
       return redirect('/home')
     else:
@@ -151,12 +148,11 @@ def unauthorized_callback():
 ##################### Other functions #########################
 
 @login_manager.user_loader
-def load_user(user_id):
-	c = Client(mock=False)
-	user = c.get_user(user_id)
-	if user is None:
-		return None
-	return User(user)
+def load_user(user_json_str):
+  try:
+    return User(json.loads(user_json_str))
+  except Exception:
+    abort(httplib.INTERNAL_SERVER_ERROR)
 
 @app.before_request
 def make_session_permanent():
