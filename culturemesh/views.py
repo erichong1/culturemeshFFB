@@ -22,7 +22,8 @@ from culturemesh.models import User
 from culturemesh.constants import LOGIN_MSG, LOGIN_FAILED_MSG, LOGIN_ERROR
 from culturemesh.constants import REGISTER_MSG, \
   REGISTER_PASSWORDS_DONT_MATCH_MSG, REGISTER_ERROR_MSG, \
-  REGISTER_USERNAME_TAKEN_MSG, REGISTER_EMAIL_TAKEN_MSG, PRIVACY_MSG
+  REGISTER_USERNAME_TAKEN_MSG, REGISTER_EMAIL_TAKEN_MSG, PRIVACY_MSG, \
+  REGISTER_UPSTREAM_ERROR_MSG
 
 from culturemesh.utils import email_registered, username_taken
 
@@ -39,6 +40,14 @@ def about():
 def register():
   if current_user and current_user.is_authenticated:
     return redirect(url_for('home'))
+
+  def make_register_page_tmpl(message, data_=None):
+      return render_template(
+        'register.html',
+        msg=message,
+        privacy_msg=PRIVACY_MSG,
+        form=RegisterForm(data=data_)
+      )
 
   if request.method == 'POST':
     form = RegisterForm(request.form)
@@ -59,37 +68,30 @@ def register():
       'confirm_password': ''
     }
 
-    make_register_page_tmpl = lambda message: render_template(
-      'register.html',
-      msg=message,
-      privacy_msg=PRIVACY_MSG,
-      form=RegisterForm(data=data)
-    )
-
     if not form.validate():
-      return make_register_page_tmpl(REGISTER_ERROR_MSG)
+      return make_register_page_tmpl(REGISTER_ERROR_MSG, data)
 
     c = Client(mock=False)
 
     if password != confirm_password:
-      return make_register_page_tmpl(REGISTER_PASSWORDS_DONT_MATCH_MSG)
+      return make_register_page_tmpl(REGISTER_PASSWORDS_DONT_MATCH_MSG, data)
 
     user = {
-      "username": username,
-      "password": password,
-      "first_name": firstname,
-      "last_name": lastname,
-      "email": email,
-      "role": 0,
-      "act_code": None # TODO: what to do here?
+      'username': username,
+      'password': password,
+      'first_name': firstname,
+      'last_name': lastname,
+      'email': email,
+      'role': '0',
+      'act_code': 'NULL' # TODO: what to do here?
     }
 
     try:
       c.create_user(user)
     except werkzeug.exceptions.BadRequest:
-      return make_register_page_tmpl(REGISTER_UPSTREAM_ERROR_MSG)
+      return make_register_page_tmpl(REGISTER_UPSTREAM_ERROR_MSG, data)
 
-    attempt_login(c, username, password)
+    return attempt_login(c, username, password)
 
   else:
     return make_register_page_tmpl(REGISTER_MSG)
@@ -104,7 +106,7 @@ def render_login_page():
 
       email_or_username = request.form['email_or_username']
       password = request.form['password']
-      attempt_login(c, email_or_username, password)
+      return attempt_login(Client(mock=False), email_or_username, password)
     else:
         return render_template('login.html', msg=LOGIN_MSG, form=LoginForm())
 

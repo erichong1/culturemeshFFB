@@ -83,6 +83,7 @@ def render_user_home_account():
   user_info_form=UserInfo()
   user_info_form.first_name.process_data(user.first_name)
   user_info_form.last_name.process_data(user.last_name)
+  user.about_me = user.about_me if user.about_me and user.about_me != "None" else ""
   user_info_form.about_me.process_data(user.about_me)
   return render_template(
     'account.html', user=user.as_dict, user_info_form=user_info_form
@@ -99,6 +100,8 @@ def update_profile_and_render_home():
   first_name = data['first_name']
   last_name = data['last_name']
   about_me = data['about_me']
+  if not about_me:
+    about_me = ""
 
   user = {
     'id': user_id, 'first_name': first_name,
@@ -112,7 +115,7 @@ def update_profile_and_render_home():
   if user is None:
     return page_not_found("")
 
-  user['img_url'] = get_user_image_url(user)
+  user['img_url'] = get_user_image_url(current_user)
 
   user_info_form=UserInfo()
   user_info_form.first_name.process_data(user['first_name'])

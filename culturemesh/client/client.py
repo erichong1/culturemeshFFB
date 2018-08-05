@@ -62,7 +62,7 @@ class Client(object):
 				 request_method,
 				 query_params=None,
 				 body_data=None,
-				 post_json=None,
+				 json=None,
 				 body_extractor=None,
 				 basic_auth=None):
 		"""
@@ -82,19 +82,13 @@ class Client(object):
 		if request_method == Request.GET:
 			response = requests.get(url, auth=basic_auth)
 		elif request_method == Request.POST:
-			if body_data:
-				response = requests.post(
-					url, data=body_data, auth=basic_auth
-				)
-			else:
-				response = requests.post(url, auth=basic_auth)
+			response = requests.post(
+				url, json=json, data=body_data, auth=basic_auth
+			)
 		elif request_method == Request.PUT:
-			if body_data:
-				response = requests.put(
-					url, data=body_data, auth=basic_auth
-				)
-			else:
-				response = requests.put(url, auth=basic_auth)
+			response = requests.put(
+				url, json=json, data=body_data, auth=basic_auth
+			)
 
 		return self._get_body(response)
 

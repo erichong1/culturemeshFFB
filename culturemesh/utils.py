@@ -142,8 +142,8 @@ def get_user_image_url(user):
   given a User object.
   """
 
-  if not user.img_link:
-    return BLANK_PROFILE_IMG
+  if not user.img_link or user.img_link == "None":
+    return BLANK_PROFILE_IMG_URL
   else:
     return USER_IMG_URL_FMT % user.img_link
 
