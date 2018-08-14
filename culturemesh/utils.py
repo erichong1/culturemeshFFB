@@ -142,10 +142,16 @@ def get_user_image_url(user):
   given a User object.
   """
 
-  if not user.img_link or user.img_link == "None":
-    return BLANK_PROFILE_IMG_URL
+  if type(user) == dict:
+    if not user['img_link'] or user['img_link'] == "None":
+      return BLANK_PROFILE_IMG_URL
+    else:
+      return USER_IMG_URL_FMT % user['img_link']
   else:
-    return USER_IMG_URL_FMT % user.img_link
+    if not user.img_link or user.img_link == "None":
+      return BLANK_PROFILE_IMG_URL
+    else:
+      return USER_IMG_URL_FMT % user.img_link
 
 def get_short_network_join_date(network):
   """Returns a short version of the user's Join

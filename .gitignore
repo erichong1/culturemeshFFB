@@ -42,3 +42,7 @@ venv
 
 # Rope Project
 *.ropeproject
+
+# Secrets #
+###########
+bin/run-debug.sh
