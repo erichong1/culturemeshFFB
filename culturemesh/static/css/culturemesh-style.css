@@ -23,6 +23,19 @@ body {
   color: white;
 }
 
+#cm-profile-username {
+  color: white;
+}
+
+#cm-profile-about-me {
+  color: white;
+}
+
+#cm-color-primary {
+  color: #EF5330;
+}
+
+
 #cm-network-title {
   color: white;
 }

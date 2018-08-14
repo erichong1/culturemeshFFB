@@ -29,7 +29,9 @@
             <h4>Events you're hosting</h2>
             <div class="p-3 text-center">
               {% if events_hosting|length == 0 %}
+                <div class="p-4 text-center">
                   You are not hosting any events.
+                </div>
               {% else %}
                   {% for event in events_hosting %}
                     <div class="py-1 row">
@@ -39,10 +41,12 @@
               {% endif %}
             </div>
         </div>
-        <div class="p-3 text-center">
+        <div class="pb-3 px-3 text-center">
           <h4>Upcoming events in your networks</h2>
             {% if upcoming_events_in_networks|length == 0 %}
+                <div class="p-4 text-center">
                   No upcoming events.
+                </div>
               {% else %}
                   {% for event in upcoming_events_in_networks %}
                     <div class="py-1 row">
@@ -54,7 +58,9 @@
         <div class="p-3 text-center">
           <h4>Your recent posts</h2>
             {% if latest_posts|length == 0 %}
-                  No recent posts.
+              <div class="p-4 text-center">
+                No recent posts.
+              </div>
             {% else %}
               <div class="p-3 container-fluid">
                 {% for post in latest_posts %}

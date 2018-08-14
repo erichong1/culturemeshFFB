@@ -71,7 +71,12 @@
   </div>
 
   {% if network_info['posts'] | length == 0 %}
-    <p class="text-center">No posts. Make one!</p>
+    <div class="p-4 text-center">
+      No posts.
+      <a class="hidden-link" id="cm-color-primary" href="/network/posts/new?id={{ network_info['id'] }}">
+        Make one.
+      </a>
+    </div>
   {% else %}
     {% for post in network_info['posts'] %}
     <div class="py-1 row">
@@ -95,7 +100,11 @@
   </div>
 
   {% if upcoming_events | length == 0 %}
-    <p class="text-center">No upcoming events. Create one!</p>
+    <div class="p-4 text-center">
+      No upcoming events. <a id="cm-color-primary" class="hidden-link" href="/network/events/new?id={{ network_info['id'] }}">
+        Create one.
+      </a>
+    </div>
   {% else %}
     {% for event in upcoming_events %}
     <div class="py-1 row">

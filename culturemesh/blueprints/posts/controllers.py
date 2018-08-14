@@ -5,13 +5,12 @@ from culturemesh.utils import get_time_ago
 from culturemesh.utils import get_network_title
 
 from culturemesh.blueprints.posts.forms.post_forms import CreatePostReplyForm
+from culturemesh.blueprints.posts.config import POST_TITLE_MAX_LEN
+from culturemesh.blueprints.posts.config import NUM_REPLIES_TO_SHOW
 
 import flask_login
 
 posts = Blueprint('posts', __name__, template_folder='templates')
-
-POST_TITLE_MAX_LEN = 10
-NUM_REPLIES_TO_SHOW = 100
 
 @posts.route("/", methods=['GET', 'POST'])
 @flask_login.login_required

@@ -25,7 +25,9 @@
   {% endfor %}
 
   {% if network_info['events']|length == 0 %}
-    <p> No more events to see. </p>
+    <div class="p-4 text-center">
+      No more events to see.
+    </div>
   {% else %}
     <div class="py-3 row">
       <div class="container-fluid">
