@@ -98,7 +98,9 @@
   <div class="p-3 cm-post-blurb">
     <div class="container">
       <div class="row">
-        <span class="cm-username-small">{{ post['username'] }}</span>
+        <a href="/u/{{ post['id_user'] }}" class="hidden-link">
+          <div class="cm-username-small">{{ post['username'] }}</div>
+        </a>
         <span class="cm-time-ago-small">{{ post['time_ago'] }}</span>
       </div>
       <div class="row py-1">
@@ -128,7 +130,9 @@
   <div class="p-3 cm-post-blurb">
     <div class="container">
       <div class="row">
-        <span class="cm-username-small">{{ post['username'] }}</span>
+        <a href="/u/{{ post['id_user'] }}" class="hidden-link">
+          <div class="cm-username-small">{{ post['username'] }}</div>
+        </a>
         <span class="cm-time-ago-small">{{ post['time_ago'] }}</span>
       </div>
       <div class="row py-1">

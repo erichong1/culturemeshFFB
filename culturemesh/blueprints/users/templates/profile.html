@@ -29,7 +29,9 @@
   <div class="p-3">
     <h4 class="text-center">{{ user['first_name'] }}'s Networks</h2>
       {% if networks|length == 0 %}
+        <div class="p-4 text-center">
           {{ user['first_name'] }} does not belong to any networks yet.
+        </div>
       {% else %}
           {% for network in networks %}
             <div class="py-1 row">
