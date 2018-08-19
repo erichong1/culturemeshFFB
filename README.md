@@ -1,6 +1,8 @@
 
 # CultureMesh for Facebook Free Basics
 
+[![Build Status](https://travis-ci.org/alanefl/culturemeshFFB.svg?branch=master)](https://travis-ci.org/alanefl/culturemeshFFB)
+
 This is a WIP adaptation of CultureMesh for Facebook's Free Basics platform.
 
 > Free Basics is part of the Internet.org by Facebook initiative -- it aims

@@ -4,4 +4,7 @@ python:
 install:
   - pip install -r requirements.txt
 script:
-  nosetests -q test/unit/client 
+  nosetests -q test/unit/client
+env:
+  - WTF_CSRF_SECRET_KEY=1234
+  - CULTUREMESH_API_KEY=1234
