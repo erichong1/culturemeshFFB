@@ -7,6 +7,7 @@
 *.o
 *.so
 *.pyc
+docs/build
 
 # Byte-compiled / optimized / DLL files
 ######################################
@@ -39,6 +40,7 @@ instance/
 #######################
 virtual/
 venv
+.env/
 
 # Rope Project
 *.ropeproject
@@ -46,3 +48,4 @@ venv
 # Secrets #
 ###########
 bin/run-debug.sh
+

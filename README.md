@@ -1,41 +1,16 @@
 
 # CultureMesh for Facebook Free Basics
 
+[![Build Status](https://travis-ci.org/alanefl/culturemeshFFB.svg?branch=master)](https://travis-ci.org/alanefl/culturemeshFFB)
+
 This is a WIP adaptation of CultureMesh for Facebook's Free Basics platform.
 
 > Free Basics is part of the Internet.org by Facebook initiative -- it aims
 > to give access to basic internet services to people around the world.
 > You can find more information about Facebook Free Basics here: https://developers.facebook.com/docs/internet-org
 
-CultureMeshFFB is a [Stanford Code the Change](https://codethechange.stanford.edu/) project.
+CultureMesh FFB started as a [Stanford Code the Change](https://codethechange.stanford.edu/) project.
 
-## Contributing
+## Documentation
 
-To get started working on this repository:
-
-	0. Clone this repository
-	1. Install pip: "sudo easy_install pip"
-	2. Install the requirements: "pip install -r requirements.txt"
-	3. Checkout a NEW BRANCH
-	4. Make changes to your new branch
-	5. Push your new branch
-	6. Open a pull request for the branch
-	7. Respond to comments / wait for approval
-	8. Merge to master!
-	9. Go to 3
-
-Read this over if you want to better understand the structure of the project: http://exploreflask.com/en/latest/organizing.html
-
-**!! Important !!**
-
-We are currently using Python 3.6.1 to run the app.
-
-Because Facebook Free Basics strives to provide services to a very wide range of phones
-and data plans, the mobile website needs to function properly without:
-
-	1. **JavaScript**
-	2. iframes
-	3. Video and large images
-	4. Flash and Java applets
-
-You can find more technical details here: https://developers.facebook.com/docs/internet-org/platform-technical-guidelines.
+We host our documentation [here](https://culturemeshffb.readthedocs.io/en/latest/) with readthedocs.org.
