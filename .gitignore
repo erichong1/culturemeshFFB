@@ -7,6 +7,7 @@
 *.o
 *.so
 *.pyc
+docs/build
 
 # Byte-compiled / optimized / DLL files
 ######################################
@@ -46,3 +47,4 @@ venv
 # Secrets #
 ###########
 bin/run-debug.sh
+
