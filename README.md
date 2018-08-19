@@ -9,7 +9,7 @@ This is a WIP adaptation of CultureMesh for Facebook's Free Basics platform.
 > to give access to basic internet services to people around the world.
 > You can find more information about Facebook Free Basics here: https://developers.facebook.com/docs/internet-org
 
-CultureMesh FFB is a [Stanford Code the Change](https://codethechange.stanford.edu/) project.
+CultureMesh FFB started as a [Stanford Code the Change](https://codethechange.stanford.edu/) project.
 
 ## Documentation
 

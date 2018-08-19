@@ -4,7 +4,7 @@ CultureMesh for Facebook Free Basics
 
 CultureMesh FFB is mobile web site for CultureMesh designed for the
 `Facebook Free Basics <https://developers.facebook.com/docs/internet-org>`_
-platform.
+platform -- you can also think of it as CultureMesh 'lite'.
 
 Because Facebook Free Basics strives to provide services to a very wide
 range of phones and data plans, the mobile website needs to function
@@ -21,6 +21,16 @@ requirements `here <https://developers.facebook.com/docs/internet-org/>`_.
 CultureMesh FFB started as
 a `Stanford Code the Change <https://codethechange.stanford.edu/>`_ project.
 
+.. toctree::
+    :caption: Table of Contents
+    :name: mastertoc
+
+    getting-started.rst
+    api-client.rst
+    deploying.rst
+    identity.rst
+    testing.rst
+
 Developer Notes
 ---------------
 
@@ -33,10 +43,3 @@ Contact
 -------
 
 ken [at] culturemesh [dot] com
-
-
-.. toctree::
-    :hidden:
-    :glob:
-
-    *

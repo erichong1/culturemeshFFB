@@ -11,5 +11,5 @@ Colors
 ======================  ========
 CultureMesh Orange      #EF5330
 CultureMesh Green       #97CB38
-CultureMesh Grey        #3c3c3c
+CultureMesh Grey        #3C3C3C
 ======================  ========
