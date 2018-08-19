@@ -5,9 +5,9 @@ Testing
 .. _unit-tests:
 
 Unit Tests
-=================
+----------
 
-.. _unit-tests:
+.. _integ-tests:
 
 Integration Tests
-=================
+-----------------

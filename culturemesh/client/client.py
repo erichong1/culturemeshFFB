@@ -109,107 +109,109 @@ class Client(object):
 
 	def _mock_request(self, url, query_params, body_params):
 		"""
-		Used in development.  Uses local data to return API responses.
+		Used in development and for unit testing.
+		Uses local data to return API responses.
 
 		Warning: VERY AD HOC.
 		"""
 
 		url_ = urlparse(url)
 		path = os.path.normpath(url_.path).split(os.sep)
+		if path[0] == '':
+			path = path[1:]
 
-		if len(path) == 2:
-			if path[1] == "users":
+		module = path[0]
+		path_len = len(path)
+
+		if path_len == 1:
+			if module == "users":
 				if body_params and "filter" in body_params and body_params["filter"]:
 					raise NotImplementedError("Sorry. Can't filter.")
 				return self._mock_get_users(query_params)
 
-			elif path[1] == "networks":
-				return self._mock_get_networks(query_params, body_params)
+		elif path_len == 2:
+			if module == "network":
 
-		elif len(path) == 3:
-			if path[1] == "user":
-				id_user = int(path[2])
-				return self._mock_get_user(id_user)
+				if path[1] == "networks":
+					return self._mock_get_networks(
+						query_params, body_params
+					)
+				else:
+					network_id = int(path[1])
+					return self._mock_get_network(network_id)
 
-			elif path[1] == "post":
-				post_id = int(path[2])
+			elif module == "post":
+				post_id = int(path[1])
 				return self._mock_get_post(post_id)
 
-			elif path[1] == "event":
-				event_id = int(path[2])
+			elif module == "user":
+				id_user = int(path[1])
+				return self._mock_get_user(id_user)
+
+			elif module == "event":
+				event_id = int(path[1])
 				return self._mock_get_event(event_id)
 
-			elif path[1] == "language":
-
-				if path[2] == "autocomplete":
+			elif module == "language":
+				if path[1] == "autocomplete":
 					input_text = query_params['input_text']
 					return self._mock_language_autocomplete(input_text)
-
 				else:
-					lang_id = int(path[2])
+					lang_id = int(path[1])
 					return self._mock_get_language(lang_id)
 
-			elif path[1] == "location":
-
-				if path[2] == "autocomplete":
+			elif module == "location":
+				if path[1] == "autocomplete":
 					input_text = query_params['input_text']
 					return self._mock_location_autocomplete(input_text)
 
-			elif path[1] == "network":
-				network_id = int(path[2])
-				return self._mock_get_network(network_id)
 
-		elif len(path) == 4:
-			if path[1] == "user":
-				if path[3] == "posts":
-					return self._mock_get_user_posts(int(path[2]), query_params)
+		elif path_len == 3:
+			if module == "post":
+				if path[2] == "replies":
+					return self._mock_get_post_replies(int(path[1]), query_params)
 
-				elif path[3] == "events":
+			elif module == "user":
+				if path[2] == "posts":
+					return self._mock_get_user_posts(int(path[1]), query_params)
+
+				elif path[2] == "events":
 					if query_params['role'] != "hosting":
 						raise NotImplementedError("Currently, can only get events a user is hosting.")
-					return self._mock_get_user_events_hosting(int(path[2]), query_params)
+					return self._mock_get_user_events_hosting(int(path[1]), query_params)
 
-				elif path[3] == "networks":
-					return self._mock_get_user_networks(int(path[2]), query_params)
+				elif path[2] == "networks":
+					return self._mock_get_user_networks(int(path[1]), query_params)
 
-			elif path[1] == "post":
-				if path[3] == "replies":
-					return self._mock_get_post_replies(int(path[2]), query_params)
-
-			elif path[1] == "event":
-				if path[3] == "reg":
-					event_id = int(path[2])
-					return self._mock_get_event_registration(event_id, query_params)
-
-			elif path[1] == "location":
-
-				if path[2] == "cities":
-					city_id = int(path[3])
+			elif module == "location":
+				if path[1] == "cities":
+					city_id = int(path[2])
 					return self._mock_get_city(city_id)
 
-				elif path[2] == "regions":
-					region_id = int(path[3])
+				elif path[1] == "regions":
+					region_id = int(path[2])
 					return self._mock_get_region(region_id)
 
-				elif path[2] == "countries":
-					country_id = int(path[3])
+				elif path[1] == "countries":
+					country_id = int(path[2])
 					return self._mock_get_country(country_id)
 
-			elif path[1] == "network":
-				if path[3] == "users":
-					return self._mock_get_network_users(int(path[2]), query_params)
+			elif module == "event":
+				if path[2] == "reg":
+					event_id = int(path[1])
+					return self._mock_get_event_registration(event_id, query_params)
 
-				elif path[3] == "posts":
-					return self._mock_get_network_posts(int(path[2]), query_params)
+			elif module == "network":
+				if path[2] == "posts":
+					return self._mock_get_network_posts(int(path[1]), query_params)
+				elif path[2] == "events":
+					return self._mock_get_network_events(int(path[1]), query_params)
+				elif path[2] == "users":
+					return self._mock_get_network_users(int(path[1]), query_params)
 
-				elif path[3] == "events":
-					return self._mock_get_network_events(int(path[2]), query_params)
-			else:
-				pass
-		elif len(path) == 5:
-			pass
-
-		raise NotImplementedError("Sorry.  Can't get that mock data yet!")
+		raise NotImplementedError(
+			"Sorry.  Can't get mock data for path '%s'" % "/".join(path)
+		)
 
 	def _mock_str_to_date(self, str_):
 		return datetime.datetime.strptime(str_, config.DATETIME_FMT_STR)
@@ -266,9 +268,11 @@ class Client(object):
 				return []
 
 			# Sort in reverse join-date order, i.e. latest joins go first
-			user_network_regs = sorted(user_network_regs,
-																	key=lambda x: self._mock_str_to_date(x['join_date']),
-																	reverse=True)
+			user_network_regs = sorted(
+				user_network_regs,
+				key=lambda x: self._mock_str_to_date(x['join_date']),
+				reverse=True
+			)
 
 			max_date = self._mock_str_to_date(user_network_regs[0]['join_date'])
 			if 'max_register_date' in query_params:
@@ -438,7 +442,7 @@ class Client(object):
 			network_posts = []
 			posts = json.load(posts)
 			for p in posts:
-				if p['network_id'] == network_id:
+				if p['id_network'] == network_id:
 					network_posts.append(p)
 			return self._pagination(query_params, objects=network_posts, key='id')
 
@@ -450,7 +454,7 @@ class Client(object):
 			network_events = []
 			events = json.load(events)
 			for p in events:
-				if p['network_id'] == network_id:
+				if p['id_network'] == network_id:
 					network_events.append(p)
 			return self._pagination(query_params, objects=network_events, key='id')
 
@@ -485,7 +489,7 @@ class Client(object):
 			post_replies_ = []
 			post_replies = json.load(post_replies)
 			for p in post_replies:
-				if p['parent_id'] == post_id:
+				if p['id_parent'] == post_id:
 					post_replies_.append(p)
 
 			if len(post_replies_) == 0:
@@ -604,7 +608,6 @@ class Client(object):
 		Returns mock autocomplete entries for language input.
 		"""
 		return input_text + " + [language autocompleted text]"
-
 
 """ Register the client with the API functions. """
 from .accounts import get_token
