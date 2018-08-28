@@ -50,7 +50,7 @@ def join_network():
   form = NetworkJoinForm(request.form)
   c = Client(mock=False)
   if form.validate():
-    c.add_user_to_network(id_user, id_network)
+    c.join_network(current_user, id_network)
 
   network_info = gather_network_info(id_network, id_user, c, "join")
   return render_template(

@@ -40,6 +40,7 @@ class Request(IntEnum):
 	GET = 1
 	POST = 2
 	PUT = 3
+	DELETE = 4
 
 class Client(object):
 	"""Talks directly to the CultureMesh API.
@@ -89,7 +90,10 @@ class Client(object):
 			response = requests.put(
 				url, json=json, data=body_data, auth=basic_auth
 			)
-
+		elif request_method == Request.DELETE:
+			response = requests.delete(
+				url, json=json, data=body_data, auth=basic_auth
+			)
 		return self._get_body(response)
 
 	def _get_body(self, response):
@@ -635,8 +639,10 @@ from .users import get_user_networks
 from .users import get_user_posts
 from .users import get_user_events
 from .users import create_user
-from .users import add_user_to_event
-from .users import add_user_to_network
+from .users import join_event
+from .users import leave_event
+from .users import join_network
+from .users import leave_network
 from .users import update_user
 from .networks import ping_network
 from .networks import get_networks
@@ -675,8 +681,10 @@ Client.get_user_networks = get_user_networks
 Client.get_user_posts = get_user_posts
 Client.get_user_events = get_user_events
 Client.create_user = create_user
-Client.add_user_to_event = add_user_to_event
-Client.add_user_to_network = add_user_to_network
+Client.join_event = join_event
+Client.leave_event = leave_event
+Client.join_network = join_network
+Client.leave_network = leave_network
 Client.update_user = update_user
 Client.ping_network = ping_network
 Client.get_networks = get_networks

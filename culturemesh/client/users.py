@@ -97,27 +97,58 @@ def create_user(client, user):
 	url = 'user/users'
 	return client._request(url, Request.POST, json=user)
 
-def add_user_to_event(client, userId, eventId):
+def join_event(client, current_user, eventId):
 	"""
 	:param client: the CultureMesh API client
-	:param userId: The id of the user to to add
+	:param current_user: The current user object
 	:param eventId: The id of the event to register this user to
 
 	Registers a user to a attend an event.
 	"""
-	url = 'user/%s/addToEvent/%s' % (str(userId), str(eventId))
-	return client._request(url, Request.POST)
+	url = 'user/joinEvent/%s' % (str(userId), str(eventId))
+	basic_auth = (str(current_user.api_token), "")
+	return client._request(url, Request.POST, basic_auth=basic_auth)
 
-def add_user_to_network(client, userId, networkId):
+def join_network(client, current_user, network_id):
 	"""
 	:param client: the CultureMesh API client
-	:param userId: The id of the user to add
+	:param current_user: The current user object
 	:param networkId: The id of the network to add user to
 
 	Adds a user to a network.
 	"""
-	url = 'user/%s/addToNetwork/%s' % (str(userId), str(networkId))
-	return client._request(url, Request.POST)
+	url = 'user/joinNetwork/%s' % str(network_id)
+	basic_auth = (str(current_user.api_token), "")
+	return client._request(url, Request.POST, basic_auth=basic_auth)
+
+# TODO: move to DELETE after API is updated.
+def leave_event(client, current_user, event_id):
+	"""
+	:param client: the CultureMesh API client
+	:param current_user: The current user object
+	:param event_id: The id of the event to leave
+
+	Removes a user from an event.
+	"""
+	url = 'user/leaveEvent/%s' % str(event_id)
+	basic_auth = (str(current_user.api_token), "")
+	return client._request(url, Request.POST, basic_auth=basic_auth)
+
+
+####################### DELETE methods ####################
+
+def leave_network(client, current_user, network_id):
+	"""
+	:param client: the CultureMesh API client
+	:param current_user: The current user object
+	:param network_id: The id of the network to leave
+
+	Removes a user from a network.
+	"""
+	url = 'user/leaveNetwork/%s' % str(network_id)
+	basic_auth = (str(current_user.api_token), "")
+	return client._request(url, Request.DELETE, basic_auth=basic_auth)
+
 
 ####################### PUT methods #######################
 
