@@ -208,7 +208,18 @@ def create_new_post():
     id_network = request.args.get('id')
     user_id = current_user.id
     network = c.get_network(id_network)
-    network_title = get_network_title(network)
+    network_info = gather_network_info(id_network, user_id, c)
+
+    if not network_info['user_is_member']:
+      return render_template(
+        'network_create_event_post_not_member.html',
+        curr_user_id=user_id,
+        id_network=id_network,
+        network_info=network_info,
+        form=NetworkJoinForm()
+    )
+
+    network_title = network_info['network_title']
     error_msg = None
 
     if request.method == 'GET':
@@ -253,7 +264,18 @@ def create_new_event():
     id_network = request.args.get('id')
     user_id = current_user.id
     network = c.get_network(id_network)
-    network_title = get_network_title(network)
+    network_info = gather_network_info(id_network, user_id, c)
+
+    if not network_info['user_is_member']:
+      return render_template(
+        'network_create_event_post_not_member.html',
+        curr_user_id=user_id,
+        id_network=id_network,
+        network_info=network_info,
+        form=NetworkJoinForm()
+    )
+
+    network_title = network_info['network_title']
     error_msg = None
 
     if request.method == 'GET':
