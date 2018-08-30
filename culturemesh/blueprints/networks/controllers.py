@@ -14,6 +14,7 @@ from utils import parse_date
 from culturemesh.blueprints.networks.forms.network_forms import NetworkJoinForm
 from culturemesh.blueprints.networks.forms.network_forms import CreatePostForm
 from culturemesh.blueprints.networks.forms.network_forms import CreateEventForm
+from culturemesh.blueprints.networks.forms.network_forms import NetworkLeaveForm
 
 from culturemesh.blueprints.networks.utils import gather_network_info
 
@@ -53,17 +54,6 @@ def join_network():
     c.join_network(current_user, id_network)
 
   network_info = gather_network_info(id_network, id_user, c, "join")
-  return render_template(
-    'network.html', network_info=network_info, form=NetworkJoinForm()
-  )
-
-@networks.route("/leave", methods=['POST'])
-@flask_login.login_required
-def leave_network():
-  id_network = request.args.get('id')
-  c = Client(mock=False)
-  id_user = current_user.id
-  network_info = gather_network_info(id_network, id_user, c, "leave")
   return render_template(
     'network.html', network_info=network_info, form=NetworkJoinForm()
   )
@@ -323,6 +313,37 @@ def create_new_event():
       form=new_form,
       error_msg=error_msg
     )
+
+@networks.route("/leave", methods=['GET', 'POST'])
+@flask_login.login_required
+def leave():
+    c = Client(mock=False)
+    id_network = request.args.get('id')
+    user_id = current_user.id
+    network = c.get_network(id_network)
+    network_info = gather_network_info(id_network, user_id, c)
+
+    if request.method == 'GET':
+      if not network_info['user_is_member']:
+        return redirect(
+          url_for('networks.network') + "?id=%s" % str(id_network)
+        )
+      return render_template(
+        'network_leave.html',
+        id_network=id_network,
+        network_title=network_info['network_title'],
+        form=NetworkLeaveForm()
+      )
+    elif request.method == 'POST':
+      if network_info['user_is_member']:
+        # Delete all events that this user is hosting in this network.
+        # Unregister this user from all events that they are attending in
+        # this network.
+        pass
+      return redirect(
+          url_for('user_home.render_user_home_networks')
+      )
+
 
 @networks.route("/ping")
 @flask_login.login_required

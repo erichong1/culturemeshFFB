@@ -121,7 +121,8 @@ def join_network(client, current_user, network_id):
 	basic_auth = (str(current_user.api_token), "")
 	return client._request(url, Request.POST, basic_auth=basic_auth)
 
-# TODO: move to DELETE after API is updated.
+####################### DELETE methods ####################
+
 def leave_event(client, current_user, event_id):
 	"""
 	:param client: the CultureMesh API client
@@ -132,10 +133,7 @@ def leave_event(client, current_user, event_id):
 	"""
 	url = 'user/leaveEvent/%s' % str(event_id)
 	basic_auth = (str(current_user.api_token), "")
-	return client._request(url, Request.POST, basic_auth=basic_auth)
-
-
-####################### DELETE methods ####################
+	return client._request(url, Request.DELETE, basic_auth=basic_auth)
 
 def leave_network(client, current_user, network_id):
 	"""

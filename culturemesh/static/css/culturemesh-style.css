@@ -123,6 +123,13 @@ body {
   color:#EF5330;
 }
 
+#cm-leave-network-button {
+  background-color:#c71100;
+  color: white;
+  -webkit-appearance: none;
+  width: 66%;
+}
+
 #cm-join-network-button {
   background-color:#EF5330;
   color: white;
@@ -538,6 +545,11 @@ body {
 
 .hidden-link, .hidden-link:visited {
   color: black;
+  text-decoration: none;
+}
+
+.red {
+  color: #c71100;
   text-decoration: none;
 }
 

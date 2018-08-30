@@ -7,6 +7,9 @@ from wtforms.validators import InputRequired
 class NetworkJoinForm(FlaskForm):
     submit = SubmitField('Join Network')
 
+class NetworkLeaveForm(FlaskForm):
+    submit = SubmitField('Yes, Leave Network')
+
 class CreatePostForm(FlaskForm):
     post_content = StringField(
       'post_content', validators=[
