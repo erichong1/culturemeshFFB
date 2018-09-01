@@ -49,7 +49,7 @@ def render_post():
         'reply_text': post_reply_content
       }
 
-      c.create_post_reply(current_post_id, reply)
+      c.create_post_reply(current_user, current_post_id, reply)
       return redirect(
         url_for('posts.render_post') + "?id=%s" % str(current_post_id)
       )

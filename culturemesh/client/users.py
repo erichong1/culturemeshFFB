@@ -2,9 +2,9 @@
 # CultureMesh Users API
 #
 
-####################### GET methods #######################
-
 from .client import Request
+
+####################### GET methods #######################
 
 def ping_user(client):
     url = 'user/ping'
@@ -74,7 +74,7 @@ def get_user_events(client, user_id, role, count, max_id=None):
 	"""
 	:param client: the CultureMesh API client
 	:param userId: The id of the user to return events for.
-	:param role: can be "hosting" or "attending"
+	:param role: can be "host" or "guest"
 
 	Returns list of events related to USER_ID, according to ROLE.
 	"""
@@ -83,6 +83,12 @@ def get_user_events(client, user_id, role, count, max_id=None):
 	if max_id is not None:
 		query_params['max_id'] = max_id
 	return client._request(url, Request.GET, query_params=query_params)
+
+def get_user_events_hosting(client, user_id, count, max_id=None):
+	return get_user_events(client, user_id, "host", count, max_id)
+
+def get_user_events_attending(client, user_id, count, max_id=None):
+	return get_user_events(client, user_id, "guest", count, max_id)
 
 
 ####################### POST methods #######################

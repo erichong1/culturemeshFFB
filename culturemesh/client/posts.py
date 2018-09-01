@@ -3,7 +3,6 @@
 #
 
 from .client import Request
-from .client import KEY
 
 ####################### GET methods #######################
 
@@ -50,23 +49,54 @@ def get_post_reply_count(client, postId):
 
 ####################### POST methods #######################
 
-def create_post(client, post):
+def create_post(client, current_user, post):
 	"""
 	:param client: the CultureMesh API client
+	:param current_user: The current user object
 	:param post: JSON of post to create.
 
 	Creates a new post.
 	"""
 	url = 'post/new'
-	return client._request(url, Request.POST, body_data=post)
+	basic_auth = (str(current_user.api_token), "")
+	return client._request(
+		url, Request.POST, body_data=post, basic_auth=basic_auth
+	)
 
-def create_post_reply(client, postId, reply):
+def create_post_reply(client, current_user, postId, reply):
 	"""
 	:param client: the CultureMesh API client
+	:param current_user: The current user object
 	:param postId: the id of the post to reply to
 	:param reply: JSON of the reply to post
 
 	Posts a reply to a post by ID.
 	"""
 	url = 'post/%s/reply' % str(postId)
-	return client._request(url, Request.POST, body_data=reply)
+	basic_auth = (str(current_user.api_token), "")
+	return client._request(
+		url, Request.POST, body_data=reply, basic_auth=basic_auth
+	)
+
+####################### PUT methods #######################
+
+def update_post(client, post):
+	"""
+    :param client: the CultureMesh API client
+    :param post: JSON of post with updates.
+
+    Updates a post.
+	"""
+	url = 'post/new'
+	return client._request(url, Request.PUT, body_data=post)
+
+def update_post_reply(client, postId, reply):
+	"""
+	:param client: the CultureMesh API client
+	:param postId: the id of the post to reply to
+	:param reply: JSON of the reply to update
+
+	Update a post reply.
+	"""
+	url = 'post/%s/reply' % str(postId)
+	return client._request(url, Request.PUT, body_data=reply)

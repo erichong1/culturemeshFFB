@@ -3,7 +3,6 @@
 #
 
 from .client import Request
-from .client import KEY
 
 ####################### GET methods #######################
 
@@ -33,10 +32,27 @@ def get_event_registration_list(client, eventId, count, max_register_date=None):
 	"""
 	url = '/event/%s/reg' % str(eventId)
 	query_params = {'count': count}
-	if max_register_date is not None:
+	if max_register_date:
 		query_params['max_register_date'] = max_register_date
 
 	# TODO: need to URL escape the query parameters with spaces.
+	return client._request(url, Request.GET, query_params=query_params)
+
+def get_events_attending_in_network(client, current_user,
+									network_id, count, max_id=None):
+	"""
+	:param client: the CultureMesh API client
+	:param network_id: the id of the event to fetch
+	:param count: the max number of results to return
+	:param max_id: the maximum id, inclusive, to return events for.
+
+	Returns events the current user is attending in this network.
+	"""
+	url = '/event/userEventsForNetwork/%s' % str(network_id)
+	query_params = {'count': count}
+	if max_id:
+		query_params['max_id'] = max_id
+	basic_auth = (str(current_user.api_token), "")
 	return client._request(url, Request.GET, query_params=query_params)
 
 ####################### POST methods #######################

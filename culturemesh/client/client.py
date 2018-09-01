@@ -632,12 +632,15 @@ from .posts import get_post_replies
 from .posts import get_post_reply_count
 from .posts import create_post
 from .posts import create_post_reply
+from .posts import update_post
+from .posts import update_post_reply
 from .users import ping_user
 from .users import get_users
 from .users import get_user
 from .users import get_user_networks
 from .users import get_user_posts
-from .users import get_user_events
+from .users import get_user_events_hosting
+from .users import get_user_events_attending
 from .users import create_user
 from .users import join_event
 from .users import leave_event
@@ -674,12 +677,15 @@ Client.get_post_replies = get_post_replies
 Client.get_post_reply_count = get_post_reply_count
 Client.create_post = create_post
 Client.create_post_reply = create_post_reply
+Client.update_post = update_post
+Client.update_post_reply = update_post_reply
 Client.ping_user = ping_user
 Client.get_users = get_users
 Client.get_user = get_user
 Client.get_user_networks = get_user_networks
 Client.get_user_posts = get_user_posts
-Client.get_user_events = get_user_events
+Client.get_user_events_hosting = get_user_events_hosting
+Client.get_user_events_attending = get_user_events_attending
 Client.create_user = create_user
 Client.join_event = join_event
 Client.leave_event = leave_event

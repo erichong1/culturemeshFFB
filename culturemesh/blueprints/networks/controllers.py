@@ -228,7 +228,7 @@ def create_new_post():
           'img_link': ""
         }
 
-        c.create_post(post)
+        c.create_post(current_user, post)
         return redirect(
           url_for('networks.network_posts') + "?id=%s" % str(id_network)
         )

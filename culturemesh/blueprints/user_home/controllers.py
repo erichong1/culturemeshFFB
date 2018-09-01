@@ -31,12 +31,17 @@ def render_user_home():
 
   c = Client(mock=False)
   user.img_url = get_user_image_url(user)
-  events_hosting = c.get_user_events(
-    user.id, "hosting", NUM_EVENT_HOSTING_TO_DISPLAY
+  events_hosting = c.get_user_events_hosting(
+    user.id, NUM_EVENT_HOSTING_TO_DISPLAY
   )
+
+  # TODO: only show those that haven't happened.
 
   for event in events_hosting:
     utils.enhance_event_date_info(event)
+    event['network_title'] = get_network_title(
+      c.get_network(event['id_network'])
+    )
 
   latest_posts = c.get_user_posts(user.id, NUM_LATEST_POSTS_TO_DISPLAY)
 
@@ -133,11 +138,16 @@ def render_user_home_events():
   user_id = user.id
   user.img_url = get_user_image_url(user)
 
+  # TODO: show events you are hosting, and the ability deleting them.
+
+  # TODO: show events you are attending, and the ability to deregister
+  #       from them
+
   if user is None:
     return page_not_found("")
 
-  events_hosting = c.get_user_events(
-    user_id, "hosting", NUM_EVENT_HOSTING_TO_DISPLAY
+  events_hosting = c.get_user_events_hosting(
+    user_id, NUM_EVENT_HOSTING_TO_DISPLAY
   )
   if events_hosting is None:
     return page_not_found("")
