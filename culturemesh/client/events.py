@@ -53,7 +53,9 @@ def get_events_attending_in_network(client, current_user,
 	if max_id:
 		query_params['max_id'] = max_id
 	basic_auth = (str(current_user.api_token), "")
-	return client._request(url, Request.GET, query_params=query_params)
+	return client._request(
+		url, Request.GET, query_params=query_params, basic_auth=basic_auth
+	)
 
 ####################### POST methods #######################
 
@@ -78,3 +80,20 @@ def update_event(client, event):
 	"""
 	url = 'event/new'
 	return client._request(url, Request.PUT, body_data=event)
+
+####################### DELETE methods #######################
+
+def delete_event(client, current_user, event_id):
+	"""
+	:param client: the CultureMesh API client
+	:param current_user: the current user object
+	:param event_id: the id of the event to delete.
+
+	Deletes an event and unregisters everyone from it.
+	"""
+	url = 'event/delete'
+	query_params = {'id': str(event_id)}
+	basic_auth = (str(current_user.api_token), "")
+	return client._request(
+		url, Request.DELETE, query_params=query_params, basic_auth=basic_auth
+	)

@@ -30,11 +30,6 @@ def network():
   network_info = gather_network_info(id_network, id_user, c)
 
   upcoming_events = get_upcoming_events_by_network(c, id_network, 3)
-  for event in upcoming_events:
-    utils.enhance_event_date_info(event)
-    event['network_title'] = get_network_title(
-      c.get_network(event['id_network'])
-    )
 
   return render_template(
     'network.html',
@@ -336,8 +331,8 @@ def leave():
       )
     elif request.method == 'POST':
       if network_info['user_is_member']:
-        # Delete all events that this user is hosting in this network.
-        # Unregister this user from all events that they are attending in
+        # TODO: Delete all events that this user is hosting in this network.
+        # TODO: Unregister this user from all events that they are attending in
         # this network.
         pass
       return redirect(

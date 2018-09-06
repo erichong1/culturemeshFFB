@@ -25,6 +25,8 @@
     </div>
     {% block dashboard_content %}
     <div class="p-3 container">
+
+        <!-- Hosting -->
         <div class="p-3 text-center">
           <h4 class="pb-3">Upcoming events you're <strong>hosting</strong></h2>
           {% if events_hosting|length == 0 %}
@@ -39,20 +41,24 @@
               {% endfor %}
           {% endif %}
         </div>
+
+        <!-- Attending -->
         <div class="pb-3 px-3 text-center">
           <h4 class="pb-3">Upcoming events you're <strong>attending</strong></h2>
-          {% if upcoming_events_in_networks|length == 0 %}
+          {% if events_attending|length == 0 %}
               <div class="p-4 text-center">
-                You have no upcoming events.
+                You are not attending any upcoming events.
               </div>
             {% else %}
-                {% for event in upcoming_events_in_networks %}
+                {% for event in events_attending %}
                   <div class="py-1 row">
                     {{ eventblurbwithnetwork(event) }}
                   </div>
                 {% endfor %}
             {% endif %}
         </div>
+
+        <!-- Other -->
         <div class="pb-3 px-3 text-center">
           <h4 class="pb-3">Other events in your networks</h2>
             {% if upcoming_events_in_networks|length == 0 %}
@@ -67,6 +73,8 @@
                   {% endfor %}
               {% endif %}
         </div>
+
+        <!-- Posts -->
         <div class="p-3 text-center">
           <h4>Recent posts</h2>
             {% if latest_posts|length == 0 %}

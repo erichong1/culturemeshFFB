@@ -620,6 +620,7 @@ from .events import get_event
 from .events import get_event_registration_list
 from .events import create_event
 from .events import update_event
+from .events import delete_event
 from .languages import get_language
 from .languages import language_autocomplete
 from .locations import get_city
@@ -642,7 +643,8 @@ from .users import get_user_posts
 from .users import get_user_events_hosting
 from .users import get_user_events_attending
 from .users import create_user
-from .users import join_event
+from .users import join_event_as_host
+from .users import join_event_as_guest
 from .users import leave_event
 from .users import join_network
 from .users import leave_network
@@ -665,6 +667,7 @@ Client.get_event = get_event
 Client.get_event_registration_list = get_event_registration_list
 Client.create_event = create_event
 Client.update_event = update_event
+Client.delete_event = delete_event
 Client.get_language = get_language
 Client.language_autocomplete = language_autocomplete
 Client.get_city = get_city
@@ -687,7 +690,8 @@ Client.get_user_posts = get_user_posts
 Client.get_user_events_hosting = get_user_events_hosting
 Client.get_user_events_attending = get_user_events_attending
 Client.create_user = create_user
-Client.join_event = join_event
+Client.join_event_as_guest = join_event_as_guest
+Client.join_event_as_host = join_event_as_host
 Client.leave_event = leave_event
 Client.join_network = join_network
 Client.leave_network = leave_network

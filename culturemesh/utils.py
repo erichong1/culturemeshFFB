@@ -13,6 +13,7 @@ from datetime import datetime, timezone
 
 from utils import parse_date
 from utils import get_month_abbr
+from utils import enhance_event_date_info
 
 utc=pytz.UTC
 
@@ -77,48 +78,6 @@ def populate_network_with_location_names(client, network):
     network[location]['region_name'] = client.get_region(
         network[location]['region_id']
     )['name']
-
-def get_upcoming_events_by_user(client, user_id, count):
-  """Return up to 'count' events that are in the user's
-  networks and which are upcoming, sorted by how close they
-  are to today
-  """
-
-  upcoming_events = []
-  networks = client.get_user_networks(user_id, 200)
-  for network in networks:
-    events = client.get_network_events(network['id'], 10)
-    upcoming_events += events
-
-  upcoming_events = [
-    e for e in upcoming_events \
-      if parse_date(e['event_date']) \
-        >= utc.localize(datetime.now())
-  ]
-
-  upcoming_events = sorted(
-    upcoming_events, key=lambda x: parse_date(x['event_date'])
-  )
-
-  return upcoming_events[:min(len(upcoming_events), count)]
-
-def get_upcoming_events_by_network(client, network_id, count):
-  """Return up to 'count' events that are in a
-  network and which are upcoming, sorted by how close they
-  are to today"""
-
-  upcoming_events = client.get_network_events(network_id, 200)
-  upcoming_events = [
-    e for e in upcoming_events \
-      if parse_date(e['event_date']) \
-        >= utc.localize(datetime.now())
-  ]
-  upcoming_events = sorted(
-    upcoming_events, key=lambda x: parse_date(x['event_date'])
-  )
-
-  return upcoming_events[:min(len(upcoming_events), count)]
-
 
 def get_event_location(event):
   """Returns a string for where this event
@@ -246,3 +205,89 @@ def get_time_ago(past_time):
     return str(years) + " year ago"
   else:
     return str(years) + " years ago"
+
+
+############### EVENTS ################
+
+def enhance_event_info(client, events):
+    for event in events:
+        enhance_event_date_info(event)
+        event['network_title'] = get_network_title(
+          client.get_network(event['id_network'])
+        )
+    return events
+
+def trim_and_sort_events(events):
+  """Sorts given events by event date, and
+  trims those that are past today.
+  """
+  events = [
+      e for e in events \
+        if parse_date(e['event_date']) \
+          >= utc.localize(datetime.now())
+    ]
+
+  events = sorted(
+    events, key=lambda x: parse_date(x['event_date'])
+  )
+  return events
+
+def get_upcoming_events_by_user(client, user_id, count):
+  """Return up to 'count' events that are in the user's
+  networks and which are upcoming, sorted by how close they
+  are to today
+  """
+  upcoming_events = []
+  networks = client.get_user_networks(user_id, 200)
+  for network in networks:
+    events = client.get_network_events(network['id'], 10)
+    upcoming_events += events
+
+  upcoming_events = trim_and_sort_events(upcoming_events)
+
+  return enhance_event_info(
+    client, upcoming_events[:min(len(upcoming_events), count)]
+  )
+
+def get_upcoming_events_by_user_hosting(client, user_id, count):
+  """Return up to 'count' events that a user is hosting
+  in the future, sorted by how close they
+  are to today
+  """
+  upcoming_events = client.get_user_events_hosting(user_id, 50)
+  upcoming_events = trim_and_sort_events(upcoming_events)
+  return enhance_event_info(
+    client, upcoming_events[:min(len(upcoming_events), count)]
+  )
+
+
+def get_upcoming_events_by_user_attending(client, user_id, count):
+  """Return up to 'count' events that a user is attending
+  in the future, sorted by how close they
+  are to today
+  """
+  upcoming_events = client.get_user_events_attending(user_id, 50)
+  upcoming_events = trim_and_sort_events(upcoming_events)
+  return enhance_event_info(
+    client, upcoming_events[:min(len(upcoming_events), count)]
+  )
+
+def get_upcoming_events_by_network(client, network_id, count):
+  """Return up to 'count' events that are in a
+  network and which are upcoming, sorted by how close they
+  are to today"""
+  upcoming_events = client.get_network_events(network_id, 50)
+  upcoming_events = trim_and_sort_events(upcoming_events)
+  return enhance_event_info(
+    client, upcoming_events[:min(len(upcoming_events), count)]
+  )
+
+def user_is_attending_event(client, user_id, event):
+  """Returns true if the given user is attending the given event
+  object. Assumes no more than 500 people are registered for an event.
+  """
+  event_registration_list = client.get_event_registration_list(event['id'], 500)
+  for reg in event_registration_list:
+    if user_id == reg['id_guest']:
+      return True
+  return False

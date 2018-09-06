@@ -103,17 +103,37 @@ def create_user(client, user):
 	url = 'user/users'
 	return client._request(url, Request.POST, json=user)
 
-def join_event(client, current_user, eventId):
+def join_event_as_guest(client, current_user, event_id):
 	"""
 	:param client: the CultureMesh API client
 	:param current_user: The current user object
 	:param eventId: The id of the event to register this user to
 
-	Registers a user to a attend an event.
+	Registers a user to a attend an event as a guest.
 	"""
-	url = 'user/joinEvent/%s' % (str(userId), str(eventId))
+	url = 'user/joinEvent/%s' % str(event_id)
 	basic_auth = (str(current_user.api_token), "")
-	return client._request(url, Request.POST, basic_auth=basic_auth)
+	query_params = {}
+	query_params['role'] = "guest"
+	return client._request(
+		url, Request.POST, basic_auth=basic_auth, query_params=query_params
+	)
+
+def join_event_as_host(client, current_user, event_id):
+	"""
+	:param client: the CultureMesh API client
+	:param current_user: The current user object
+	:param eventId: The id of the event to register this user to
+
+	Registers a user to a attend an event as a host.
+	"""
+	url = 'user/joinEvent/%s' % str(event_id)
+	basic_auth = (str(current_user.api_token), "")
+	query_params = {}
+	query_params['role'] = "host"
+	return client._request(
+		url, Request.POST, basic_auth=basic_auth, query_params=query_params
+	)
 
 def join_network(client, current_user, network_id):
 	"""

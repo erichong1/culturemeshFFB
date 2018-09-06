@@ -44,6 +44,10 @@ body {
   color: white;
 }
 
+#cm-event-message {
+  color: white;
+}
+
 #cm-signinfb-button {
   background-color: #3c3c3c;
 }
@@ -124,6 +128,20 @@ body {
 }
 
 #cm-leave-network-button {
+  background-color:#c71100;
+  color: white;
+  -webkit-appearance: none;
+  width: 66%;
+}
+
+#cm-join-button {
+  background-color:#EF5330;
+  color: white;
+  -webkit-appearance: none;
+  width: 66%;
+}
+
+#cm-leave-button {
   background-color:#c71100;
   color: white;
   -webkit-appearance: none;
@@ -235,6 +253,10 @@ body {
 }
 
 #cm-event-description-title {
+  border-bottom: 1px solid #CBCBCB;
+}
+
+#cm-event-information-title {
   border-bottom: 1px solid #CBCBCB;
 }
 
@@ -391,6 +413,17 @@ body {
   font-size: small;
   border-top: 1px solid #ccc;
 }
+
+.cm-green-blurb {
+  border-style: solid;
+  border-width: 1px;
+  border-color: #CBCBCB;
+  border-radius: 4px;
+  box-shadow: 1px 1px #ccc;
+  width: 100%;
+  background-color: #f1f8e6;
+}
+
 
 .cm-event-blurb {
   border-style: solid;
