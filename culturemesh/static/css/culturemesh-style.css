@@ -465,6 +465,10 @@ body {
   text-align: left;
   font-weight: bold;
   font-size: .9em;
+  padding: 0px;
+  margin: 0px;
+  padding-bottom: 3px;
+  margin-bottom: 3px;
 }
 
 .cm-blurb-subtitle {
@@ -472,6 +476,15 @@ body {
   letter-spacing: 1px;
   font-size: .8em;
   color: #ccc;
+  padding-bottom: 1em;
+}
+
+.cm-blurb-subsubtitle {
+  text-align: left;
+  letter-spacing: 0.7px;
+  font-size: .6em;
+  padding: 0px;
+  margin: 0px;
 }
 
 .cm-blurb-date {

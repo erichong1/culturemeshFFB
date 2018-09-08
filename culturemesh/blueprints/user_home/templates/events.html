@@ -1,4 +1,4 @@
-{% from "macros.html" import eventblurbwithdelete %}
+{% from "macros.html" import eventblurb %}
 {% extends "dashboard.html" %}
 
   {% block dashboard_content %}
@@ -14,7 +14,7 @@
         {% else %}
             {% for event in events_hosting %}
               <div class="py-1 row">
-                {{ eventblurbwithdelete(event) }}
+                {{ eventblurb(event) }}
               </div>
             {% endfor %}
         {% endif %}
@@ -32,7 +32,7 @@
         {% else %}
             {% for event in events_attending %}
               <div class="py-1 row">
-                {{ eventblurbwithdelete(event) }}
+                {{ eventblurb(event) }}
               </div>
             {% endfor %}
         {% endif %}

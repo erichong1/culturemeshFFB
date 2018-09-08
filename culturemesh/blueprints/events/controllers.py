@@ -32,6 +32,7 @@ def render_events():
     event = c.get_event(current_event_id)
     date_info = {}
     enhance_event_date_info(event)
+    event['num_registered'] = c.get_event_reg_count(event['id'])['reg_count']
 
     network = c.get_network(event['id_network'])
     event['network_title'] = get_network_title(network)

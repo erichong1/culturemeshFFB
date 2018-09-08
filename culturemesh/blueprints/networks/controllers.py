@@ -91,6 +91,7 @@ def network_events() :
 
   for event in events:
     utils.enhance_event_date_info(event)
+    event['num_registered'] = c.get_event_reg_count(event['id'])['reg_count']
 
   id_user = current_user.id
   user_networks = c.get_user_networks(id_user, count=100)

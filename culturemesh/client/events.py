@@ -57,6 +57,16 @@ def get_events_attending_in_network(client, current_user,
 		url, Request.GET, query_params=query_params, basic_auth=basic_auth
 	)
 
+def get_event_reg_count(client, event_id):
+	"""
+	:param client: the CultureMesh API client
+	:param event_id: the id of the event to fetch the registration count for.
+
+	Returns the number of people registered for an event.
+	"""
+	url = '/event/%s/reg_count' % str(event_id)
+	return client._request(url, Request.GET)
+
 ####################### POST methods #######################
 
 def create_event(client, event):

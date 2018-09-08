@@ -618,6 +618,7 @@ from .accounts import get_token
 from .events import ping_event
 from .events import get_event
 from .events import get_event_registration_list
+from .events import get_event_reg_count
 from .events import create_event
 from .events import update_event
 from .events import delete_event
@@ -665,6 +666,7 @@ Client.get_token = get_token
 Client.ping_event = ping_event
 Client.get_event = get_event
 Client.get_event_registration_list = get_event_registration_list
+Client.get_event_reg_count = get_event_reg_count
 Client.create_event = create_event
 Client.update_event = update_event
 Client.delete_event = delete_event

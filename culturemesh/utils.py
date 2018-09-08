@@ -215,6 +215,9 @@ def enhance_event_info(client, events):
         event['network_title'] = get_network_title(
           client.get_network(event['id_network'])
         )
+        event['num_registered'] = client.get_event_reg_count(
+          event['id']
+        )['reg_count']
     return events
 
 def trim_and_sort_events(events):

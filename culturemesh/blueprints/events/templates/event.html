@@ -9,7 +9,7 @@
         </div>
     </div>
     <div class="my-2 py-1 row">
-        <div class="cm-blurb">
+        <div class="cm-blurb p-2">
             <div class="container-fluid">
                 <div class="row py-3">
                     <div class="col-1">
@@ -46,6 +46,24 @@
                         <span class="cm-light-font-small">{{ event['location'] }}</span>
                     </div>
                 </div>
+                {% if event['num_registered'] > 0%}
+                    <div class="row py-3">
+                        <div class="col-1">
+                            <i id="cm-icon" class="fas fa-user"></i>
+                        </div>
+                        <div class="col">
+                            {% if event['num_registered'] > 1 %}
+                                <span class="cm-regular-font-med">
+                                    {{ event['num_registered'] }} people going
+                                </span>
+                            {% elif event['num_registered'] == 1 %}
+                                <span class="cm-regular-font-med">
+                                    {{ event['num_registered'] }} person going
+                                </span>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endif %}
             </div>
         </div>
     </div>
