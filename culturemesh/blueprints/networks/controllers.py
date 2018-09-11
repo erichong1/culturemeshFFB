@@ -292,7 +292,7 @@ def create_new_event():
           "description": description
         }
 
-        c.create_event(event)
+        c.create_event(current_user, event)
         return redirect(
           url_for('networks.network_events') + "?id=%s" % str(id_network)
         )
@@ -332,10 +332,30 @@ def leave():
       )
     elif request.method == 'POST':
       if network_info['user_is_member']:
-        # TODO: Delete all events that this user is hosting in this network.
-        # TODO: Unregister this user from all events that they are attending in
-        # this network.
-        pass
+
+        # NOTE: the two event deletion steps must happen in this order.
+        #
+        # Future TODO is to make this not a strict dependency.
+        #
+
+        # Delete all events this user is hosting in this network.
+        events_hosting = c.get_user_events_hosting(
+          user_id, 1000
+        )
+        for event in events_hosting:
+          if str(event['id_network']) == str(network['id']):
+            c.delete_event(current_user, str(event['id']))
+
+        # Unregister from all events this user is attending in this network.
+        events_attending = c.get_events_attending_in_network(
+          current_user, network['id'], 1000
+        )
+        for event in events_attending:
+          c.leave_event(current_user, event['id'])
+
+        # Leave the network.
+        c.leave_network(current_user, network['id'])
+
       return redirect(
           url_for('user_home.render_user_home_networks')
       )

@@ -622,6 +622,7 @@ from .events import get_event_reg_count
 from .events import create_event
 from .events import update_event
 from .events import delete_event
+from .events import get_events_attending_in_network
 from .languages import get_language
 from .languages import language_autocomplete
 from .locations import get_city
@@ -670,6 +671,7 @@ Client.get_event_reg_count = get_event_reg_count
 Client.create_event = create_event
 Client.update_event = update_event
 Client.delete_event = delete_event
+Client.get_events_attending_in_network = get_events_attending_in_network
 Client.get_language = get_language
 Client.language_autocomplete = language_autocomplete
 Client.get_city = get_city

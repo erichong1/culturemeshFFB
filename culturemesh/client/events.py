@@ -48,7 +48,7 @@ def get_events_attending_in_network(client, current_user,
 
 	Returns events the current user is attending in this network.
 	"""
-	url = '/event/userEventsForNetwork/%s' % str(network_id)
+	url = '/event/currentUserEventsByNetwork/%s' % str(network_id)
 	query_params = {'count': count}
 	if max_id:
 		query_params['max_id'] = max_id
@@ -69,15 +69,19 @@ def get_event_reg_count(client, event_id):
 
 ####################### POST methods #######################
 
-def create_event(client, event):
+def create_event(client, current_user, event):
 	"""
 	:param client: the CultureMesh API client
+	:param current_user: the current user
 	:param event: the JSON of the event to create
 
 	Creates a new event.
 	"""
 	url = 'event/new'
-	return client._request(url, Request.POST, body_data=event)
+	basic_auth = (str(current_user.api_token), "")
+	return client._request(
+		url, Request.POST, body_data=event, basic_auth=basic_auth
+	)
 
 ####################### PUT methods #######################
 
