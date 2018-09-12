@@ -60,7 +60,7 @@ def create_post(client, current_user, post):
 	url = 'post/new'
 	basic_auth = (str(current_user.api_token), "")
 	return client._request(
-		url, Request.POST, body_data=post, basic_auth=basic_auth
+		url, Request.POST, json=post, basic_auth=basic_auth
 	)
 
 def create_post_reply(client, current_user, postId, reply):
@@ -75,28 +75,36 @@ def create_post_reply(client, current_user, postId, reply):
 	url = 'post/%s/reply' % str(postId)
 	basic_auth = (str(current_user.api_token), "")
 	return client._request(
-		url, Request.POST, body_data=reply, basic_auth=basic_auth
+		url, Request.POST, json=reply, basic_auth=basic_auth
 	)
 
 ####################### PUT methods #######################
 
-def update_post(client, post):
+def update_post(client, current_user, post):
 	"""
     :param client: the CultureMesh API client
+    :param current_user: The current user object
     :param post: JSON of post with updates.
 
     Updates a post.
 	"""
 	url = 'post/new'
-	return client._request(url, Request.PUT, body_data=post)
+	basic_auth = (str(current_user.api_token), "")
+	return client._request(
+		url, Request.PUT, json=post, basic_auth=basic_auth
+	)
 
-def update_post_reply(client, postId, reply):
+def update_post_reply(client, current_user, postId, reply):
 	"""
 	:param client: the CultureMesh API client
+	:param current_user: The current user object
 	:param postId: the id of the post to reply to
 	:param reply: JSON of the reply to update
 
 	Update a post reply.
 	"""
 	url = 'post/%s/reply' % str(postId)
-	return client._request(url, Request.PUT, body_data=reply)
+	basic_auth = (str(current_user.api_token), "")
+	return client._request(
+		url, Request.PUT, json=reply, basic_auth=basic_auth
+	)
