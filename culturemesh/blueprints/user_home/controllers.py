@@ -121,8 +121,7 @@ def update_profile_and_render_home():
     return page_not_found("")
 
   user['img_url'] = get_user_image_url(current_user)
-
-  user_info_form=UserInfo()
+  user_info_form = UserInfo()
   user_info_form.first_name.process_data(user['first_name'])
   user_info_form.last_name.process_data(user['last_name'])
   user_info_form.about_me.process_data(user['about_me'])
