@@ -31,6 +31,7 @@ def render_post():
 
   # NOTE: this will not show more than the latest 100 replies
   replies = c.get_post_replies(post["id"], NUM_REPLIES_TO_SHOW)
+  replies = sorted(replies, key=lambda x: int(x['id']))
 
   error_msg = None
 
@@ -86,7 +87,7 @@ def edit_post():
     abort(httplib.NOT_FOUND)
 
   edit_post_form = EditPostForm()
-  edit_post_form.post_content.process_data(post['post_text'])
+  edit_post_form.content.process_data(post['post_text'])
   error_msg = None
 
   if request.method == 'GET':
@@ -95,7 +96,7 @@ def edit_post():
     data = request.form
     form_submitted = EditPostForm(request.form)
     if form_submitted.validate():
-      post_text = data['post_content']
+      post_text = data['content']
 
       post = {
         'id': post_id,
@@ -114,23 +115,60 @@ def edit_post():
   return render_template(
     'edit_post.html',
     edit_post_form=edit_post_form,
+    is_post_reply=False,
     post=post,
     network_title=post['network_title'],
     current_user=current_user,
     error_msg=error_msg
   )
 
-@posts.route("/reply/edit")
+@posts.route("/reply/edit", methods=["GET", "POST"])
 @flask_login.login_required
 def edit_reply():
   c = Client(mock=False)
   post_reply_id = safe_get_query_arg(request, 'id')
-  post_reply = c.get_post_reply(post_id)
-  if post['id_user'] != current_user.id:
+  post_reply = c.get_post_reply(post_reply_id)
+  id_parent = post_reply['id_parent']
+  if post_reply['id_user'] != current_user.id:
     abort(httplib.NOT_FOUND)
-  edit_post_reply_form = EditPostReplyForm()
-  # TODO: need to make an API method to return a post reply by ID directly.
-  return "edit post reply"
+  edit_post_reply_form = EditPostForm()
+
+  post_reply['network_title'] = get_network_title(
+    c.get_network(post_reply['id_network'])
+  )
+
+  edit_post_reply_form.content.process_data(post_reply['reply_text'])
+  error_msg = None
+
+  if request.method == 'GET':
+      pass
+  else:
+    data = request.form
+    form_submitted = EditPostForm(request.form)
+    if form_submitted.validate():
+      reply_text = data['content']
+
+      post_reply = {
+        'id': post_reply_id,
+        'reply_text': reply_text,
+      }
+
+      c.update_post_reply(current_user, id_parent, post_reply)
+      return redirect(
+        url_for('posts.render_post') + "?id=%s" % str(id_parent)
+      )
+    else:
+      error_msg = "Oops. An error ocurred. Keep in mind posts can't be empty."
+
+  return render_template(
+    'edit_post.html',
+    edit_post_form=edit_post_reply_form,
+    is_post_reply=True,
+    post=post_reply,
+    network_title=post_reply['network_title'],
+    current_user=current_user,
+    error_msg=error_msg
+  )
 
 @posts.route("/ping")
 @flask_login.login_required

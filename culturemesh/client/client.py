@@ -631,6 +631,7 @@ from .locations import get_country
 from .locations import location_autocomplete
 from .posts import ping_post
 from .posts import get_post
+from .posts import get_post_reply
 from .posts import get_post_replies
 from .posts import get_post_reply_count
 from .posts import create_post
@@ -680,6 +681,7 @@ Client.get_country = get_country
 Client.location_autocomplete = location_autocomplete
 Client.ping_post = ping_post
 Client.get_post = get_post
+Client.get_post_reply = get_post_reply
 Client.get_post_replies = get_post_replies
 Client.get_post_reply_count = get_post_reply_count
 Client.create_post = create_post

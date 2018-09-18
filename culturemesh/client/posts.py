@@ -21,6 +21,17 @@ def get_post(client, postId):
 	url = 'post/%s' % str(postId)
 	return client._request(url, Request.GET)
 
+def get_post_reply(client, replyId):
+	"""
+	:param client: the CultureMesh API client
+	:param replyId: the id of the post reply to retrieve.
+
+	Returns the requested post reply JSON.
+	"""
+
+	url = 'post/reply/%s' % str(replyId)
+	return client._request(url, Request.GET)
+
 def get_post_replies(client, postId, count, max_id=None):
 	"""
 	:param client: the CultureMesh API client
@@ -98,7 +109,7 @@ def update_post_reply(client, current_user, postId, reply):
 	"""
 	:param client: the CultureMesh API client
 	:param current_user: The current user object
-	:param postId: the id of the post to reply to
+	:param postId: the id of the parent post
 	:param reply: JSON of the reply to update
 
 	Update a post reply.

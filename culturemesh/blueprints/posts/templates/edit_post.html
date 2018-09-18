@@ -7,7 +7,11 @@
     <div class="cm-blurb">
       <div class="container-fluid">
         <div class="pt-3 px-3 row">
-          <p>Edit your <strong>post</strong> in network: </p>
+          <p>Edit your
+            <strong>
+            {% if is_post_reply %} reply {% else %} post {% endif %}
+            </strong>
+            in network: </p>
         </div>
         <div class="row pb-3">
           <div class="col-1">
@@ -36,10 +40,10 @@
       {{ edit_post_form.hidden_tag() }}
 
       <div class="cm-create-post-div text-right cm-regular-font-small">
-        {{ edit_post_form.post_content(
+        {{ edit_post_form.content(
               size=150,
               cols="35", rows="4",
-              placeholder="New post content",
+              placeholder="New content",
               class_="p-2 form-control cm-text-input-field"
             )
         }}
