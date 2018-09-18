@@ -6,6 +6,8 @@ that blueprint.
 
 import pytz
 
+from flask import abort
+
 from culturemesh.constants import BLANK_PROFILE_IMG_URL
 from culturemesh.constants import USER_IMG_URL_FMT
 from culturemesh.client import Client
@@ -15,7 +17,15 @@ from utils import parse_date
 from utils import get_month_abbr
 from utils import enhance_event_date_info
 
+import http.client as httplib
+
 utc=pytz.UTC
+
+def safe_get_query_arg(request, arg_name):
+  arg = request.args.get(arg_name)
+  if not arg:
+    abort(httplib.NOT_FOUND)
+  return arg
 
 def username_taken(client, username):
   """True if the username is already taken

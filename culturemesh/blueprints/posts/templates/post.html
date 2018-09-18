@@ -33,7 +33,7 @@
             </div>
             <div class="col-4 text-right">
               {% if curr_user_id|string() == post['id_user']|string() %}
-              <a href="/" class="hidden-link">
+              <a href="edit?id={{post['id']}}" class="hidden-link">
                   <i id="cm-icon" class="far fa-edit"></i>
               </a>
               {% endif %}
@@ -74,7 +74,7 @@
               </div>
               <div class="col-4 text-right">
                 {% if curr_user_id|string() == replies[i]["id_user"]|string() %}
-                <a href="/" class="hidden-link">
+                <a href="reply/edit?id={{replies[i]['id']}}" class="hidden-link">
                   <i id="cm-icon" class="far fa-edit"></i>
                 </a>
                 {% endif %}

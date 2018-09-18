@@ -3,6 +3,7 @@ from flask_login import current_user
 from culturemesh.client import Client
 from culturemesh.utils import get_time_ago
 from culturemesh.utils import get_network_title
+from culturemesh.utils import safe_get_query_arg
 
 from culturemesh.blueprints.posts.forms.post_forms import CreatePostReplyForm
 from culturemesh.blueprints.posts.config import POST_TITLE_MAX_LEN
@@ -16,7 +17,8 @@ posts = Blueprint('posts', __name__, template_folder='templates')
 @flask_login.login_required
 def render_post():
 
-  current_post_id = request.args.get('id')
+  current_post_id = safe_get_query_arg(request, 'id')
+
   user_id = current_user.id
   c = Client(mock=False)
   post = c.get_post(current_post_id)
@@ -74,6 +76,8 @@ def render_post():
 @flask_login.login_required
 def edit_post():
   c = Client(mock=False)
+
+  abort(httplib.NOT_FOUND)
   return "edit post"
 
 @posts.route("/reply/edit")

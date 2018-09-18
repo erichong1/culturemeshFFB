@@ -13,7 +13,7 @@ import werkzeug
 import json
 
 from flask_wtf.csrf import CSRFError
-from flask import render_template, request, redirect, session
+from flask import render_template, request, redirect, session, abort
 from culturemesh import app, login_manager
 from culturemesh.client import Client
 from flask_login import current_user
