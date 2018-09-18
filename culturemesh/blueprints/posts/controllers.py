@@ -70,6 +70,18 @@ def render_post():
     error_msg=error_msg
   )
 
+@posts.route("/edit")
+@flask_login.login_required
+def edit_post():
+  c = Client(mock=False)
+  return "edit post"
+
+@posts.route("/reply/edit")
+@flask_login.login_required
+def edit_reply():
+  c = Client(mock=False)
+  return "edit post reply"
+
 @posts.route("/ping")
 @flask_login.login_required
 def ping():
