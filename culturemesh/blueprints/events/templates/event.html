@@ -1,11 +1,21 @@
 {% extends "base.html" %} {% block content %}
 <div class="p-3 container-fluid">
     <div class="row">
-        <h4>{{ event['title'] }}</h4>
+        <div class="col-8 no-padding">
+            <h4>{{ event['title'] }}</h4>
+        </div>
+        <div class="col-4 text-right">
+          {% if curr_user_id|string() == event['id_host']|string() %}
+          <a href="edit?id={{event['id']}}" class="hidden-link">
+              <i id="cm-icon" class="far fa-edit"></i>
+          </a>
+          {% endif %}
+        </div>
     </div>
     <div class="py-1 row">
         <div id="cm-event-blurb">
-            Hosted by <strong>{{ host['username'] }}</strong> | {{ event['location'] }}
+            Hosted by <strong>{{ host['username'] }}</strong> |
+            {{ event['location'] }}
         </div>
     </div>
     <div class="my-2 py-1 row">

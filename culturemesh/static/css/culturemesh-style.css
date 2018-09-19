@@ -278,6 +278,10 @@ body {
 
 /* CultureMesh-specific class styling below */
 
+.no-padding {
+  padding: 0px;
+}
+
 .cm-body {
   max-width: 900px;
   text-align: left;

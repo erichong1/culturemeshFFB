@@ -77,7 +77,7 @@ def create_event(client, current_user, event):
 
 	Creates a new event.
 	"""
-	url = 'event/new'
+	url = '/event/new'
 	basic_auth = (str(current_user.api_token), "")
 	return client._request(
 		url, Request.POST, json=event, basic_auth=basic_auth
@@ -89,12 +89,11 @@ def update_event(client, current_user, event):
 	"""
 	:param client: the CultureMesh API client
 	:param current_user: the current user
-	:param current_user: the current user
 	:param event: the JSON of the event to update
 
 	Updates an event.
 	"""
-	url = 'event/new'
+	url = '/event/new'
 	basic_auth = (str(current_user.api_token), "")
 	return client._request(
 		url, Request.PUT, json=event, basic_auth=basic_auth
