@@ -643,6 +643,7 @@ from .users import get_users
 from .users import get_user
 from .users import get_user_networks
 from .users import get_user_posts
+from .users import get_user_events
 from .users import get_user_events_hosting
 from .users import get_user_events_attending
 from .users import create_user
@@ -693,6 +694,7 @@ Client.get_users = get_users
 Client.get_user = get_user
 Client.get_user_networks = get_user_networks
 Client.get_user_posts = get_user_posts
+Client.get_user_events = get_user_events
 Client.get_user_events_hosting = get_user_events_hosting
 Client.get_user_events_attending = get_user_events_attending
 Client.create_user = create_user

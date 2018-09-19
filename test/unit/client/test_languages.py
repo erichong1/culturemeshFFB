@@ -1,15 +1,16 @@
 #
 # Tests client/languages.py
-# 
+#
 
 from nose.tools import assert_true, assert_equal
+import test.unit.client.client_test_prep
 from culturemesh.client import Client
 
 def test_language():
   """
   Basic functionality of retrieving
-  a mock language. 
-  """ 
+  a mock language.
+  """
 
   c = Client(mock=True)
   lang1 = c.get_language(2)
@@ -19,7 +20,7 @@ def test_language():
 
 def test_autocomplete():
   """
-  Basic mock autocomplete functionality. 
+  Basic mock autocomplete functionality.
   """
 
   c = Client(mock=True)

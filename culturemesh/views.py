@@ -125,7 +125,6 @@ def unauthorized_callback():
 
 ##################### Other functions #########################
 
-
 @app.after_request
 def add_custom_http_response_headers(response):
     response.headers["X-Frame-Options"] = "SAMEORIGIN"
