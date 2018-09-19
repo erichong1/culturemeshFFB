@@ -216,3 +216,40 @@
     </div>
   </div>
 {% endmacro %}
+
+{% macro networkblurbnoremove(network) %}
+  <div class="p-2 cm-network-blurb">
+    <div class="pt-1 container">
+      <div class="row">
+        <div class="col-1">
+          <a href="/network?id={{network.id}}" class="hidden-link">
+            <i id="cm-icon" class="fas fa-users"></i>
+          </a>
+        </div>
+        <div class="col">
+          <a href="/network?id={{network.id}}" class="hidden-link">
+            <p class="cm-network-blurb-title">
+              {{ network.title }}
+            </p>
+          </a>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <p class="cm-network-blurb-detail-l">
+            Joined {{ network.join_date }}
+          </p>
+        </div>
+        <div class="col">
+          <p class="cm-network-blurb-detail-r">
+            {% if network.user_count == 1 %}
+              {{ network.user_count }} member
+            {% else %}
+              {{ network.user_count }} members
+            {% endif %}
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endmacro %}

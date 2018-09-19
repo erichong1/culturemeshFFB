@@ -1,4 +1,4 @@
-{% from "macros.html" import networkblurb %}
+{% from "macros.html" import networkblurbnoremove %}
 {% extends "base.html" %}
 
 {% block content %}
@@ -35,7 +35,7 @@
       {% else %}
           {% for network in networks %}
             <div class="py-1 row">
-              {{ networkblurb(network) }}
+              {{ networkblurbnoremove(network) }}
             </div>
           {% endfor %}
       {% endif %}
