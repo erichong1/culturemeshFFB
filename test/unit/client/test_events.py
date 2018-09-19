@@ -1,8 +1,9 @@
 #
 # Tests client/events.py
-# 
+#
 
 import datetime
+import test.unit.client.client_test_prep
 
 from nose.tools import assert_true, assert_equal
 from culturemesh.client import Client
@@ -25,7 +26,7 @@ def test_get_event():
 def test_event_attendance():
   """
   Tests the basic event
-  attendance API call. 
+  attendance API call.
   """
   c = Client(mock=True)
 

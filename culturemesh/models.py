@@ -22,7 +22,6 @@ class User(object):
 		self.username = user_dict['username']
 		self.first_name = user_dict['first_name']
 		self.last_name = user_dict['last_name']
-		self.email = user_dict['email']
 		self.register_date = parse_date(user_dict['register_date'])
 		self.role = int(user_dict['role'])
 		self.gender = user_dict['gender']

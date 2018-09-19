@@ -1,5 +1,5 @@
 #
-# CultureMesh Languages API 
+# CultureMesh Languages API
 #
 
 from .client import Request

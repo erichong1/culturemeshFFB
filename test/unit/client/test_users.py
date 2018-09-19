@@ -3,6 +3,7 @@
 #
 
 from nose.tools import assert_true, assert_equal
+import test.unit.client.client_test_prep
 from culturemesh.client import Client
 
 def test_get_user():

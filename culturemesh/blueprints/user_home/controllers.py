@@ -9,16 +9,21 @@ from werkzeug.exceptions import HTTPException
 from utils import parse_date
 
 from culturemesh.client import Client
+
 from culturemesh.utils import get_network_title
 from culturemesh.utils import get_user_image_url
 from culturemesh.utils import get_short_network_join_date
 from culturemesh.utils import get_time_ago
+
 from culturemesh.utils import get_upcoming_events_by_user
+from culturemesh.utils import get_upcoming_events_by_user_hosting
+from culturemesh.utils import get_upcoming_events_by_user_attending
 
 from culturemesh.blueprints.user_home.forms.home_forms import UserInfo
 from culturemesh.blueprints.user_home.config import NUM_LATEST_POSTS_TO_DISPLAY
 from culturemesh.blueprints.user_home.config import NUM_UPCOMING_EVENTS_TO_DISPLAY
 from culturemesh.blueprints.user_home.config import NUM_EVENT_HOSTING_TO_DISPLAY
+from culturemesh.blueprints.user_home.config import NUM_EVENT_ATTENDING_TO_DISPLAY
 from culturemesh.blueprints.user_home.config import MAX_NETWORKS_TO_LOAD
 
 user_home = Blueprint('user_home', __name__, template_folder='templates')
@@ -31,17 +36,24 @@ def render_user_home():
 
   c = Client(mock=False)
   user.img_url = get_user_image_url(user)
-  events_hosting = c.get_user_events(
-    user.id, "hosting", NUM_EVENT_HOSTING_TO_DISPLAY
+
+  # Events user is hosting
+  events_hosting = get_upcoming_events_by_user_hosting(
+    c, user.id, NUM_EVENT_HOSTING_TO_DISPLAY
+  )
+  # Events user is attending
+  events_attending = get_upcoming_events_by_user_attending(
+    c, user.id, NUM_EVENT_ATTENDING_TO_DISPLAY
   )
 
-  for event in events_hosting:
-    utils.enhance_event_date_info(event)
+  # Upcoming events in user's networks.
+  upcoming_events = get_upcoming_events_by_user(
+    c, user.id, NUM_UPCOMING_EVENTS_TO_DISPLAY
+  )
 
+  # Some latest posts in the user's networks.
   latest_posts = c.get_user_posts(user.id, NUM_LATEST_POSTS_TO_DISPLAY)
-
   for post in latest_posts:
-
     post['username'] = c.get_user(post['id_user'])['username']
     post['reply_count'] = c.get_post_reply_count(post['id'])['reply_count']
     post['time_ago'] = get_time_ago(post['post_date'])
@@ -53,19 +65,12 @@ def render_user_home():
       post['network'] = None
       post['network_title'] = "Unknown"
 
-  upcoming_events = get_upcoming_events_by_user(
-    c, user.id, NUM_UPCOMING_EVENTS_TO_DISPLAY
-  )
-  for event in upcoming_events:
-    utils.enhance_event_date_info(event)
-    event['network_title'] = get_network_title(
-      c.get_network(event['id_network'])
-    )
 
   return render_template(
     'dashboard.html',
     user=user.as_dict,
     events_hosting=events_hosting,
+    events_attending=events_attending,
     latest_posts=latest_posts,
     upcoming_events_in_networks=upcoming_events
   )
@@ -116,8 +121,7 @@ def update_profile_and_render_home():
     return page_not_found("")
 
   user['img_url'] = get_user_image_url(current_user)
-
-  user_info_form=UserInfo()
+  user_info_form = UserInfo()
   user_info_form.first_name.process_data(user['first_name'])
   user_info_form.last_name.process_data(user['last_name'])
   user_info_form.about_me.process_data(user['about_me'])
@@ -133,20 +137,21 @@ def render_user_home_events():
   user_id = user.id
   user.img_url = get_user_image_url(user)
 
-  if user is None:
-    return page_not_found("")
-
-  events_hosting = c.get_user_events(
-    user_id, "hosting", NUM_EVENT_HOSTING_TO_DISPLAY
+  # Events user is hosting
+  events_hosting = get_upcoming_events_by_user_hosting(
+    c, user.id, 50
   )
-  if events_hosting is None:
-    return page_not_found("")
+  # Events user is attending
+  events_attending = get_upcoming_events_by_user_attending(
+    c, user.id, 50
+  )
 
-  for event in events_hosting:
-    utils.enhance_event_date_info(event)
-
-  return render_template('events.html', user=user.as_dict,
-    events_hosting=events_hosting)
+  return render_template(
+    'events.html',
+    user=user.as_dict,
+    events_hosting=events_hosting,
+    events_attending=events_attending
+  )
 
 @user_home.route("/networks")
 @flask_login.login_required

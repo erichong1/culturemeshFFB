@@ -1,13 +1,14 @@
 #
 # Tests client/locations.py
-# 
+#
 
 from nose.tools import assert_true, assert_equal
+import test.unit.client.client_test_prep
 from culturemesh.client import Client
 
 def test_get_city():
   """
-  Basic get city API routine. 
+  Basic get city API routine.
   """
   c = Client(mock=True)
   city1 = c.get_city(2)
@@ -28,7 +29,7 @@ def test_get_city():
 
 def test_get_region():
   """
-  Basic get region API routine. 
+  Basic get region API routine.
   """
   c = Client(mock=True)
   region1 = c.get_region(2)
@@ -43,7 +44,7 @@ def test_get_region():
 
 def test_get_country():
   """
-  Basic get country API routine. 
+  Basic get country API routine.
   """
   c = Client(mock=True)
   country1 = c.get_country(2)
@@ -59,7 +60,7 @@ def test_get_country():
 
 def test_autocomplete():
   """
-  Test mock autocomplete. 
+  Test mock autocomplete.
   """
   c = Client(mock=True)
   autocomplete_ = c.location_autocomplete("some text")

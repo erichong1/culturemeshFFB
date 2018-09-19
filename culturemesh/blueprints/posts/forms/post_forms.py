@@ -12,3 +12,14 @@ class CreatePostReplyForm(FlaskForm):
       render_kw={'autofocus': True}
     )
     submit = SubmitField('Reply')
+
+# Overloaded for posts and post replies.
+class EditPostForm(FlaskForm):
+    content = StringField(
+      'content', validators=[
+        InputRequired(message="Post cannot be empty."),
+      ],
+      widget=TextArea(),
+      render_kw={'autofocus': True}
+    )
+    submit = SubmitField('Submit')

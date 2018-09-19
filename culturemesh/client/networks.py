@@ -2,9 +2,9 @@
 # CultureMesh Networks API
 #
 
-####################### GET methods #######################
-
 from .client import Request
+
+####################### GET methods #######################
 
 def ping_network(client):
     url = 'network/ping'

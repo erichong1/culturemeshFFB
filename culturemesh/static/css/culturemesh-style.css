@@ -44,6 +44,10 @@ body {
   color: white;
 }
 
+#cm-event-message {
+  color: white;
+}
+
 #cm-signinfb-button {
   background-color: #3c3c3c;
 }
@@ -121,6 +125,27 @@ body {
 
 #cm-leave-reply-text {
   color:#EF5330;
+}
+
+#cm-leave-network-button {
+  background-color:#c71100;
+  color: white;
+  -webkit-appearance: none;
+  width: 66%;
+}
+
+#cm-join-button {
+  background-color:#EF5330;
+  color: white;
+  -webkit-appearance: none;
+  width: 66%;
+}
+
+#cm-leave-button {
+  background-color:#c71100;
+  color: white;
+  -webkit-appearance: none;
+  width: 66%;
 }
 
 #cm-join-network-button {
@@ -231,6 +256,10 @@ body {
   border-bottom: 1px solid #CBCBCB;
 }
 
+#cm-event-information-title {
+  border-bottom: 1px solid #CBCBCB;
+}
+
 #cm-generic-button {
   background-color: #EF5330;
   color: white;
@@ -248,6 +277,10 @@ body {
 
 
 /* CultureMesh-specific class styling below */
+
+.no-padding {
+  padding: 0px;
+}
 
 .cm-body {
   max-width: 900px;
@@ -385,6 +418,17 @@ body {
   border-top: 1px solid #ccc;
 }
 
+.cm-green-blurb {
+  border-style: solid;
+  border-width: 1px;
+  border-color: #CBCBCB;
+  border-radius: 4px;
+  box-shadow: 1px 1px #ccc;
+  width: 100%;
+  background-color: #f1f8e6;
+}
+
+
 .cm-event-blurb {
   border-style: solid;
   border-width: 1px;
@@ -425,6 +469,10 @@ body {
   text-align: left;
   font-weight: bold;
   font-size: .9em;
+  padding: 0px;
+  margin: 0px;
+  padding-bottom: 3px;
+  margin-bottom: 3px;
 }
 
 .cm-blurb-subtitle {
@@ -432,6 +480,15 @@ body {
   letter-spacing: 1px;
   font-size: .8em;
   color: #ccc;
+  padding-bottom: 1em;
+}
+
+.cm-blurb-subsubtitle {
+  text-align: left;
+  letter-spacing: 0.7px;
+  font-size: .6em;
+  padding: 0px;
+  margin: 0px;
 }
 
 .cm-blurb-date {
@@ -538,6 +595,11 @@ body {
 
 .hidden-link, .hidden-link:visited {
   color: black;
+  text-decoration: none;
+}
+
+.red {
+  color: #c71100;
   text-decoration: none;
 }
 

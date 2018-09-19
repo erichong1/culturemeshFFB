@@ -22,16 +22,27 @@
         </div>
         </div>
       </div>
-      <div class="p-3 cm-post-text">
+      <div class="cm-post-text px-1 py-3">
         <div class="col">
-          <div class="row text-left">
-            <a href="/u/{{ post['id_user'] }}" class="hidden-link">
-              <div class="cm-username">{{ post['username'] }}</div>
-            </a>
-            <span class="cm-time-ago">{{ post['time_ago'] }}</span>
+          <div class="row pb-2">
+            <div class="col-8 text-left">
+              <a href="/u/{{ post['id_user'] }}" class="hidden-link">
+                <span class="cm-username">{{ post['username'] }}</span>
+              </a>
+              <span class="cm-time-ago">{{ post['time_ago'] }}</span>
+            </div>
+            <div class="col-4 text-right">
+              {% if curr_user_id|string() == post['id_user']|string() %}
+              <a href="edit?id={{post['id']}}" class="hidden-link">
+                  <i id="cm-icon" class="far fa-edit"></i>
+              </a>
+              {% endif %}
+            </div>
           </div>
-          <div class="row py-2">
-          {{ post['post_text'] }}
+          <div class="row">
+            <div class="col">
+              {{ post['post_text'] }}
+            </div>
           </div>
         </div>
       </div>
@@ -52,15 +63,28 @@
         </div>
 
         {% for i in range(num_replies) %}
-        <div class="cm-post-text p-4">
-          <div class="row text-left">
-            <a href="/u/{{ replies[i]['id_user'] }}" class="hidden-link">
-              <div class="cm-username">{{ replies[i]['username'] }}</div>
-            </a>
-            <span class="cm-time-ago">{{ replies[i]["time_ago"] }}</span>
-          </div>
-          <div class="row py-2">
-            {{ replies[i]["reply_text"] }}
+        <div class="cm-post-text px-1 py-3">
+          <div class="col">
+            <div class="row pb-2">
+              <div class="col-8 text-left">
+                <a href="/u/{{ replies[i]['id_user'] }}" class="hidden-link">
+                  <span class="cm-username">{{ replies[i]['username'] }}</span>
+                </a>
+                <span class="cm-time-ago">{{ replies[i]["time_ago"] }}</span>
+              </div>
+              <div class="col-4 text-right">
+                {% if curr_user_id|string() == replies[i]["id_user"]|string() %}
+                <a href="reply/edit?id={{replies[i]['id']}}" class="hidden-link">
+                  <i id="cm-icon" class="far fa-edit"></i>
+                </a>
+                {% endif %}
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                {{ replies[i]["reply_text"] }}
+              </div>
+            </div>
           </div>
         </div>
         {% endfor %}

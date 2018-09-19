@@ -14,6 +14,7 @@ from utils import parse_date
 from culturemesh.blueprints.networks.forms.network_forms import NetworkJoinForm
 from culturemesh.blueprints.networks.forms.network_forms import CreatePostForm
 from culturemesh.blueprints.networks.forms.network_forms import CreateEventForm
+from culturemesh.blueprints.networks.forms.network_forms import NetworkLeaveForm
 
 from culturemesh.blueprints.networks.utils import gather_network_info
 
@@ -29,11 +30,6 @@ def network():
   network_info = gather_network_info(id_network, id_user, c)
 
   upcoming_events = get_upcoming_events_by_network(c, id_network, 3)
-  for event in upcoming_events:
-    utils.enhance_event_date_info(event)
-    event['network_title'] = get_network_title(
-      c.get_network(event['id_network'])
-    )
 
   return render_template(
     'network.html',
@@ -50,20 +46,9 @@ def join_network():
   form = NetworkJoinForm(request.form)
   c = Client(mock=False)
   if form.validate():
-    c.add_user_to_network(id_user, id_network)
+    c.join_network(current_user, id_network)
 
   network_info = gather_network_info(id_network, id_user, c, "join")
-  return render_template(
-    'network.html', network_info=network_info, form=NetworkJoinForm()
-  )
-
-@networks.route("/leave", methods=['POST'])
-@flask_login.login_required
-def leave_network():
-  id_network = request.args.get('id')
-  c = Client(mock=False)
-  id_user = current_user.id
-  network_info = gather_network_info(id_network, id_user, c, "leave")
   return render_template(
     'network.html', network_info=network_info, form=NetworkJoinForm()
   )
@@ -106,6 +91,7 @@ def network_events() :
 
   for event in events:
     utils.enhance_event_date_info(event)
+    event['num_registered'] = c.get_event_reg_count(event['id'])['reg_count']
 
   id_user = current_user.id
   user_networks = c.get_user_networks(id_user, count=100)
@@ -208,7 +194,18 @@ def create_new_post():
     id_network = request.args.get('id')
     user_id = current_user.id
     network = c.get_network(id_network)
-    network_title = get_network_title(network)
+    network_info = gather_network_info(id_network, user_id, c)
+
+    if not network_info['user_is_member']:
+      return render_template(
+        'network_create_event_post_not_member.html',
+        curr_user_id=user_id,
+        id_network=id_network,
+        network_info=network_info,
+        form=NetworkJoinForm()
+    )
+
+    network_title = network_info['network_title']
     error_msg = None
 
     if request.method == 'GET':
@@ -227,7 +224,7 @@ def create_new_post():
           'img_link': ""
         }
 
-        c.create_post(post)
+        c.create_post(current_user, post)
         return redirect(
           url_for('networks.network_posts') + "?id=%s" % str(id_network)
         )
@@ -253,7 +250,18 @@ def create_new_event():
     id_network = request.args.get('id')
     user_id = current_user.id
     network = c.get_network(id_network)
-    network_title = get_network_title(network)
+    network_info = gather_network_info(id_network, user_id, c)
+
+    if not network_info['user_is_member']:
+      return render_template(
+        'network_create_event_post_not_member.html',
+        curr_user_id=user_id,
+        id_network=id_network,
+        network_info=network_info,
+        form=NetworkJoinForm()
+    )
+
+    network_title = network_info['network_title']
     error_msg = None
 
     if request.method == 'GET':
@@ -284,7 +292,7 @@ def create_new_event():
           "description": description
         }
 
-        c.create_event(event)
+        c.create_event(current_user, event)
         return redirect(
           url_for('networks.network_events') + "?id=%s" % str(id_network)
         )
@@ -301,6 +309,57 @@ def create_new_event():
       form=new_form,
       error_msg=error_msg
     )
+
+@networks.route("/leave", methods=['GET', 'POST'])
+@flask_login.login_required
+def leave():
+    c = Client(mock=False)
+    id_network = request.args.get('id')
+    user_id = current_user.id
+    network = c.get_network(id_network)
+    network_info = gather_network_info(id_network, user_id, c)
+
+    if request.method == 'GET':
+      if not network_info['user_is_member']:
+        return redirect(
+          url_for('networks.network') + "?id=%s" % str(id_network)
+        )
+      return render_template(
+        'network_leave.html',
+        id_network=id_network,
+        network_title=network_info['network_title'],
+        form=NetworkLeaveForm()
+      )
+    elif request.method == 'POST':
+      if network_info['user_is_member']:
+
+        # NOTE: the two event deletion steps must happen in this order.
+        #
+        # Future TODO is to make this not a strict dependency.
+        #
+
+        # Delete all events this user is hosting in this network.
+        events_hosting = c.get_user_events_hosting(
+          user_id, 1000
+        )
+        for event in events_hosting:
+          if str(event['id_network']) == str(network['id']):
+            c.delete_event(current_user, str(event['id']))
+
+        # Unregister from all events this user is attending in this network.
+        events_attending = c.get_events_attending_in_network(
+          current_user, network['id'], 1000
+        )
+        for event in events_attending:
+          c.leave_event(current_user, event['id'])
+
+        # Leave the network.
+        c.leave_network(current_user, network['id'])
+
+      return redirect(
+          url_for('user_home.render_user_home_networks')
+      )
+
 
 @networks.route("/ping")
 @flask_login.login_required

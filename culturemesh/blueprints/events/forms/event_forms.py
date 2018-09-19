@@ -4,23 +4,19 @@ from wtforms.ext.dateutil.fields import DateTimeField
 from wtforms.widgets import TextArea
 from wtforms.validators import InputRequired
 
-class NetworkJoinForm(FlaskForm):
-    submit = SubmitField('Join Network')
+class EventJoinForm(FlaskForm):
+    submit = SubmitField('Sign Up')
 
-class NetworkLeaveForm(FlaskForm):
-    submit = SubmitField('Yes, Leave Network')
+class EventLeaveForm(FlaskForm):
+    submit = SubmitField('Leave Event')
 
-class CreatePostForm(FlaskForm):
-    post_content = StringField(
-      'post_content', validators=[
-        InputRequired(message="Post cannot be empty."),
-      ],
-      widget=TextArea(),
-      render_kw={'autofocus': True}
-    )
-    submit = SubmitField('Create Post')
+class EventCancelForm(FlaskForm):
+    submit = SubmitField('Cancel Event')
 
-class CreateEventForm(FlaskForm):
+class EventCancelConfirmForm(FlaskForm):
+    submit = SubmitField('Yes, Cancel Event')
+
+class EditEventForm(FlaskForm):
     title = StringField(
       'title', validators=[
         InputRequired(message="Event title cannot be empty."),
@@ -65,6 +61,5 @@ class CreateEventForm(FlaskForm):
       widget=TextArea()
     )
 
-    submit = SubmitField('Create Event')
-
+    submit = SubmitField('Submit')
 

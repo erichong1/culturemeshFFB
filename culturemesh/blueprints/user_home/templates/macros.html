@@ -35,7 +35,7 @@
 {% macro eventblurb(event) %}
   <div class="p-2 cm-event-blurb">
     <div class="container">
-      <div class="row">
+      <div class="row py-2">
         <div class="col-4 cm-event-blurb-col-l">
           <p class="pt-3 cm-blurb-date">
             {{ event['month_abbr'] }} {{ event['day'] }}, {{ event['year'] }}
@@ -44,7 +44,7 @@
             {{ event['weekday_abbr'] }}
           </p>
         </div>
-        <div class="col-8 cm-event-blurb-col-r py-3">
+        <div class="col-8 cm-event-blurb-col-r py-2">
           <a href="/event?id={{ event['id'] }}" class="hidden-link">
             <p class="cm-blurb-title">
               {{ event['title'] }}
@@ -52,6 +52,15 @@
           </a>
           <p class="cm-blurb-subtitle">
             {{ event['time'] }}
+          </p>
+          <p class="cm-blurb-subsubtitle">
+            {% if event['num_registered'] > 1 %}
+              <i id="cm-icon" class="fas fa-user"></i>
+              <span>{{ event['num_registered'] }} people going</span>
+            {% elif event['num_registered'] == 1 %}
+              <i id="cm-icon" class="fas fa-user"></i>
+              <span>{{ event['num_registered'] }} person going</span>
+            {% endif %}
           </p>
         </div>
       </div>
@@ -62,7 +71,7 @@
 {% macro eventblurbwithnetwork(event) %}
   <div class="p-2 cm-event-blurb">
     <div class="container">
-      <div class="row">
+      <div class="row py-2">
         <div class="col-4 cm-event-blurb-col-l">
           <p class="pt-3 cm-blurb-date">
             {{ event['month_abbr'] }} {{ event['day'] }}, {{ event['year'] }}
@@ -71,7 +80,7 @@
             {{ event['weekday_abbr'] }}
           </p>
         </div>
-        <div class="col-8 cm-event-blurb-col-r py-3">
+        <div class="col-8 cm-event-blurb-col-r py-2">
           <a href="/event?id={{ event['id'] }}" class="hidden-link">
             <p class="cm-blurb-title">
               {{ event['title'] }}
@@ -167,6 +176,48 @@
 {% endmacro %}
 
 {% macro networkblurb(network) %}
+  <div class="p-2 cm-network-blurb">
+    <div class="pt-1 container">
+      <div class="row">
+        <div class="col-1">
+          <a href="/network?id={{network.id}}" class="hidden-link">
+            <i id="cm-icon" class="fas fa-users"></i>
+          </a>
+        </div>
+        <div class="col">
+          <a href="/network?id={{network.id}}" class="hidden-link">
+            <p class="cm-network-blurb-title">
+              {{ network.title }}
+            </p>
+          </a>
+        </div>
+        <div class="col-1 pr-4">
+          <a href="/network/leave?id={{network.id}}" class="hidden-link">
+            <i class="red fas fa-minus-circle fa-xs"></i>
+          </a>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <p class="cm-network-blurb-detail-l">
+            Joined {{ network.join_date }}
+          </p>
+        </div>
+        <div class="col">
+          <p class="cm-network-blurb-detail-r">
+            {% if network.user_count == 1 %}
+              {{ network.user_count }} member
+            {% else %}
+              {{ network.user_count }} members
+            {% endif %}
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endmacro %}
+
+{% macro networkblurbnoremove(network) %}
   <div class="p-2 cm-network-blurb">
     <div class="pt-1 container">
       <div class="row">

@@ -1,6 +1,9 @@
 #
 # Tests client/accounts.py
-# 
+#
 
 from nose.tools import assert_true
-from culturemesh.client import Client
+import test.unit.client.client_test_prep
+
+import culturemesh
+
