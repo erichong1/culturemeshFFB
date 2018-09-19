@@ -45,7 +45,7 @@ class Request(IntEnum):
 class Client(object):
 	"""Talks directly to the CultureMesh API.
 	"""
-	_api_base_url_ = "https://www.culturemesh.com/api-dev/v-afl"
+	_api_base_url_ = os.environ["CULTUREMESH_API_BASE_ENDPOINT"]
 
 	def __init__(self, key=None, client_id=None, client_secret=None,
 				 timeout=None, connect_timeout=None, read_timeout=None,
