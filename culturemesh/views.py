@@ -125,6 +125,19 @@ def unauthorized_callback():
 
 ##################### Other functions #########################
 
+
+@app.after_request
+def add_custom_http_response_headers(response):
+    response.headers["X-Frame-Options"] = "SAMEORIGIN"
+    response.headers["X-XSS-Protection"] = "1; mode=block"
+    response.headers["X-Content-Type-Options"] = "nosniff"
+    response.headers["Strict-Transport-Security"] = "max-age=86400; includeSubDomains"
+    response.headers["Expires"] = "Thu, 01 Jan 1970 00:00:00 GMT"
+    response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate, max-age=0"
+    response.headers["Content-Security-Policy"] = "default-src 'self'; img-src 'self' https://www.culturemesh.com;"
+    response.headers["X-CultureMesh"] = "lite"
+    return response
+
 def attempt_login(c, email_or_username, password):
   """Attempts to login a user from an email/username and password combo.
 
