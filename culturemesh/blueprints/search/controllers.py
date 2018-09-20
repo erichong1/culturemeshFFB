@@ -113,7 +113,7 @@ def render_search_page():
         raise Exception("Invalid Search Type %s" % search_type)
 
 
-@search.route("/gotonetwork", methods=['POST'])
+@search.route("/gotonetwork/", methods=['POST'])
 def go_to_network(tries=0):
 
     c = Client(mock=False)

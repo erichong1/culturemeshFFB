@@ -29,7 +29,7 @@ from culturemesh.blueprints.user_home.config import MAX_NETWORKS_TO_LOAD
 user_home = Blueprint('user_home', __name__, template_folder='templates')
 
 @user_home.route("/")
-@user_home.route("/dashboard")
+@user_home.route("/dashboard/")
 @flask_login.login_required
 def render_user_home():
   user = copy.deepcopy(current_user)
@@ -75,7 +75,7 @@ def render_user_home():
     upcoming_events_in_networks=upcoming_events
   )
 
-@user_home.route("/account")
+@user_home.route("/account/")
 @flask_login.login_required
 def render_user_home_account():
   user = copy.deepcopy(current_user)
@@ -94,7 +94,7 @@ def render_user_home_account():
     'account.html', user=user.as_dict, user_info_form=user_info_form
   )
 
-@user_home.route("/update_profile", methods=['POST'])
+@user_home.route("/update_profile/", methods=['POST'])
 @flask_login.login_required
 def update_profile_and_render_home():
   user_id = current_user.id
@@ -129,7 +129,7 @@ def update_profile_and_render_home():
     'account.html', user=user, user_info_form=user_info_form
   )
 
-@user_home.route("/events")
+@user_home.route("/events/")
 @flask_login.login_required
 def render_user_home_events():
   c = Client(mock=False)
@@ -153,7 +153,7 @@ def render_user_home_events():
     events_attending=events_attending
   )
 
-@user_home.route("/networks")
+@user_home.route("/networks/")
 @flask_login.login_required
 def render_user_home_networks():
   c = Client(mock=False)
@@ -179,7 +179,7 @@ def render_user_home_networks():
 
   return render_template('networks.html', user=user.as_dict, networks=networks)
 
-@user_home.route("/ping")
+@user_home.route("/ping/")
 @flask_login.login_required
 def ping():
   c = Client(mock=False)

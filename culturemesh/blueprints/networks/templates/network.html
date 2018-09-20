@@ -29,9 +29,9 @@
   <div class="col-sm text-center">
     <div id="cm-dashboard-menu" class="btn-group btn-group-sm" role="group">
       {% block network_buttons %}
-        <a href="/network?id={{ network_info['id'] }}" id="cm-button" type="button" class="btn btn-secondary">Home</a>
-        <a href="/network/posts?id={{ network_info['id'] }}" id="cm-button" type="button" class="btn btn-secondary">Posts</a>
-        <a href="/network/events?id={{ network_info['id'] }}" id="cm-button" type="button" class="btn btn-secondary">Events</a>
+        <a href="/network/?id={{ network_info['id'] }}" id="cm-button" type="button" class="btn btn-secondary">Home</a>
+        <a href="/network/posts/?id={{ network_info['id'] }}" id="cm-button" type="button" class="btn btn-secondary">Posts</a>
+        <a href="/network/events/?id={{ network_info['id'] }}" id="cm-button" type="button" class="btn btn-secondary">Events</a>
       {% endblock %}
     </div>
   </div>
@@ -52,7 +52,7 @@
             {{ network_info['greeting'] }}
           </p>
         </div>
-        <form action="join?id={{ network_info['id'] }}"
+        <form action="join/?id={{ network_info['id'] }}"
               method="POST"
               class="text-center">
           {{ form.hidden_tag() }}
@@ -73,7 +73,7 @@
   {% if network_info['posts'] | length == 0 %}
     <div class="p-4 text-center">
       No posts.
-      <a class="hidden-link" id="cm-color-primary" href="/network/posts/new?id={{ network_info['id'] }}">
+      <a class="hidden-link" id="cm-color-primary" href="/network/posts/new/?id={{ network_info['id'] }}">
         Make one.
       </a>
     </div>
@@ -88,7 +88,7 @@
       <a id="cm-generic-button"
         type="button"
         class="btn btn-secondary"
-        href="/network/posts?id={{ network_info['id'] }}">
+        href="/network/posts/?id={{ network_info['id'] }}">
         View more posts
       </a>
     </div>
@@ -101,7 +101,7 @@
 
   {% if upcoming_events | length == 0 %}
     <div class="p-4 text-center">
-      No upcoming events. <a id="cm-color-primary" class="hidden-link" href="/network/events/new?id={{ network_info['id'] }}">
+      No upcoming events. <a id="cm-color-primary" class="hidden-link" href="/network/events/new/?id={{ network_info['id'] }}">
         Create one.
       </a>
     </div>
@@ -116,7 +116,7 @@
       <a id="cm-generic-button"
         type="button"
         class="btn btn-secondary"
-        href="/network/events?id={{ network_info['id'] }}">
+        href="/network/events/?id={{ network_info['id'] }}">
         View more events
       </a>
     </div>

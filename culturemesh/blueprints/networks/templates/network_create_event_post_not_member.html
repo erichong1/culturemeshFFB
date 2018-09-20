@@ -8,12 +8,12 @@
       <div class="container-fluid">
         <div class="row py-3">
           <div class="col-1">
-            <a href="/network?id={{ id_network }}" class="hidden-link">
+            <a href="/network/?id={{ id_network }}" class="hidden-link">
               <i id="cm-icon" class="fas fa-users"></i>
             </a>
           </div>
           <div class="col">
-            <a href="/network?id={{ id_network }}" class="hidden-link">
+            <a href="/network/?id={{ id_network }}" class="hidden-link">
               <span class="cm-light-font-small">{{ network_info['network_title'] }}</span>
             </a>
           </div>
@@ -36,7 +36,7 @@
             {{ network_info['greeting'] }}
           </p>
         </div>
-        <form action="/network/join?id={{ network_info['id'] }}"
+        <form action="/network/join/?id={{ network_info['id'] }}"
               method="POST"
               class="text-center">
           {{ form.hidden_tag() }}

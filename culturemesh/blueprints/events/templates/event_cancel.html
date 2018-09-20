@@ -3,7 +3,7 @@
 
   <div class="wrapper container-fluid text-center">
     <div class="pt-3 px-3 row">
-      <a href="/event?id={{ event['id'] }}" class="hidden-link">
+      <a href="/event/?id={{ event['id'] }}" class="hidden-link">
         <h4>{{ event['title'] }}</h4>
       </a>
     </div>
@@ -20,7 +20,7 @@
           unregistered from it, and you won't be able to get it back.
         </p>
       </div>
-      <form action="/event/cancel?id={{ event['id'] }}" method="POST" class="text-center">
+      <form action="/event/cancel/?id={{ event['id'] }}" method="POST" class="text-center">
         {{ form.hidden_tag() }}
         {{ form.submit(
               id="cm-leave-button",

@@ -28,15 +28,15 @@ from culturemesh.constants import REGISTER_MSG, \
 from culturemesh.utils import email_registered, username_taken
 
 @app.route("/")
-@app.route("/index")
+@app.route("/index/")
 def home():
 	return render_template('index.html')
 
-@app.route("/about")
+@app.route("/about/")
 def about():
 	return render_template('about.html')
 
-@app.route("/register", methods=['GET', 'POST'])
+@app.route("/register/", methods=['GET', 'POST'])
 def register():
   if current_user and current_user.is_authenticated:
     return redirect(url_for('home'))
@@ -96,7 +96,7 @@ def register():
   else:
     return make_register_page_tmpl(REGISTER_MSG)
 
-@app.route("/login", methods=['GET', 'POST'])
+@app.route("/login/", methods=['GET', 'POST'])
 def render_login_page():
     if request.method == 'POST':
       if not LoginForm(request.form).validate():
@@ -111,16 +111,16 @@ def render_login_page():
         return render_template('login.html', msg=LOGIN_MSG, form=LoginForm())
 
 @app.errorhandler(httplib.UNAUTHORIZED)
-@app.route("/logout")
+@app.route("/logout/")
 @flask_login.login_required
 def logout():
     flask_login.logout_user()
-    return redirect('/index')
+    return redirect('/index/')
 
 
 @login_manager.unauthorized_handler
 def unauthorized_callback():
-    return redirect('/login')
+    return redirect('/login/')
 
 
 ##################### Other functions #########################
@@ -154,7 +154,7 @@ def attempt_login(c, email_or_username, password):
   user_dict = c.get_user(token['id'])
   user = User(user_dict, api_token=token)
   flask_login.login_user(user)
-  return redirect('/home')
+  return redirect('/home/')
 
 @login_manager.user_loader
 def load_user(user_json_str):

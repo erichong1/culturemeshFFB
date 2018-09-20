@@ -6,7 +6,7 @@
         </div>
         <div class="col-4 text-right">
           {% if curr_user_id|string() == event['id_host']|string() %}
-          <a href="edit?id={{event['id']}}" class="hidden-link">
+          <a href="edit/?id={{event['id']}}" class="hidden-link">
               <i id="cm-icon" class="far fa-edit"></i>
           </a>
           {% endif %}
@@ -26,7 +26,7 @@
                         <i id="cm-icon" class="fas fa-users"></i>
                     </div>
                     <div class="col">
-                        <a href="/network?id={{ event['id_network'] }}" class="hidden-link">
+                        <a href="/network/?id={{ event['id_network'] }}" class="hidden-link">
                           <span class="cm-regular-font-med">Network</span> <br/>
                           <span class="cm-light-font-small">{{ event['network_title'] }}</span>
                         </a>
@@ -96,18 +96,18 @@
             <div class="py-3 text-center cm-regular-font-small">
                 {% if role == 'attending' %}
                 <h6 class="py-2 px-3"><strong>You are signed up to attend this event!</strong></h6>
-                <form action="/event/leave?id={{ event['id'] }}" method="POST" class="text-center">
+                <form action="/event/leave/?id={{ event['id'] }}" method="POST" class="text-center">
                     {{ leave_form.hidden_tag() }}
                     {{ leave_form.submit( id="cm-leave-button", class_="my-2 btn btn-sm" ) }}
                 </form>
                 {% elif role == 'hosting' %}
                 <h5 class="py-2 px-3"><strong>You are hosting this event!</strong></h5>
-                <form action="/event/cancelconfirm?id={{ event['id'] }}" method="POST" class="text-center">
+                <form action="/event/cancelconfirm/?id={{ event['id'] }}" method="POST" class="text-center">
                     {{ cancel_form.hidden_tag() }}
                     {{ cancel_form.submit( id="cm-leave-button", class_="my-2 btn btn-secondary" ) }}
                 </form>
                 {% else %}
-                <form action="/event/join?id={{ event['id'] }}" method="POST" class="text-center">
+                <form action="/event/join/?id={{ event['id'] }}" method="POST" class="text-center">
                     {{ join_form.hidden_tag() }}
                     {{ join_form.submit( id="cm-join-button", class_="my-2 btn btn-secondary" ) }}
                 </form>
