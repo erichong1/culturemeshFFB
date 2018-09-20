@@ -112,14 +112,13 @@ def update_profile_and_render_home():
     'id': user_id, 'first_name': first_name,
     'last_name': last_name, 'about_me': about_me
   }
-
+   
   if form.validate():
-    c.update_user(user)
+    c.update_user(current_user, user)
 
   user = c.get_user(user_id)
   if user is None:
     return page_not_found("")
-
   user['img_url'] = get_user_image_url(current_user)
   user_info_form = UserInfo()
   user_info_form.first_name.process_data(user['first_name'])

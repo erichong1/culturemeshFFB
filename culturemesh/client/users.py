@@ -176,12 +176,16 @@ def leave_network(client, current_user, network_id):
 
 ####################### PUT methods #######################
 
-def update_user(client, user):
+def update_user(client, current_user, user):
 	"""
 	:param client: the CultureMesh API client
+    :param current_user: the current CultureMesh user
 	:param user: A user JSON to update an existing user with.
 
 	Updates the information of a user.
 	"""
-	url = 'user/users'
-	return client._request(url, Request.PUT, json=user)
+	url = 'user/update_user'
+	basic_auth = (str(current_user.api_token), "")
+	return client._request(
+            url, Request.PUT, json=user, basic_auth=basic_auth
+    )
