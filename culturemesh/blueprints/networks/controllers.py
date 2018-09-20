@@ -38,7 +38,7 @@ def network():
     upcoming_events=upcoming_events
   )
 
-@networks.route("/join", methods=['POST'])
+@networks.route("/join/", methods=['POST'])
 @flask_login.login_required
 def join_network():
   id_network = request.args.get('id')
@@ -53,7 +53,7 @@ def join_network():
     'network.html', network_info=network_info, form=NetworkJoinForm()
   )
 
-@networks.route("/events")
+@networks.route("/events/")
 @flask_login.login_required
 def network_events() :
   # TODO: A lot of this code is repeated from network(), with just minor variations.
@@ -120,7 +120,7 @@ def network_events() :
     event_index=event_index, referer_url=referrer
   )
 
-@networks.route("/posts")
+@networks.route("/posts/")
 @flask_login.login_required
 def network_posts() :
   # TODO: A lot of this code is repeated from network(), with just minor variations.
@@ -187,7 +187,7 @@ def network_posts() :
   network_info['network_title'] = get_network_title(network)
   return render_template('network_posts.html', network_info=network_info, post_index=post_index)
 
-@networks.route("/posts/new", methods=['GET', 'POST'])
+@networks.route("/posts/new/", methods=['GET', 'POST'])
 @flask_login.login_required
 def create_new_post():
     c = Client(mock=False)
@@ -243,7 +243,7 @@ def create_new_post():
       error_msg=error_msg
     )
 
-@networks.route("/events/new", methods=['GET', 'POST'])
+@networks.route("/events/new/", methods=['GET', 'POST'])
 @flask_login.login_required
 def create_new_event():
     c = Client(mock=False)
@@ -310,7 +310,7 @@ def create_new_event():
       error_msg=error_msg
     )
 
-@networks.route("/leave", methods=['GET', 'POST'])
+@networks.route("/leave/", methods=['GET', 'POST'])
 @flask_login.login_required
 def leave():
     c = Client(mock=False)
@@ -361,7 +361,7 @@ def leave():
       )
 
 
-@networks.route("/ping")
+@networks.route("/ping/")
 @flask_login.login_required
 def ping():
     c = Client(mock=False)

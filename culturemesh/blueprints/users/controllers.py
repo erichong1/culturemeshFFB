@@ -14,7 +14,7 @@ from culturemesh.blueprints.users.config import MAX_NETWORKS_TO_LOAD
 
 users = Blueprint('users', __name__, template_folder='templates')
 
-@users.route('/<int:user_id>', methods=['GET'])
+@users.route('/<int:user_id>/', methods=['GET'])
 @flask_login.login_required
 def user_profile(user_id):
 

@@ -1,6 +1,6 @@
 {% extends "base.html" %} {% block content %}
 <div class="p-3 container-fluid">
-    <form action="/search/gotonetwork" method="post">
+    <form action="/search/gotonetwork/" method="post">
         {{ form.hidden_tag() }}
         <div class="row">
             <h4>Choose a network</h4>
@@ -8,7 +8,7 @@
         <div class="py-1 row">
             <div id="cm-search-blurb">
                 If the location you are looking for is not here,
-                <a href="/search">try searching
+                <a href="/search/">try searching
                 again</a> with more specific keywords.
             </div>
         </div>

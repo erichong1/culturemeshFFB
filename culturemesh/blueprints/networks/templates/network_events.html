@@ -11,7 +11,7 @@
     <div class="pb-3 text-center">
       <a class="btn btn-secondary"
          type="button"
-         href="/network/events/new?id={{ network_info['id'] }}"
+         href="/network/events/new/?id={{ network_info['id'] }}"
          id="cm-create-event-button">
          + Create an Event
       </a>
@@ -33,7 +33,7 @@
       <div class="container-fluid">
         <div class="row">
           <div class="col text-center">
-            <a href="/network/events?id={{ network_info['id'] }}&index={{ event_index }}">
+            <a href="/network/events/?id={{ network_info['id'] }}&index={{ event_index }}">
               <i id="cm-icon" class="fas fa-chevron-right"></i>
             </a>
           </div>
@@ -41,7 +41,7 @@
         <div class="row">
           <div class="col text-center cm-orange-text">
             <a class="cm-orange-text"
-             href="/network/events?id={{ network_info['id'] }}&index={{ event_index }}">
+             href="/network/events/?id={{ network_info['id'] }}&index={{ event_index }}">
             Next
             </a>
           </div>

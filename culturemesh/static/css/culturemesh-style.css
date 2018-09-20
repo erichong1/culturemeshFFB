@@ -274,7 +274,9 @@ body {
   background-color:#682414;
 }
 
-
+#cm-about-image {
+  width: 100%;
+}
 
 /* CultureMesh-specific class styling below */
 

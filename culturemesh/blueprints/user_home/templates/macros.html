@@ -45,7 +45,7 @@
           </p>
         </div>
         <div class="col-8 cm-event-blurb-col-r py-2">
-          <a href="/event?id={{ event['id'] }}" class="hidden-link">
+          <a href="/event/?id={{ event['id'] }}" class="hidden-link">
             <p class="cm-blurb-title">
               {{ event['title'] }}
             </p>
@@ -81,7 +81,7 @@
           </p>
         </div>
         <div class="col-8 cm-event-blurb-col-r py-2">
-          <a href="/event?id={{ event['id'] }}" class="hidden-link">
+          <a href="/event/?id={{ event['id'] }}" class="hidden-link">
             <p class="cm-blurb-title">
               {{ event['title'] }}
             </p>
@@ -92,7 +92,7 @@
         </div>
       </div>
       <div class="row p-2">
-        <a href="/network?id={{ event['id_network'] }}" class="hidden-link">
+        <a href="/network/?id={{ event['id_network'] }}" class="hidden-link">
           <div class="cm-post-blurb-small-text">
             <i id="cm-icon" class="fas fa-users"></i>
             <span class="cm-light-font-small">{{ event['network_title'] }}</span>
@@ -107,20 +107,20 @@
   <div class="p-3 cm-post-blurb">
     <div class="container">
       <div class="row">
-        <a href="/u/{{ post['id_user'] }}" class="hidden-link">
+        <a href="/u/{{ post['id_user'] }}/" class="hidden-link">
           <div class="cm-username-small">{{ post['username'] }}</div>
         </a>
         <span class="cm-time-ago-small">{{ post['time_ago'] }}</span>
       </div>
       <div class="row py-1">
-        <a href="/post?id={{ post['id'] }}" class="hidden-link">
+        <a href="/post/?id={{ post['id'] }}" class="hidden-link">
           <p class="cm-post-blurb-text">
             {{ post['post_text'] | truncate(128) }}
           </p>
         </a>
       </div>
       <div class="row">
-        <a href="/post?id={{ post['id'] }}" class="hidden-link">
+        <a href="/post/?id={{ post['id'] }}" class="hidden-link">
           <div class="cm-post-blurb-small-text">
             <i class="fas fa-comment fa-sm"></i>
             {% if post['reply_count'] == 1 %}
@@ -139,20 +139,20 @@
   <div class="p-3 cm-post-blurb">
     <div class="container">
       <div class="row">
-        <a href="/u/{{ post['id_user'] }}" class="hidden-link">
+        <a href="/u/{{ post['id_user'] }}/" class="hidden-link">
           <div class="cm-username-small">{{ post['username'] }}</div>
         </a>
         <span class="cm-time-ago-small">{{ post['time_ago'] }}</span>
       </div>
       <div class="row py-1">
-        <a href="/post?id={{ post['id'] }}" class="hidden-link">
+        <a href="/post/?id={{ post['id'] }}" class="hidden-link">
           <p class="cm-post-blurb-text">
             {{ post['post_text'] | truncate(128) }}
           </p>
         </a>
       </div>
       <div class="row">
-        <a href="/post?id={{ post['id'] }}" class="hidden-link">
+        <a href="/post/?id={{ post['id'] }}" class="hidden-link">
           <div class="cm-post-blurb-small-text">
             <i class="fas fa-comment fa-sm"></i>
             {% if post['reply_count'] == 1 %}
@@ -164,7 +164,7 @@
         </a>
       </div>
       <div class="row">
-        <a href="/network?id={{ post['id_network'] }}" class="hidden-link">
+        <a href="/network/?id={{ post['id_network'] }}" class="hidden-link">
           <div class="cm-post-blurb-small-text">
             <i id="cm-icon" class="fas fa-users"></i>
             <span class="cm-light-font-small">{{ post['network_title'] }}</span>
@@ -180,19 +180,19 @@
     <div class="pt-1 container">
       <div class="row">
         <div class="col-1">
-          <a href="/network?id={{network.id}}" class="hidden-link">
+          <a href="/network/?id={{network.id}}" class="hidden-link">
             <i id="cm-icon" class="fas fa-users"></i>
           </a>
         </div>
         <div class="col">
-          <a href="/network?id={{network.id}}" class="hidden-link">
+          <a href="/network/?id={{network.id}}" class="hidden-link">
             <p class="cm-network-blurb-title">
               {{ network.title }}
             </p>
           </a>
         </div>
         <div class="col-1 pr-4">
-          <a href="/network/leave?id={{network.id}}" class="hidden-link">
+          <a href="/network/leave/?id={{network.id}}" class="hidden-link">
             <i class="red fas fa-minus-circle fa-xs"></i>
           </a>
         </div>
@@ -222,12 +222,12 @@
     <div class="pt-1 container">
       <div class="row">
         <div class="col-1">
-          <a href="/network?id={{network.id}}" class="hidden-link">
+          <a href="/network/?id={{network.id}}" class="hidden-link">
             <i id="cm-icon" class="fas fa-users"></i>
           </a>
         </div>
         <div class="col">
-          <a href="/network?id={{network.id}}" class="hidden-link">
+          <a href="/network/?id={{network.id}}" class="hidden-link">
             <p class="cm-network-blurb-title">
               {{ network.title }}
             </p>

@@ -75,7 +75,7 @@ def render_post():
     error_msg=error_msg
   )
 
-@posts.route("/edit", methods=["GET", "POST"])
+@posts.route("/edit/", methods=["GET", "POST"])
 @flask_login.login_required
 def edit_post():
   c = Client(mock=False)
@@ -122,7 +122,7 @@ def edit_post():
     error_msg=error_msg
   )
 
-@posts.route("/reply/edit", methods=["GET", "POST"])
+@posts.route("/reply/edit/", methods=["GET", "POST"])
 @flask_login.login_required
 def edit_reply():
   c = Client(mock=False)
@@ -170,7 +170,7 @@ def edit_reply():
     error_msg=error_msg
   )
 
-@posts.route("/ping")
+@posts.route("/ping/")
 @flask_login.login_required
 def ping():
   c = Client(mock=False)

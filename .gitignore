@@ -48,4 +48,5 @@ venv
 # Secrets #
 ###########
 bin/run-debug.sh
-
+.profile.py
+credentials*

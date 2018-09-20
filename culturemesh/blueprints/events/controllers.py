@@ -17,7 +17,7 @@ import http.client as httplib
 
 events = Blueprint('events', __name__, template_folder='templates')
 
-@events.route("/ping")
+@events.route("/ping/")
 @login_required
 def ping():
   c = Client(mock=False)
@@ -66,7 +66,7 @@ def render_event():
       cancel_form=EventCancelForm()
     )
 
-@events.route("/join", methods=['POST'])
+@events.route("/join/", methods=['POST'])
 @login_required
 def join_event():
     current_event_id = request.args.get('id')
@@ -76,7 +76,7 @@ def join_event():
       url_for('events.render_event', id=current_event_id)
     )
 
-@events.route("/leave", methods=['POST'])
+@events.route("/leave/", methods=['POST'])
 @login_required
 def leave_event():
     current_event_id = request.args.get('id')
@@ -86,7 +86,7 @@ def leave_event():
       url_for('events.render_event', id=current_event_id)
     )
 
-@events.route("/cancelconfirm", methods=['POST'])
+@events.route("/cancelconfirm/", methods=['POST'])
 @login_required
 def cancel_event_confirm():
     current_event_id = request.args.get('id')
@@ -109,7 +109,7 @@ def cancel_event_confirm():
       form=EventCancelConfirmForm()
     )
 
-@events.route("/cancel", methods=['POST'])
+@events.route("/cancel/", methods=['POST'])
 @login_required
 def cancel_event():
     current_event_id = request.args.get('id')
@@ -123,7 +123,7 @@ def cancel_event():
     return redirect(url_for('user_home.render_user_home'))
 
 
-@events.route("/edit", methods=["GET", "POST"])
+@events.route("/edit/", methods=["GET", "POST"])
 @login_required
 def edit_event():
   c = Client(mock=False)
