@@ -27,7 +27,7 @@ Running Locally
 ---------------
 
 All our code (save secrets) lives
-on `GitHub <https://github.com/alanefl/culturemeshFFB>`_.
+on `GitHub <https://github.com/Code-The-Change/culturemeshFFB>`_.
 
 Follow these steps to run the website locally.
 
@@ -35,7 +35,7 @@ Follow these steps to run the website locally.
 
     .. code-block:: console
 
-      $ git clone https://github.com/alanefl/culturemeshFFB
+      $ git clone https://github.com/Code-The-Change/culturemeshFFB
 
 #. Install python from https://python.org or via your favorite package manager
 
@@ -171,7 +171,7 @@ which you push and submit a pull request for:
 6. Make sure there are no merge conflicts with master
 7. Submit a pull request.
 
-  .. warning:: When opening the Pull Request choose the ``alanefl``
+  .. warning:: When opening the Pull Request choose the ``Code-The-Change``
     base fork, not ``ericshong``'s
 
 8. Select your reviewers
