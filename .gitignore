@@ -52,3 +52,6 @@ bin/run-debug.sh
 .profile.py
 credentials*
 run.sh
+
+.idea
+.DS_Store
