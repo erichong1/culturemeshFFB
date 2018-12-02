@@ -35,6 +35,7 @@ __pycache__/
 # Instance files #
 ######################
 instance/
+.idea
 
 # Virtual environment #
 #######################
